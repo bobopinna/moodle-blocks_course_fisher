@@ -37,18 +37,29 @@ if ($ADMIN->fulltree) {
         }
     }
     
-    $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
+    $linkistruz.='<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
+    
+    $settings->add(new admin_setting_heading('block_course_fisher_addheading', '', $linkistruz));
+
+    
+    $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $backends));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_locator','Locator (URL)','eg. file://path or mysql:username:password@host:port/database/table', ''));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_parameters','Parametri da passare','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_separator','separatore','separatore dei campi, usato solo dove serve (es. csv)', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldtest','Valori per i test','uno per riga in forma [CAMPO]:valore', ''));
+
+    $settings->add(new admin_setting_configtext('block_course_fisher_separator','separatore','separatore dei campi, usato solo dove serve (es. csv)', '')); 
 
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_firstrow', 'Salta la prima riga','se contiene la lista dei campi CSV',0));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlist','Lista dei campi ricevuti','uno per riga nell\'ordine in cui vengono ricevuti', ''));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlevel','Ordine dei campi ','uno per riga tra quelli indicati sopra, il primo corrisponde al primo livello di categoria. Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
+
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_fullname','Campo nome completo del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
 }
