@@ -43,8 +43,7 @@ if ($ADMIN->fulltree) {
     
     $settings->add(new admin_setting_heading('block_course_fisher_addheading', '', $linkistruz));
 
-    
-    $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $backends));
+    $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_locator','Locator (URL)','eg. file://path or mysql:username:password@host:port/database/table', ''));
 
