@@ -34,12 +34,12 @@ if ($ADMIN->fulltree) {
         if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lib.php')) {
             include_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lib.php');
             if (class_exists('block_course_fisher_backend_'.$backend)) {
-                $choices[$backend] = get_string('pluginname', 'block_course_fisher_backend_'.$backend);
+                $choices[$backend] = get_string('backend_'.$backend.':pluginname', 'block_course_fisher');
             }
         }
     }
     
-    $linkistruz.='<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
+    $linkistruz = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
     
     $settings->add(new admin_setting_heading('block_course_fisher_addheading', '', $linkistruz));
 
