@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
+    include_once('backendlib.php');
+
     $choices = array();
     $backends = scandir($CFG->dirroot.'/blocks/course_fisher/backend');
     foreach ($backends as $backend) {
