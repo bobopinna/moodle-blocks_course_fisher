@@ -11,7 +11,7 @@ class block_course_fisher extends block_list {
     }
 
     function get_content() {
-        global $CFG, $OUTPUT, $USER;
+        global $CFG, $USER, $OUTPUT;
 
         if($this->content !== NULL) {
             return $this->content;
@@ -22,28 +22,26 @@ class block_course_fisher extends block_list {
         $this->content->icons = array();
         $this->content->footer = '';
 
-        $this->config = new stdClass();
-        $this->config->teacherid = 'idnumber';
+        if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
+            require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
 
-        $this->config->backend = 'db';
-
-        if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$this->config->backend.'/lib.php')) {
-            include_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$this->config->backend.'/lib.php');
-
-            $backendclassname = 'block_course_fisher_backend_'.$this->config->backend;
+            $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
             if (class_exists($backendclassname)) {
 
                 $backend = new $backendclassname();
 
-                $teachercourses = $backend->get_teacher_courses($USER->{$this->config->teacherid});
+                $teachercourses = $backend->get_data();
 
                 if (!empty($teachercourses)) {
                     $icon = $OUTPUT->pix_icon('i/course', 'icon');
-                    $this->content->items[] = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/guide.php?id='.$teachercourse->id.'">'.$icon.get_string('courseguides', 'block_course_fisher').'</a>';
+                    $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
                     $icon = $OUTPUT->pix_icon('book', 'icon');
-                    $this->content->items[] = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/register.php?id='.$teachercourse->id.'">'.$icon.get_string('courseregisters', 'block_course_fisher').'</a>';
+                    $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
                     $icon = $OUTPUT->pix_icon('t/add', 'icon');
-                    $this->content->items[] = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/addcourse.php?id='.$teachercourse->id.'">'.$icon.get_string('addmoodlecourse', 'block_course_fisher').'</a>';
+                    $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
                 }
             }
         }
