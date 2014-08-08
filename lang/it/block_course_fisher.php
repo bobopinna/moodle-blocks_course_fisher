@@ -28,3 +28,8 @@ $string['pluginname'] = 'Course Fisher';
 $string['courseguides'] = 'Guide corsi';
 $string['courseregisters'] = 'Registri corsi';
 $string['addmoodlecourse'] = 'Aggiungi corso moodle';
+
+
+// Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
+require_once($CFG->dirroot.'/blocks/course_fisher/locallib.php');
+$string = block_course_fisher_backend_lang('it', $string);

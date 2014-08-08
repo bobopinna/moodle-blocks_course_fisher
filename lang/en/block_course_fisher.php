@@ -29,3 +29,7 @@ $string['courseguides'] = 'Course guides';
 $string['courseregisters'] = 'Course registers';
 $string['addmoodlecourse'] = 'Add moodle course';
 
+// Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
+require_once($CFG->dirroot.'/blocks/course_fisher/locallib.php');
+$string = block_course_fisher_backend_lang('en', $string);
+
