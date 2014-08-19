@@ -27,25 +27,33 @@ require(dirname(__FILE__) . '/../../config.php');
 require_once('locallib.php');
 require_once('backendlib.php');
 
-$id = required_param('id', PARAM_INT);
+$userid = required_param('id', PARAM_INT);
+$courseid = optional_param('courseid', '', PARAM_TEXT);
 
-$url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id'=>$id));
+if (! $user = $DB->get_record('user', array('id' => $userid)) ) {
+    error("No such user in this course");
+}
+
+$url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id'=>$userid));
 
 $PAGE->set_url($url);
 
-if ($USER->id != $id) {
+if ($USER->id != $userid) {
     print_error('invalidteacherid','block_course_fisher');
 }
 
 require_login();
-$context = context_system::instance();
+$systemcontext = context_system::instance();
 
-$PAGE->set_context($context);
+$PAGE->set_context($systemcontext);
 $PAGE->set_pagelayout('incourse');
+
+$fullname = fullname($user, has_capability('moodle/site:viewfullnames', $systemcontext));
 
 /// Print the page header
 $straddcourse = get_string('addmoodlecourse', 'block_course_fisher');
 
+$PAGE->set_title($straddcourse);
 $PAGE->navbar->add($straddcourse);
 $PAGE->set_heading($straddcourse);
 
@@ -59,7 +67,73 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
         $teachercourses = $backend->get_data();
 
-        print_r($teachercourses);
+        if (!empty($teachercourses)) {
+            if (empty($courseid)) {
+                echo $OUTPUT->header();
+                echo html_writer::start_tag('div', array('class' => 'teachercourses'));
+                $availablecourses = ''; 
+                $existentcourses = ''; 
+                foreach($teachercourses as $teachercourse) {
+                    $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                    if (! $course = $DB->get_record('course', array('shortname' => $courseshortname))) {
+                        $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
+                        $coursepath = implode(' / ', $categories);
+                        $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
+                        $coursehash = md5($coursepath.' / '.$coursefullname);
+
+                        $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
+                        $link = html_writer::tag('a', $coursefullname, array('href' => $addcourseurl));
+                        $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
+                    } else {
+                        $categorieslist = coursecat::make_categories_list();
+                        if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true)) {
+                            $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                        } else {
+                            $coursehash = md5($categorieslist[$course->category].' / '.$course->fullname);
+                            $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
+                        }
+                        $link = html_writer::tag('a', $course->fullname, array('href' => $courseurl));
+                        $existentcourses .= html_writer::tag('li', $categorieslist[$course->category].' / '.$link, array());
+                    }
+                }
+                if (!empty($availablecourses)) {
+                    echo html_writer::tag('h1', get_string('availablecourses', 'block_course_fisher'), array());
+                    echo html_writer::start_tag('ul', array('class' => 'availablecourses'));
+                    echo $availablecourses;
+                    echo html_writer::end_tag('ul');
+                }
+                if (!empty($existentcourses)) {
+                    echo html_writer::tag('h1', get_string('existentcourses', 'block_course_fisher'), array());
+                    echo html_writer::start_tag('ul', array('class' => 'existentcourses'));
+                    echo $existentcourses;
+                    echo html_writer::end_tag('ul');
+                }
+                echo html_writer::end_tag('div');
+                echo $OUTPUT->footer();
+            } else {
+                foreach($teachercourses as $teachercourse) {
+                    $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                    $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
+                    $coursepath = implode(' / ', $categories);
+                    $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
+                    $coursehash = md5($coursepath.' / '.$coursefullname);
+
+                    if ($coursehash == $courseid) {
+                        if ($newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $userid, $categories)) {
+                             if ($CFG->block_course_fisher_redirect == COURSE_EDIT) {
+                                 redirect(new moodle_url('/course/edit.php', array('id' => $newcourse->id)));
+                             } else {
+                                 redirect(new moodle_url('/course/view.php', array('id' => $newcourse->id)));
+                             }
+                        } else {
+                             notice(get_string('coursecreationerror', 'block_course_fisher'));
+                        }
+                    }
+                }
+                print_error('Course hash does not match');
+            }
+        }
+
     }
 }
 

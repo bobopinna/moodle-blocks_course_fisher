@@ -63,4 +63,8 @@ if ($ADMIN->fulltree) {
     
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
+    $choices = array();
+    $choices[0] = get_string('viewcourse', 'block_course_fisher');
+    $choices[1] = get_string('editcourse', 'block_course_fisher');
+    $settings->add(new admin_setting_configselect('block_course_fisher_redirect', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', 0, $choices));
 }

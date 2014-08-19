@@ -2,29 +2,29 @@
 
     defined('MOODLE_INTERNAL') || die();
 
+    define('COURSE_EDIT', '1');
+    define('COURSE_VIEW', '0');
+
     require_once($CFG->dirroot .'/course/lib.php');
     require_once($CFG->libdir .'/coursecatlib.php');
 
     function block_course_fisher_create_categories($categories) {
         global $DB;
-        $parent = 0;
+        $parentid = 0;
 
-        $parentcategories = explode(',', $this->config->categories);
-        foreach ($parentcategories as $categoryfieldname) {
+        foreach ($categories as $categoryname) {
             $newcategory = new stdClass();
-            $newcategory->parent = $parent;
-            if (isset($categories[$categoryfieldname])) {
-                $newcategory->name = $categories[$categoryfieldname];
-                if (! $oldcategory = $DB->get_record('course_categories', array('name' => $newcategory->name, 'parent' => $newcategory->parent))) {
-                    $category = coursecat::create($newcategory);
-                } else {
-                    $category = $oldcategory->id;
-                }
-                $parent = $category;
+            $newcategory->parent = $parentid;
+            $newcategory->name = $categoryname;
+            if (! $oldcategory = $DB->get_record('course_categories', array('name' => $newcategory->name, 'parent' => $newcategory->parent))) {
+                $category = coursecat::create($newcategory);
+            } else {
+                $category = $oldcategory;
             }
+            $parentid = $category->id;
         }
 
-        return $category;
+        return $category->id;
     }
 
    /**
@@ -32,14 +32,13 @@
     *
     * @param string course_fullname  The course fullname
     * @param string course_shortname The course shortname
-    * @param string course_id        The course code
     * @param string teacher_id       The teacher id code
     * @param array  categories       The categories from top category for this course
     *
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_id, $teacher_id, $categories = array()) {
+    function block_course_fisher_create_course($course_fullname, $course_shortname, $teacher_id, $categories = array()) {
         global $DB, $CFG;
 
         
@@ -57,10 +56,9 @@
         
         $newcourse->fullname = $course_fullname;
         $newcourse->shortname = $course_shortname;
-        $newcourse->idnumber = $year.'-'.$course_id;
 
         $course = null;
-        if (!$oldcourse = $DB->get_record('course', array('idnumber' => $newcourse->idnumber))) {
+        if (!$oldcourse = $DB->get_record('course', array('shortname' => $newcourse->shortname))) {
             $newcourse->category = block_course_fisher_create_categories($categories);
             if (!$course = create_course($newcourse)) {
                 print_error("Error inserting a new course in the database!");
@@ -103,10 +101,47 @@
                 $string = array();
                 include_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lang/'.$lang.'/coursefisherbackend_'.$backend.'.php');
                 foreach ($string as $name => $translation) {
-error_log($name.' '.$translation);
                     $blockstrings['backend_'.$backend.':'.$name] = $translation;
                 }
             }
         }
         return $blockstrings;
     }
+
+
+    function block_course_fisher_format_fields($formatstring, $data) {
+
+        $callback = function($matches) use ($data) { 
+             return block_course_fisher_get_field($matches, $data); 
+        }; 
+       
+        $formattedstring = preg_replace_callback('/\[\%(\w+)(([#+-])(\d+))?\%\]/', $callback, $formatstring);
+
+        return $formattedstring;
+    }
+
+    function block_course_fisher_get_field($matches, $data) {
+        $replace = null;
+
+        if (isset($matches[1])) {
+            if (isset($data->$matches[1]) && !empty($data->$matches[1])) {
+                if (isset($matches[2])) {
+                    switch($matches[3]) {
+                        case '#':
+                           $replace = substr($data->$matches[1], 0, $matches[4]);
+                        break;
+                        case '+':
+                           $replace = $data->$matches[1]+$matches[4];
+                        break;
+                        case '-':
+                           $replace = $data->$matches[1]-$matches[4];
+                        break;
+                    }
+                } else {
+                    $replace = $data->$matches[1];
+                }
+            }
+        }
+        return $replace;
+    }
+
