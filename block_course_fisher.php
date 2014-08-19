@@ -43,6 +43,9 @@ class block_course_fisher extends block_list {
                     $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
                     $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
                 }
+                if ($teachercourses === false) {
+                    $this->content->footer = get_string('backendfailure', 'block_course_fisher');
+                }
             }
         }
 
@@ -71,5 +74,3 @@ class block_course_fisher extends block_list {
 
 
 }
-
-
