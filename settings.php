@@ -26,13 +26,13 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
-    include_once('backendlib.php');
+    require_once('backendlib.php');
 
     $choices = array();
     $backends = scandir($CFG->dirroot.'/blocks/course_fisher/backend');
     foreach ($backends as $backend) {
         if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lib.php')) {
-            include_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lib.php');
+            require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$backend.'/lib.php');
             if (class_exists('block_course_fisher_backend_'.$backend)) {
                 $choices[$backend] = get_string('backend_'.$backend.':pluginname', 'block_course_fisher');
             }
@@ -68,3 +68,4 @@ if ($ADMIN->fulltree) {
     $choices[1] = get_string('editcourse', 'block_course_fisher');
     $settings->add(new admin_setting_configselect('block_course_fisher_redirect', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', 0, $choices));
 }
+
