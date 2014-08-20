@@ -28,9 +28,9 @@ $string['pluginname'] = 'Course Fisher';
 $string['courseguides'] = 'Course guides';
 $string['courseregisters'] = 'Course registers';
 $string['addmoodlecourse'] = 'Add moodle course';
-$string['availablecourses'] = 'Available courses';
+$string['availablecourses'] = 'Addable courses';
 $string['existentcourses'] = 'Existent courses';
-$string['backendfailure'] = 'Can not connect to courses backend';
+$string['backendfailure'] = 'Can not connect to course backend';
 $string['editcourse'] = 'Edit course';
 $string['viewcourse'] = 'View course';
 

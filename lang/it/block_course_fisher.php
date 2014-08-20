@@ -28,8 +28,11 @@ $string['pluginname'] = 'Course Fisher';
 $string['courseguides'] = 'Guide corsi';
 $string['courseregisters'] = 'Registri corsi';
 $string['addmoodlecourse'] = 'Aggiungi corso moodle';
-$string['availablecourses'] = 'Corsi disponibili';
+$string['availablecourses'] = 'Corsi creabili';
+$string['existentcourses'] = 'Corsi esistenti';
 $string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il recupero dei corsi';
+$string['editcourse'] = 'Impostazioni corso';
+$string['viewcourse'] = 'Accedi al corso';
 
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
