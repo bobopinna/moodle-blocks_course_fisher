@@ -29,12 +29,12 @@ $string['courseguides'] = 'Course guides';
 $string['courseregisters'] = 'Course registers';
 $string['addmoodlecourse'] = 'Add moodle course';
 $string['availablecourses'] = 'Addable courses';
+$string['availableregisters'] = 'Available registers';
 $string['existentcourses'] = 'Existent courses';
 $string['backendfailure'] = 'Can not connect to course backend';
 $string['editcourse'] = 'Edit course';
 $string['viewcourse'] = 'View course';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
-require_once($CFG->dirroot.'/blocks/course_fisher/locallib.php');
+require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
 $string = block_course_fisher_backend_lang('en', $string);
-
