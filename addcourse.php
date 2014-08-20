@@ -34,7 +34,7 @@ if (! $user = $DB->get_record('user', array('id' => $userid)) ) {
     error("No such user in this course");
 }
 
-$url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id'=>$userid));
+$url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $courseid));
 
 $PAGE->set_url($url);
 
