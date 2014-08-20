@@ -332,10 +332,3 @@ block_course_fisher_fieldtest
   }
 
 }
-
-
-
-
-
-?>
-
