@@ -207,7 +207,8 @@ class block_course_fisher_parser {
     return($Muniq);
   }
 
-  public function substituteObjects($string2check)
+
+  public function substituteObjects($string2check,$override=false)
   {
     $S=$string2check;
     if( is_array($Muniq=$this->parseFields($S,$this->Fields,1) ) )
@@ -226,6 +227,25 @@ class block_course_fisher_parser {
 
     }
     return($S);
+  }
+
+
+  public function evalRecord($string2check,$Record,$override=false)
+  {
+    $validation = false;
+    $S=$string2check;
+
+    if(is_array($Record))
+    {
+      while(list($Fk,$Fv)=each($Record))
+      {
+        $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
+      }
+      $validation = 'return (' . $S . ') ? true : false;';
+    }
+
+    return(eval($validation));
+
   }
 
 
