@@ -92,7 +92,7 @@ class block_course_fisher_parser {
 
   private function parseObjectVariable($Var,$override=false)
   {
-     preg_match_all("/".$this->LeftObjSep."(\w+):(\w+)".$this->RightObjSep."/",$Var,$R,PREG_PATTERN_ORDER);
+     preg_match_all("/".$this->LeftObjSep."(\w+)".$this->ObjSep."(\w+)".$this->RightObjSep."/",$Var,$R,PREG_PATTERN_ORDER);
 
      if(is_array($R))
      {
@@ -134,7 +134,7 @@ class block_course_fisher_parser {
   {
     $M=array();
     $result=true;
-    preg_match_all("/".$this->LeftSep."(".$this->LeftObjSep."\w+:\w+".$this->RightObjSep.")".$this->RightSep.":(\w+)"."/",$string2check,$M,PREG_PATTERN_ORDER);
+    preg_match_all("/".$this->LeftSep."(".$this->LeftObjSep."\w+".$this->ObjSep."\w+".$this->RightObjSep.")".$this->RightSep."".$this->ObjSep."(\w+)"."/",$string2check,$M,PREG_PATTERN_ORDER);
 
     if(isset($M[1]) && isset($M[2]))
     {
@@ -157,7 +157,7 @@ class block_course_fisher_parser {
     $this->RecordValues=array();
 
 
-    preg_match_all("/".$this->LeftSep."(\w+|".$this->LeftObjSep."\w+:\w+".$this->RightObjSep.")".$this->RightSep."/",$string2check,$M,PREG_PATTERN_ORDER);
+    preg_match_all("/".$this->LeftSep."(\w+|".$this->LeftObjSep."\w+".$this->ObjSep."\w+".$this->RightObjSep.")".$this->RightSep."/",$string2check,$M,PREG_PATTERN_ORDER);
     if(isset($M[1]))
     {
      $Muniq=array();
