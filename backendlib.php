@@ -14,6 +14,7 @@ class block_course_fisher_parser {
   private $RightSep="\%\]";
   private $LeftObjSep="!";
   private $RightObjSep="!";
+  private $ObjSep=":";
 
   public function addObject($name, $Obj)
   {
@@ -89,7 +90,7 @@ class block_course_fisher_parser {
 
 
 
-  private function parseObjectVariable($Var)
+  private function parseObjectVariable($Var,$override=false)
   {
      preg_match_all("/".$this->LeftObjSep."(\w+):(\w+)".$this->RightObjSep."/",$Var,$R,PREG_PATTERN_ORDER);
 
@@ -103,10 +104,24 @@ class block_course_fisher_parser {
             {
               if(isset($this->Objects[$R[1][0]]->$R[2][0]))
               {
-                if(strlen(strval($this->Objects[$R[1][0]]->$R[2][0])))
-                {
-                  return($this->Objects[$R[1][0]]->$R[2][0]);
-                }
+
+                  if(is_array($override))
+                  {
+                     if(isset($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep]))
+                     {
+                       if(strlen(strval($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep])))
+                       {
+                         return($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep]);
+                       }
+                     }
+                  }
+
+
+                  if(strlen(strval($this->Objects[$R[1][0]]->$R[2][0])))
+                  {
+                    return($this->Objects[$R[1][0]]->$R[2][0]);
+                  }
+                  
               }
             }
          }
@@ -172,9 +187,9 @@ class block_course_fisher_parser {
        {
          if($allowVars)
          {
-           if($this->parseObjectVariable($Mk))
+           if($this->parseObjectVariable($Mk,$allowVars))
            {
-             $Muniq[$Mk]=$this->parseObjectVariable($Mk);
+             $Muniq[$Mk]=$this->parseObjectVariable($Mk,$allowVars);
              $this->ObjValues[$Mk]=$Muniq[$Mk];
              $this->parseResultString="";
            }
