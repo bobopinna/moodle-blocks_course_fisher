@@ -207,6 +207,28 @@ class block_course_fisher_parser {
     return($Muniq);
   }
 
+  public function substituteObjects($string2check)
+  {
+    $S=$string2check;
+    if( is_array($Muniq=$this->parseFields($S,$this->Fields,1) ) )
+    {
+
+      while(list($Mk,$Mv)=each($Muniq))
+      {
+        if(!($Mv===false))
+        {
+          if(substr($Mk,0,1)==$this->LeftObjSep && substr($Mk,-1)==$this->RightObjSep)
+          {
+            $S=preg_replace('/\[\%'.$Mk.'\%\]/',"'".$Mv."'",$S);
+          }
+        }
+      }
+
+    }
+    return($S);
+  }
+
+
 } // class block_course_fisher_parser
 
 
