@@ -266,7 +266,7 @@ class block_course_fisher_backend {
 
   public function init()
   {
-    global $CFG,$USER;
+    global $CFG,$USER,$COURSE;
 
     if(!is_subclass_of($this, 'block_course_fisher_backend'))
     {
@@ -281,6 +281,7 @@ class block_course_fisher_backend {
     }
 
     $this->Parser->addObject("USER",$USER);
+    $this->Parser->addObject("COURSE",$COURSE);
     $this->Parser->addObject("BACKEND", (object) $this->BackendFields );
     $this->error="";
     return(true);
@@ -291,26 +292,46 @@ class block_course_fisher_backend {
   public function checkCFG()
   {
     global $CFG;
-/*
-block_course_fisher_locator
-block_course_fisher_parameters
-block_course_fisher_fieldlist
-block_course_fisher_separator
-block_course_fisher_firstrow
-block_course_fisher_fieldlevel
-block_course_fisher_coursename
-block_course_fisher_fieldtest
+    $result=true;
+    $this->error="";
 
-    if(isset($CFG->))
+    if(isset($CFG->$CFlist))
     {
-      $this->=$CFG->;
+
+      if(strlen($CFG->$CFlist))
+      {
+        if($this->Parser->setFields($CFG->$CFlist))
+        {
+
+          if(is_array($Cparm))
+          {
+            foreach($Cparm as $C)
+            {
+
+              if(isset($CFG->$C))
+              {
+                if(strlen($CFG->$C))
+                {
+                   
+                   $Muniq=$this->Parser->parseFields($CFG->$C,1);
+                   if($this->Parser->getResult()===false)
+                   {
+                     $result=false;
+                     $this->error=$C.": ".$this->Parser->getResultString();
+                   }
+
+                }
+              }
+
+            }
+          }
+
+        }
+      }
+
     }
-    else
-    {
-      $this->error="";
-      return(false);
-    }
-*/
+
+   return($result);
 
   }
 
