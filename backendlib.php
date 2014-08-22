@@ -6,7 +6,6 @@ class block_course_fisher_parser {
   private $Objects=array();
   private $Fields=array();
   private $ObjValues=array();
-  private $RecordValues=array();
   private $parseResult=false;
   private $parseResultString="";
 
@@ -149,7 +148,7 @@ class block_course_fisher_parser {
   }
 
 
-  public function parseFields($string2check,$allowVars=false,$record=array())
+  public function parseFields($string2check,$allowVars=false)
   {
     $M=array();
     $result=true;
@@ -169,19 +168,6 @@ class block_course_fisher_parser {
        {
           $Muniq[$Mk]=true;
           $this->parseResultString="";
-          if(count($record))
-          {
-            if(isset($record[$Mk]))
-            {
-              $Muniq[$Mk]=$record[$Mk];
-              $this->RecordValues[$Mk]=$Muniq[$Mk];
-            }
-            else
-            {
-              $Muniq[$Mk]=false;
-              $this->parseResultString="Not a valid field name";
-            }
-          }
        }
        else
        {
