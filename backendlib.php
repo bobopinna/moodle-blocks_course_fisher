@@ -206,7 +206,18 @@ class block_course_fisher_parser {
         {
           if(substr($Mk,0,1)==$this->LeftObjSep && substr($Mk,-1)==$this->RightObjSep)
           {
-            $S=preg_replace('/\[\%'.$Mk.'\%\]/',"'".$Mv."'",$S);
+             $setVal=$Mv;
+             if(is_array($override))
+             {
+	             if(isset($override[$Mk]))
+               {
+                 if(strlen(strval($override[$Mk])))
+                 {
+                   $setVal=$override[$Mk];
+                 }
+               }
+             }
+             $S=preg_replace('/'.$this->LeftSep.$Mk.$this->RightSep.'/',"'".$setVal."'",$S);
           }
         }
       }
