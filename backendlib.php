@@ -1,4 +1,4 @@
-<?php
+<?
 defined('MOODLE_INTERNAL') || die;
 
 class block_course_fisher_parser {
@@ -56,6 +56,11 @@ class block_course_fisher_parser {
     return($this->RightObjSep);
   }
 
+  public function getObjSep()
+  {
+    return($this->ObjSep);
+  }
+
   public function getLeftSep()
   {
     return($this->LeftSep);
@@ -86,7 +91,6 @@ class block_course_fisher_parser {
   {
     return($this->ObjValues);
   }
-
 
 
   private function parseObjectVariable($Var,$override=false)
@@ -120,7 +124,7 @@ class block_course_fisher_parser {
                   {
                     return($this->Objects[$R[1][0]]->$R[2][0]);
                   }
-                  
+
               }
             }
          }
@@ -151,23 +155,25 @@ class block_course_fisher_parser {
   public function parseFields($string2check,$allowVars=false)
   {
     $M=array();
-    $result=true;
+    $errIdx=0;
     $this->ObjValues=array();
-    $this->RecordValues=array();
-
+    $this->parseResult=true;
+    $this->parseResultString="";
 
     preg_match_all("/".$this->LeftSep."(\w+|".$this->LeftObjSep."\w+".$this->ObjSep."\w+".$this->RightObjSep.")".$this->RightSep."/",$string2check,$M,PREG_PATTERN_ORDER);
     if(isset($M[1]))
     {
      $Muniq=array();
      $F=@array_flip($M[1]);
+
      while(list($Mk,$Mv)=each($F))
      {
+      if(strlen($Mk))
+      {
        $Muniq[$Mk]=false;
        if(isset($this->Fields[$Mk]))
        {
           $Muniq[$Mk]=true;
-          $this->parseResultString="";
        }
        else
        {
@@ -177,29 +183,33 @@ class block_course_fisher_parser {
            {
              $Muniq[$Mk]=$this->parseObjectVariable($Mk,$allowVars);
              $this->ObjValues[$Mk]=$Muniq[$Mk];
-             $this->parseResultString="";
-           }
-           else
-           {
-             $this->parseResultString="Not a valid object name";
            }
          }
        }
       
+       if($Muniq[$Mk]===false)
+       {
+         $this->parseResult=false;
+//         $this->parseResultString="Not a valid field $Mk::$Mv -".print_r($F,1);
+         $this->parseResultString="Not a valid field $Mk::$Mv -";
+       }
       }
-     if(!$Muniq[$Mk]) {$result=false;}
+     }
     }
-    $this->parseResult=$result;
-    return($Muniq);
+    if($this->parseResult)
+    {
+     return($Muniq);
+    }
+    return(false);
   }
 
 
   public function substituteObjects($string2check,$override=false)
   {
     $S=$string2check;
-    if( is_array($Muniq=$this->parseFields($S,$this->Fields,1) ) )
+    $Muniq=$this->parseFields($S,$this->Fields);
+    if( is_array($Muniq) )
     {
-
       while(list($Mk,$Mv)=each($Muniq))
       {
         if(!($Mv===false))
@@ -209,7 +219,7 @@ class block_course_fisher_parser {
              $setVal=$Mv;
              if(is_array($override))
              {
-	             if(isset($override[$Mk]))
+	       if(isset($override[$Mk]))
                {
                  if(strlen(strval($override[$Mk])))
                  {
@@ -221,7 +231,6 @@ class block_course_fisher_parser {
           }
         }
       }
-
     }
     return($S);
   }
@@ -261,7 +270,6 @@ class block_course_fisher_backend {
   private $Parser;
   private $BackendFields=array();
 
-
   public function __construct() 
   {
     $this->name="Course fisher backend class";
@@ -273,7 +281,10 @@ class block_course_fisher_backend {
                               );
   }
 
-
+  public function getResultString()
+  {
+    return($this->Result);
+  }
 
   public function init()
   {
@@ -383,7 +394,7 @@ class block_course_fisher_backend {
 
   public function get_data() 
   {
-    return false;
+    return null;
   }
 
 
@@ -407,3 +418,9 @@ class block_course_fisher_backend {
   }
 
 }
+
+
+
+
+
+?>
