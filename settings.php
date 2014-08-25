@@ -45,7 +45,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_locator','Locator (URL)','eg. file://path or mysql:username:password@host:port/database/table', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_locator','Locator (URL)','eg. file://path or mysql:username:password@host:port/database/table use multiple rows if want to use multiple sources in a first match order', ''));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_parameters','Parametri da passare','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
 
