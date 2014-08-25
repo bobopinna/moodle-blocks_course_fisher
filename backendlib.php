@@ -1,4 +1,4 @@
-<?
+<?php
 defined('MOODLE_INTERNAL') || die;
 
 class block_course_fisher_parser {
