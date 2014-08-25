@@ -69,6 +69,9 @@ $Fld=array("block_course_fisher_fieldlevel", "block_course_fisher_course_fullnam
          {
 
 print "\r\n\r\n<br>Backend ready<br>\r\n\r\n";
+print "<pre>";
+print_r($BC->HTTPfetch(true));
+print "</pre>";
 
          }
 
