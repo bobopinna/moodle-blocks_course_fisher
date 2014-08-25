@@ -86,7 +86,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
       if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
       {
-        return($this->HTTPfetch(true));
+        return($this->HTTPfetch());
       } // checkCFG
 
     } // init
