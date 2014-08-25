@@ -68,6 +68,12 @@ class block_course_fisher extends block_list {
                      'tag' => false);
     }
 
+    public function instance_allow_multiple() 
+    {
+      return false;
+    }
+    
+    
     function has_config() {
         return true;
     }
