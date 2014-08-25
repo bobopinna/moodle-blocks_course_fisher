@@ -62,7 +62,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
           $ray=$this->getRecord(rtrim($buffer));
           if($P->evalRecord($P->substituteObjects($CFG->block_course_fisher_parameters,$override),$ray) )
           {
-            $lines[] = "::".print_r($ray,1)."---";
+            $lines[] = $ray;
           }
         }
         $c++;
