@@ -73,3 +73,27 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
   }
 
   
+  public function get_data()
+  {
+    if($this->init())
+    {
+      $Fld=array("block_course_fisher_fieldlevel",
+                 "block_course_fisher_course_fullname",
+                 "block_course_fisher_course_shortname",
+                 "block_course_fisher_locator",
+                 "block_course_fisher_parameters", 
+                 "block_course_fisher_fieldtest");
+
+      if(!(false===($backend->checkCFG("block_course_fisher_fieldlist",$Fld))))
+      {
+
+      } // checkCFG
+
+    } // init
+
+    return(false);
+
+  }
+
+
+}
