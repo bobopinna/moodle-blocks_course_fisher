@@ -62,7 +62,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
           $ray=$this->getRecord(rtrim($buffer));
           if($P->evalRecord($P->substituteObjects($CFG->block_course_fisher_parameters,$override),$ray) )
           {
-            $lines[] = $ray;
+            $lines[] = (object)$ray;
           }
         }
         $c++;
@@ -86,7 +86,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
       if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
       {
-
+        return($this->HTTPfetch(true));
       } // checkCFG
 
     } // init
