@@ -300,7 +300,7 @@ class block_course_fisher_backend {
  
 
 
-  public function checkCFG()
+  public function checkCFG($CFlist,$Cparm)
   {
     global $CFG;
     $result=true;
