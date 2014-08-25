@@ -419,8 +419,3 @@ class block_course_fisher_backend {
 
 }
 
-
-
-
-
-?>
