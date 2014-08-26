@@ -148,7 +148,7 @@
                     $item->$itemname = null;
                 }
             }
-            if (!empty($item)) {
+            if (count((array)$item)) {
                 if (count($items) == 1) {
                     reset($items);
                     $result[] = $item->{key($items)};
