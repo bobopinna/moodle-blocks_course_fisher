@@ -59,8 +59,6 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlevel','Ordine dei campi ','uno per riga tra quelli indicati sopra, il primo corrisponde al primo livello di categoria. Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_course_code','Codice del corso','Codice del corso', ''));
-
     $settings->add(new admin_setting_configtext('block_course_fisher_course_fullname','Campo nome completo del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
     
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
