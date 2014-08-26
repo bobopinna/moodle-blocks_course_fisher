@@ -76,7 +76,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 foreach($teachercourses as $teachercourse) {
                     $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
                     if (! $course = $DB->get_record('course', array('shortname' => $courseshortname))) {
-                        $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
+                        $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse))));
                         $coursepath = implode(' / ', $categories);
                         $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
                         $coursehash = md5($coursepath.' / '.$coursefullname);
@@ -114,12 +114,14 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 foreach($teachercourses as $teachercourse) {
                     $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
                     $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
-                    $coursepath = implode(' / ', $categories);
+                    $categoriesdescriptions = block_course_fisher_get_fields_description($categories);
+                    $coursepath = implode(' / ', $categoriesdescriptions);
                     $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
                     $coursehash = md5($coursepath.' / '.$coursefullname);
 
                     if ($coursehash == $courseid) {
-                        if ($newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $userid, $categories)) {
+                        $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                        if ($newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $coursecode, $userid, block_course_fisher_get_fields_items($categories))) {
                              if ($CFG->block_course_fisher_redirect == COURSE_EDIT) {
                                  redirect(new moodle_url('/course/edit.php', array('id' => $newcourse->id)));
                              } else {

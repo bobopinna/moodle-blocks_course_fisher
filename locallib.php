@@ -12,19 +12,20 @@
         global $DB;
         $parentid = 0;
 
-        foreach ($categories as $categoryname) {
+        foreach ($categories as $category) {
             $newcategory = new stdClass();
             $newcategory->parent = $parentid;
-            $newcategory->name = $categoryname;
-            if (! $oldcategory = $DB->get_record('course_categories', array('name' => $newcategory->name, 'parent' => $newcategory->parent))) {
-                $category = coursecat::create($newcategory);
+            $newcategory->name = $category->description;
+            $newcategory->idnumber = $category->code;
+            if (! $oldcategory = $DB->get_record('course_categories', array('name' => $newcategory->name, 'idnumber' => $newcategory->idnumber, 'parent' => $newcategory->parent))) {
+                $result = coursecat::create($newcategory);
             } else {
-                $category = $oldcategory;
+                $result = $oldcategory;
             }
-            $parentid = $category->id;
+            $parentid = $result->id;
         }
 
-        return $category->id;
+        return $result->id;
     }
 
    /**
@@ -38,7 +39,7 @@
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($course_fullname, $course_shortname, $teacher_id, $categories = array()) {
+    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id, $categories = array()) {
         global $DB, $CFG;
 
         
@@ -56,6 +57,7 @@
         
         $newcourse->fullname = $course_fullname;
         $newcourse->shortname = $course_shortname;
+        $newcourse->idnumber = $course_code;
 
         $course = null;
         if (!$oldcourse = $DB->get_record('course', array('shortname' => $newcourse->shortname))) {
@@ -128,3 +130,45 @@
         return $replace;
     }
 
+    function block_course_fisher_get_fields_items($field, $items = array('code' => 2, 'description' => 3)) {
+        $result = array();
+        if (!is_array($field)) {
+            $fields = array($field);
+        } else {
+            $fields = $field;
+        }
+
+        foreach($fields as $element) {
+            preg_match('/^((.+)\=\>)?(.+)$/', $element, $matches);
+            $item = new stdClass();
+            foreach ($items as $itemname => $itemid) {
+                if (!empty($matches) && !empty($matches[$itemid])) {
+                    $item->$itemname = $matches[$itemid];
+                }
+               
+            }
+            if (!empty($item)) {
+                if (count($items) == 1) {
+                    reset($items);
+                    $result[] = $item->{key($items)};
+                } else {
+                    $result[] = $item;
+                }
+            }
+        }
+
+        if (!is_array($field)) {
+            if (!empty($result)) {
+                return $result[0];
+            } else {
+                return null;
+            }
+        } else {
+            return $result;
+        }
+    }
+   
+
+   function block_course_fisher_get_fields_description($field) {
+       return block_course_fisher_get_fields_items($field, array('description' => 3));
+   } 
