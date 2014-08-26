@@ -41,6 +41,17 @@ class block_course_fisher extends block_list {
                     $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
                     $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
 */
+                  if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
+                    $icon = $OUTPUT->pix_icon('i/course', 'icon');
+                    $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
+                  }
+                  if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
+                    $icon = $OUTPUT->pix_icon('book', 'icon');
+                    $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
+                  }
+
                     $icon = $OUTPUT->pix_icon('t/add', 'icon');
                     $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
                     $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
