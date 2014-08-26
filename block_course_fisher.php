@@ -33,31 +33,27 @@ class block_course_fisher extends block_list {
                 $teachercourses = $backend->get_data();
 
                 if (!empty($teachercourses)) {
-/*
-                    $icon = $OUTPUT->pix_icon('i/course', 'icon');
-                    $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
-                    $icon = $OUTPUT->pix_icon('book', 'icon');
-                    $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
-*/
-                  if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
-                    $icon = $OUTPUT->pix_icon('i/course', 'icon');
-                    $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
-                  }
-                  if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
-                    $icon = $OUTPUT->pix_icon('book', 'icon');
-                    $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
-                  }
-
+                    if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
+                        $icon = $OUTPUT->pix_icon('i/course', 'icon');
+                        $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
+                        $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
+                    }
+                    if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
+                        $icon = $OUTPUT->pix_icon('book', 'icon');
+                        $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
+                        $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
+                    }
                     $icon = $OUTPUT->pix_icon('t/add', 'icon');
                     $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
                     $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
                 }
+                if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
+                    $icon = $OUTPUT->pix_icon('help', 'icon');
+                    $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
+                    $this->content->items[] = html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
+                }
                 if ($teachercourses === false) {
-                    $this->content->footer = get_string('backendfailure', 'block_course_fisher');
+                    $this->content->footer .= get_string('backendfailure', 'block_course_fisher');
                 }
             }
         }
