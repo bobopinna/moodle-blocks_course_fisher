@@ -144,8 +144,9 @@
             foreach ($items as $itemname => $itemid) {
                 if (!empty($matches) && !empty($matches[$itemid])) {
                     $item->$itemname = $matches[$itemid];
+                } else {
+                    $item->$itemname = null;
                 }
-               
             }
             if (!empty($item)) {
                 if (count($items) == 1) {
