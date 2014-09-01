@@ -87,5 +87,13 @@ class block_course_fisher extends block_list {
         return true;
     }
 
+    public function cron() 
+    {
+      mtrace( "Hey, my cron script is running" );
+ 
+    // do something
+ 
+      return true;
+    }
 
 }
