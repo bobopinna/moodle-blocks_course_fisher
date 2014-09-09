@@ -35,6 +35,70 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
    return($ray);
   }
 
+  public function fetchToCache()
+  {
+    global $CFG;
+
+    $P=$this->getParser();
+    $c=0;
+    $lines=array();
+    $context = stream_context_create(array('http'=>array('timeout'=>1)));
+
+//Opens cache files for writing
+    if(!($fp1 = @fopen($CFG->dataroot.'/temp/block_course_fisher_cache1.tmp', 'w')))
+    { return(false); }
+    if(!($fp2 = @fopen($CFG->dataroot.'/temp/block_course_fisher_cache2.tmp', 'w')))
+    { return(false); }
+
+    if($fd = @fopen ($CFG->block_course_fisher_locator, "r", false, $context))
+    {
+      while (!feof ($fd) && $c<5000000) 
+      { 
+        $buffer = fgets($fd, 4096); 
+        if(!($CFG->block_course_fisher_firstrow && $c==0))
+        {
+          $ray=$this->getRecord(rtrim($buffer));
+          $strecords[$c]=$P->prepareRecord($CFG->block_course_fisher_parameters,$ray);
+          $fullrecords[$c] = serialize($ray);
+
+          fwrite($fp1,$strecords[$c]."\r\n");
+          fwrite($fp2,$fullrecords[$c]."\r\n");
+        }
+        $c++;
+      } 
+      fclose ($fd);
+      fclose ($fp1);
+      fclose ($fp2);
+      return($c);
+    }
+    return(false);
+  }
+
+  public function fetchFromCache($override=false)
+  {
+    global $CFG;
+
+    $P=$this->getParser();
+    $lines=array();
+
+    if(false===($strecords=@file($CFG->dataroot.'/temp/block_course_fisher_cache1.tmp')))
+    { return(false); }
+ 
+    if(false===($fullrecords=@file($CFG->dataroot.'/temp/block_course_fisher_cache2.tmp')))
+    { return(false); }
+
+    $found=0;
+    while( (list($Xk,$Xv)=each($strecords)) && $found==0)
+    {
+      if(eval($P->substituteObjects($Xv,$override)))
+      {
+        $lines[] = (object)unserialize($fullrecords[$Xk]);
+      }
+    }
+
+    return($lines);
+    
+  }
 
 
   public function HTTPfetch($useTestVals=false)
@@ -96,5 +160,24 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
   }
 
+  public function cron()
+  {
+    if($this->init())
+    {
+      $Fld=array("block_course_fisher_fieldlevel",
+                 "block_course_fisher_course_fullname",
+                 "block_course_fisher_course_shortname",
+                 "block_course_fisher_locator",
+                 "block_course_fisher_parameters", 
+                 "block_course_fisher_fieldtest");
+
+      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
+      {
+        $this->fetchToCache();
+      } // checkCFG
+    } // init
+
+    return(true);
+  }
 
 }

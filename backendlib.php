@@ -236,7 +236,7 @@ class block_course_fisher_parser {
   }
 
 
-  public function evalRecord($string2check,$Record,$override=false)
+  public function prepareRecord($string2check,$Record,$override=false)
   {
     $validation = false;
     $S=$string2check;
@@ -250,8 +250,13 @@ class block_course_fisher_parser {
       $validation = 'return (' . $S . ') ? true : false;';
     }
 
-    return(eval($validation));
+    return($validation);
 
+  }
+
+  public function evalRecord($string2check,$Record,$override=false)
+  {
+    return(eval(prepareRecord($string2check,$Record,$override)));
   }
 
 
