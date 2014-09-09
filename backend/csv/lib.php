@@ -151,7 +151,22 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
       if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
       {
-        return($this->HTTPfetch());
+        if(isset($_SESSION['MoodleBlockCourseFisherCSV'.$_COOKIE['MoodleSession'.$CFG->sessioncookie]]))
+        {
+          $C=unserialize($_SESSION['MoodleBlockCourseFisherCSV'.$_COOKIE['MoodleSession'.$CFG->sessioncookie]]);
+          if(is_array($C))
+          {
+           return($C);
+          }
+          return(array());
+        }
+        else
+        {
+          $C=$this->fetchFromCache();
+          $_SESSION['MoodleBlockCourseFisherCSV'.$_COOKIE['MoodleSession'.$CFG->sessioncookie]]=serialize($this->fetchFromCache());
+          return($C);
+        }
+        return(array());
       } // checkCFG
 
     } // init
