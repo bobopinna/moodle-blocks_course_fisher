@@ -39,7 +39,7 @@ class block_course_fisher extends block_list {
                         $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
                     }
                     if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
-                        $icon = $OUTPUT->pix_icon('book', 'icon');
+                        $icon = $OUTPUT->pix_icon('i/grades', 'icon');
                         $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
                         $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
                     }
