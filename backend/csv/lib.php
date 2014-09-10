@@ -141,6 +141,9 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
   {
     if($this->init())
     {
+      $P=$this->getParser();
+      $override=$P->parseFieldAssign($CFG->block_course_fisher_fieldtest);
+
       $Fld=array("block_course_fisher_fieldlevel",
                  "block_course_fisher_course_code",
                  "block_course_fisher_course_fullname",
@@ -149,7 +152,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
                  "block_course_fisher_parameters", 
                  "block_course_fisher_fieldtest");
 
-      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
+      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override))))
       {
         if(isset($_SESSION['MoodleBlockCourseFisherCSV'.$_COOKIE['MoodleSession'.$CFG->sessioncookie]]))
         {
