@@ -139,6 +139,8 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
   
   public function get_data()
   {
+    global $CFG;
+
     if($this->init())
     {
       $P=$this->getParser();
