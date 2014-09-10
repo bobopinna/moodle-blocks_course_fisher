@@ -316,7 +316,7 @@ class block_course_fisher_backend {
  
 
 
-  public function checkCFG($CFlist,$Cparm)
+  public function checkCFG($CFlist,$Cparm,$override=false)
   {
     global $CFG;
     $result=true;
@@ -340,7 +340,7 @@ class block_course_fisher_backend {
                 if(strlen($CFG->$C))
                 {
                    
-                   $Muniq=$this->Parser->parseFields($CFG->$C,1);
+                   $Muniq=$this->Parser->parseFields($CFG->$C,$override);
                    if($this->Parser->getResult()===false)
                    {
                      $result=false;
