@@ -177,19 +177,28 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
   public function cron()
   {
+    global $CFG;
+
+
     if($this->init())
     {
+      $P=$this->getParser();
+      $override=$P->parseFieldAssign($CFG->block_course_fisher_fieldtest);
+
       $Fld=array("block_course_fisher_fieldlevel",
                  "block_course_fisher_course_fullname",
                  "block_course_fisher_course_shortname",
                  "block_course_fisher_locator",
                  "block_course_fisher_parameters", 
                  "block_course_fisher_fieldtest");
-
-      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld))))
+      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override))))
       {
         $this->fetchToCache();
       } // checkCFG
+      else
+      {
+        print "CSVBACK ERROR:: ".$this->getError()."\r\n";
+      }
     } // init
 
     return(true);
