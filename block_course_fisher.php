@@ -16,11 +16,16 @@ class block_course_fisher extends block_list {
         if($this->content !== NULL) {
             return $this->content;
         }
-
+
         $this->content = new stdClass;
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
+
+        if (!isloggedin()) {
+           $this->content = '';
+           return $this->content;
+        }
 
         if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
             require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
