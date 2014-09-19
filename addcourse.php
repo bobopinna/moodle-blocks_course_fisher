@@ -74,8 +74,15 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 $availablecourses = ''; 
                 $existentcourses = ''; 
                 foreach($teachercourses as $teachercourse) {
-                    $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
-                    if (! $course = $DB->get_record('course', array('shortname' => $courseshortname))) {
+                    $course = null;
+                    if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
+                        $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                        $course = $DB->get_record('course', array('idnumber' => $coursecode));
+                    } else {
+                        $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                        $course = $DB->get_record('course', array('shortname' => $courseshortname));
+                    }
+                    if (! $course) {
                         $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse))));
                         $coursepath = implode(' / ', $categories);
                         $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
