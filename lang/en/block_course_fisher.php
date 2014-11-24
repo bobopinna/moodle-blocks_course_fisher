@@ -25,6 +25,7 @@
 
 $string['course_fisher:addinstance'] = 'Add a new Course Fisher block';
 $string['pluginname'] = 'Course Fisher';
+$string['configtitle'] = 'Title';
 $string['courseguides'] = 'Course guides';
 $string['courseregisters'] = 'Course registers';
 $string['addmoodlecourse'] = 'Add moodle course';
@@ -34,6 +35,7 @@ $string['existentcourses'] = 'Existent courses';
 $string['backendfailure'] = 'Can not connect to course backend';
 $string['editcourse'] = 'Edit course';
 $string['viewcourse'] = 'View course';
+$string['coursenotfound'] = 'Course not found';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

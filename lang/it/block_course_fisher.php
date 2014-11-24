@@ -25,6 +25,7 @@
 
 $string['course_fisher:addinstance'] = 'Aggiungere un nuovo blocco Course Fisher';
 $string['pluginname'] = 'Course Fisher';
+$string['configtitle'] = 'Title';
 $string['courseguides'] = 'Guide corsi';
 $string['courseregisters'] = 'Registri corsi';
 $string['addmoodlecourse'] = 'Aggiungi corso moodle';
@@ -34,6 +35,7 @@ $string['existentcourses'] = 'Corsi esistenti';
 $string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il recupero dei corsi';
 $string['editcourse'] = 'Impostazioni corso';
 $string['viewcourse'] = 'Accedi al corso';
+$string['coursenotfound'] = 'Corso non disponibile';
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
