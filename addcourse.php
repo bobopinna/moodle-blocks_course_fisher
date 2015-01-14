@@ -28,7 +28,7 @@ require_once('locallib.php');
 require_once('backendlib.php');
 
 $userid = required_param('id', PARAM_INT);
-$courseid = optional_param('courseid', '', PARAM_TEXT);
+$courseid = optional_param('courseid', '', PARAM_ALPHANUM);
 
 if (! $user = $DB->get_record('user', array('id' => $userid)) ) {
     error("No such user in this course");
@@ -75,6 +75,8 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 $existentcourses = ''; 
                 foreach($teachercourses as $teachercourse) {
                     $course = null;
+                    $coursecode = '';
+                    $courseshortname = '';
                     if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
                         $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
                         $course = $DB->get_record('course', array('idnumber' => $coursecode));
@@ -90,7 +92,11 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
                         $link = html_writer::tag('a', $coursefullname, array('href' => $addcourseurl));
-                        $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
+                        if (is_siteadmin()) {
+                           $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link.' '.$coursecode.$courseshortname, array());
+                        } else {
+                           $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
+                        }
                     } else {
                         $categorieslist = coursecat::make_categories_list();
                         if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true)) {
@@ -119,12 +125,28 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 echo $OUTPUT->footer();
             } else {
                 foreach($teachercourses as $teachercourse) {
-                    $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
-                    $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
-                    $categoriesdescriptions = block_course_fisher_get_fields_description($categories);
-                    $coursepath = implode(' / ', $categoriesdescriptions);
-                    $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
-                    $coursehash = md5($coursepath.' / '.$coursefullname);
+                    $course = null;
+                    $coursecode = '';
+                    $courseshortname = '';
+                    $coursehash = '';
+                    if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
+                        $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                        $course = $DB->get_record('course', array('idnumber' => $coursecode));
+                    } else {
+                        $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                        $course = $DB->get_record('course', array('shortname' => $courseshortname));
+                    }
+                    if (! $course) {
+                        $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                        $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
+                        $categoriesdescriptions = block_course_fisher_get_fields_description($categories);
+                        $coursepath = implode(' / ', $categoriesdescriptions);
+                        $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
+                        $coursehash = md5($coursepath.' / '.$coursefullname);
+                    } else {
+                        $categorieslist = coursecat::make_categories_list();
+                        $coursehash = md5($categorieslist[$course->category].' / '.$course->fullname);
+                    }
 
                     if ($coursehash == $courseid) {
                         $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
