@@ -248,7 +248,7 @@ class block_course_fisher_parser {
       {
         $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
       }
-      $validation = 'return (' . $S . ') ? true : false;';
+      $validation = 'return (' . trim($S) . ') ? true : false;';
     }
 
     return($validation);
