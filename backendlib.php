@@ -141,6 +141,7 @@ class block_course_fisher_parser {
 
     if(isset($M[1]) && isset($M[2]))
     {
+      $Muniq=array();
       while(list($Mk,$Mv)=each($M[1]))
       {
         $Muniq[$Mv]=$M[2][$Mk];
