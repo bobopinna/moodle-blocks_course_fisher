@@ -10,20 +10,36 @@ class block_course_fisher extends block_list {
         $this->title = get_string('pluginname', 'block_course_fisher');
     }
 
+    function has_config() {
+        return true;
+    }
+
+    function applicable_formats() {
+        return array('site' => true, 'mod' => false, 'my' => false, 'admin' => false,
+                     'tag' => false);
+    }
+
+    public function instance_allow_multiple() {
+      return false;
+    }
+    
+    function specialization() {
+        $this->title = isset($this->config->title) ? format_string($this->config->title) : $this->title;
+    }
+
     function get_content() {
         global $CFG, $USER, $OUTPUT;
 
         if($this->content !== NULL) {
             return $this->content;
         }
-
+
         $this->content = new stdClass;
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
 
         if (!isloggedin()) {
-           $this->content = '';
            return $this->content;
         }
 
@@ -37,7 +53,7 @@ class block_course_fisher extends block_list {
 
                 $teachercourses = $backend->get_data();
 
-                if (!empty($teachercourses)) {
+                if (!empty($teachercourses) || is_siteadmin()) {
                     if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
                         $icon = $OUTPUT->pix_icon('i/course', 'icon');
                         $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
@@ -65,55 +81,22 @@ class block_course_fisher extends block_list {
 
         return $this->content;
     }
-
-    /**
-     * Returns the role that best describes this blocks contents.
-     *
-     * This returns 'navigation' as the blocks contents is a list of links to activities and resources.
-     *
-     * @return string 'navigation'
-     */
-    public function get_aria_role() {
-        return 'navigation';
-    }
-
-    function applicable_formats() {
-        return array('site' => true, 'mod' => false, 'my' => false, 'admin' => false,
-                     'tag' => false);
-    }
-
-    public function instance_allow_multiple() 
-    {
-      return false;
-    }
     
-    
-    function has_config() {
+
+    public function cron() {
+        global $CFG;
+ 
+        if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
+            require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
+            $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
+            if (class_exists($backendclassname)) {
+                $backend = new $backendclassname();
+	        if (method_exists($backend,'cron')) {
+	            $backend->cron();
+                }
+            }
+        }
         return true;
     }
-
-
-    public function cron() 
-    {
-      global $CFG;
- 
-      if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) 
-      {
-         require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
-         $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
-         if (class_exists($backendclassname)) 
-         {
-           $backend = new $backendclassname();
-	       if(method_exists($backend,'cron'))
-           {
-	          $backend->cron();
-           }
-
-         }
-      }
-
-      return true;
-    }
-
 
 }
