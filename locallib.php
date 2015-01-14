@@ -60,7 +60,12 @@
         $newcourse->idnumber = $course_code;
 
         $course = null;
-        if (!$oldcourse = $DB->get_record('course', array('shortname' => $newcourse->shortname))) {
+        if (!empty($course_code)) {
+            $oldcourse = $DB->get_record('course', array('idnumber' => $course_code));
+        } else {
+            $oldcourse = $DB->get_record('course', array('shortname' => $course_shortname));
+        }
+        if (!$oldcourse) {
             $newcourse->category = block_course_fisher_create_categories($categories);
             if (!$course = create_course($newcourse)) {
                 print_error("Error inserting a new course in the database!");
