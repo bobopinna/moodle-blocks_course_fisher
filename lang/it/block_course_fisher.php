@@ -25,6 +25,7 @@
 
 $string['course_fisher:addinstance'] = 'Aggiungere un nuovo blocco Course Fisher';
 $string['pluginname'] = 'Course Fisher';
+$string['configtitle'] = 'Title';
 $string['courseguides'] = 'Guide corsi';
 $string['courseregisters'] = 'Registri corsi';
 $string['addmoodlecourse'] = 'Aggiungi corso moodle';
