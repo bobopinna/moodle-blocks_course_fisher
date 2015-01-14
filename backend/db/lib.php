@@ -23,6 +23,9 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
 
         if (!empty($CFG->block_course_fisher_parameters)) {
             $sql = preg_replace_callback('/\[\%(\w+)\%\]/', 'parent::get_user_field', $CFG->block_course_fisher_parameters);
+            if (is_siteadmin()) {
+                $sql = preg_replace('/\[\%(\w+)\%\]/', '%', $CFG->block_course_fisher_parameters);
+            }
             if ($coursesdb = $this->db_init()) {
                 $rs = $coursesdb->Execute($sql);
                 if (!$rs) {
