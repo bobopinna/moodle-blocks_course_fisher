@@ -11,6 +11,7 @@
     function block_course_fisher_create_categories($categories) {
         global $DB;
         $parentid = 0;
+        $result = null;
 
         foreach ($categories as $category) {
             $newcategory = new stdClass();
