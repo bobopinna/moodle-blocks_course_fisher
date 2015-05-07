@@ -40,10 +40,16 @@ class block_course_fisher_backend_json extends block_course_fisher_backend
         $d=json_decode($j,true);
         while(list($k,$v)=each($d))
          {
-        	// if($P->evalRecord($P->substituteObjects($CFG->block_course_fisher_parameters,$override),$v))
-        	          {
-        	           $D[] = (object)$v;
-        	          }   
+         
+         
+        	if (is_siteadmin()) 
+        	{
+        	 $D[] = (object)$v;
+        	}
+        	elseif (eval($P->prepareRecord($P->substituteObjects($CFG->block_course_fisher_parameters,false),$v)))
+        	{
+        	  $D[] = (object)$v;
+        	}  
         
          }
         return($D);
