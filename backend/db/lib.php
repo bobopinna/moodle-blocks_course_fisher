@@ -11,19 +11,19 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
     }
 
     /**
-     * Reads informations for a courses from external database,
+     * Reads informations for teacher courses from external database,
      * then returns it in an array of objects.
      *
      * @return array
      */
-    public function get_data() {
+    public function get_data($alldata=false) {
         global $CFG;
 
         $result = array();
 
         if (!empty($CFG->block_course_fisher_parameters)) {
             $sql = preg_replace_callback('/\[\%(\w+)\%\]/', 'parent::get_user_field', $CFG->block_course_fisher_parameters);
-            if (is_siteadmin()) {
+            if ($alldata) {
                 $sql = preg_replace('/\[\%(\w+)\%\]/', '%', $CFG->block_course_fisher_parameters);
             }
             if ($coursesdb = $this->db_init()) {

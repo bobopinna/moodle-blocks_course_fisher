@@ -398,12 +398,10 @@ class block_course_fisher_backend {
 
 
 
-  public function get_data() 
+  public function get_data($alldata=false) 
   {
     return null;
   }
-
-
 
   public function get_user_field($matches) 
   {
@@ -417,7 +415,6 @@ class block_course_fisher_backend {
     }
     return null;
   }
-
 
   public function __destruct() 
   {

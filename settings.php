@@ -71,5 +71,7 @@ if ($ADMIN->fulltree) {
     $choices[0] = get_string('viewcourse', 'block_course_fisher');
     $choices[1] = get_string('editcourse', 'block_course_fisher');
     $settings->add(new admin_setting_configselect('block_course_fisher_redirect', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', 0, $choices));
+
+    $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
 }
 

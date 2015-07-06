@@ -137,7 +137,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
   }
 
   
-  public function get_data()
+  public function get_data($alldata=false)
   {
     global $CFG;
 

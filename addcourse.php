@@ -65,7 +65,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
         $backend = new $backendclassname();
 
-        $teachercourses = $backend->get_data();
+        $teachercourses = $backend->get_data(is_siteadmin());
 
         if (!empty($teachercourses)) {
             if (empty($courseid)) {
@@ -92,11 +92,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
                         $link = html_writer::tag('a', $coursefullname, array('href' => $addcourseurl));
-                        if (is_siteadmin()) {
-                           $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link.' '.$coursecode.$courseshortname, array());
-                        } else {
-                           $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
-                        }
+                        $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
                     } else {
                         $categorieslist = coursecat::make_categories_list();
                         if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true)) {
@@ -150,6 +146,9 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                     if ($coursehash == $courseid) {
                         $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                        if (is_siteadmin()) {
+                            $userid = null;
+                        }
                         if ($newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $coursecode, $userid, block_course_fisher_get_fields_items($categories))) {
                              if ($CFG->block_course_fisher_redirect == COURSE_EDIT) {
                                  redirect(new moodle_url('/course/edit.php', array('id' => $newcourse->id)));

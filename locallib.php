@@ -40,7 +40,7 @@
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id, $categories = array()) {
+    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array()) {
         global $DB, $CFG;
 
         
@@ -77,7 +77,7 @@
 
         $editingteacherroleid = $DB->get_field('role', 'id', array('shortname' => 'editingteacher'));
 
-        if ($teacheruser = $DB->get_record('user', array('id' => $teacher_id))) {
+        if (!empty($teacher_id) && ($teacheruser = $DB->get_record('user', array('id' => $teacher_id)))) {
             // Set student role at course context
             $coursecontext = context_course::instance($course->id);
 

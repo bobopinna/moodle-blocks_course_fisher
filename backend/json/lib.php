@@ -1,66 +1,51 @@
 <?php
 
-class block_course_fisher_backend_json extends block_course_fisher_backend
-{
-  public function __construct()
-  {
-     parent::__construct();
-  }
+class block_course_fisher_backend_json extends block_course_fisher_backend {
+    public function __construct() {
+       parent::__construct();
+    }
 
-  public function description()
-  {
-    return("JSON backend");
-  }
+    public function description() {
+       return("JSON backend");
+    }
 
- 
   
-  public function get_data()
-  {
-    global $CFG;
+    public function get_data($alldata=false) {
+        global $CFG;
 
-    if($this->init())
-    {
-      $P=$this->getParser();
-      $override=$P->parseFieldAssign($CFG->block_course_fisher_fieldtest);
+        if ($this->init()) {
+            $P = $this->getParser();
+            $override = $P->parseFieldAssign($CFG->block_course_fisher_fieldtest);
 
-      $Fld=array("block_course_fisher_fieldlevel",
-                 "block_course_fisher_course_code",
-                 "block_course_fisher_course_fullname",
-                 "block_course_fisher_course_shortname",
-                 "block_course_fisher_locator",
-                 "block_course_fisher_parameters", 
-                 "block_course_fisher_fieldtest");
+            $Fld = array("block_course_fisher_fieldlevel",
+                         "block_course_fisher_course_code",
+                         "block_course_fisher_course_fullname",
+                         "block_course_fisher_course_shortname",
+                         "block_course_fisher_locator",
+                         "block_course_fisher_parameters", 
+                         "block_course_fisher_fieldtest");
 
-      if(!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override))))
-      {
+            if (!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override)))) {
                
+                $D = array();
+                $j = file_get_contents($CFG->block_course_fisher_locator);
+                $d = json_decode($j,true);
+                while (list($k,$v)=each($d)) {
         
-        $D=array();
-        $j=file_get_contents($CFG->block_course_fisher_locator);
-        $d=json_decode($j,true);
-        while(list($k,$v)=each($d))
-         {
-         
-         
-        	if (is_siteadmin()) 
-        	{
-        	 $D[] = (object)$v;
-        	}
-        	elseif (eval($P->prepareRecord($P->substituteObjects($CFG->block_course_fisher_parameters,false),$v)))
-        	{
-        	  $D[] = (object)$v;
-        	}  
+                    if ($alldata) { 
+                        $D[] = (object)$v;
+                    } elseif (eval($P->prepareRecord($P->substituteObjects($CFG->block_course_fisher_parameters,false),$v))) {
+                        $D[] = (object)$v;
+                    }
         
-         }
-        return($D);
-        
-      }
+                }
+                 return($D);
+            }
 
-    } // init
+        } // init
 
-    return(false);
+        return(false);
 
-  }
+    }
 
- 
 }
