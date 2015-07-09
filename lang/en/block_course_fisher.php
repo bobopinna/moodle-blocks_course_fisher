@@ -36,6 +36,12 @@ $string['backendfailure'] = 'Can not connect to course backend';
 $string['editcourse'] = 'Edit course';
 $string['viewcourse'] = 'View course';
 $string['coursenotfound'] = 'Course not found';
+$string['filter'] = 'User filter';
+$string['shown'] = 'Shown';
+$string['hidden'] = 'Hidden';
+$string['nouserfilterset'] = 'No user filter set';
+$string['ifuserprofilefield'] = 'if user profile field';
+
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

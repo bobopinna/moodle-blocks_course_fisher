@@ -38,6 +38,20 @@ class block_course_fisher extends block_list {
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
+        if (is_siteadmin()) {
+
+            if (isset($this->config->userfield) && !empty($this->config->userfield)) {
+                $footers = array();
+                $footers[] = get_string($this->config->display, 'block_course_fisher');
+                $footers[] = get_string('ifuserprofilefield', 'block_course_fisher');
+                $footers[] = get_string($this->config->userfield);
+                $footers[] = get_string($this->config->operator, 'filters');
+                $footers[] = '"'.format_string($this->config->matchvalue).'"';
+                $this->content->footer = implode(' ', $footers);
+            } else {
+                $this->content->footer = html_writer::tag('span', get_string('nouserfilterset', 'block_course_fisher'), array('class' => 'block_course_fisher_permission'));
+            }
+        }
 
         if (!isloggedin()) {
            return $this->content;
@@ -51,37 +65,88 @@ class block_course_fisher extends block_list {
 
                 $backend = new $backendclassname();
 
-                $teachercourses = $backend->get_data(is_siteadmin());
+                if (is_siteadmin() || $this->enabled_user()) {
 
-                if (!empty($teachercourses)) {
-                    if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
-                        $icon = $OUTPUT->pix_icon('i/course', 'icon');
-                        $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
-                        $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
+                    $teachercourses = $backend->get_data(is_siteadmin());
+    
+                    if (!empty($teachercourses)) {
+                        if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
+                            $icon = $OUTPUT->pix_icon('i/course', 'icon');
+                            $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
+                            $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
+                        }
+                        if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
+                            $icon = $OUTPUT->pix_icon('i/grades', 'icon');
+                            $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
+                            $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
+                        }
+                        $icon = $OUTPUT->pix_icon('t/add', 'icon');
+                        $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
+                        $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
                     }
-                    if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
-                        $icon = $OUTPUT->pix_icon('i/grades', 'icon');
-                        $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
-                        $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
+                    if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
+                        $icon = $OUTPUT->pix_icon('help', 'icon');
+                        $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
+                        $this->content->items[] = html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
                     }
-                    $icon = $OUTPUT->pix_icon('t/add', 'icon');
-                    $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
-                }
-                if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
-                    $icon = $OUTPUT->pix_icon('help', 'icon');
-                    $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
-                    $this->content->items[] = html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
-                }
-                if ($teachercourses === false) {
-                    $this->content->footer .= get_string('backendfailure', 'block_course_fisher');
+                    if ($teachercourses === false) {
+                        $this->content->footer .= get_string('backendfailure', 'block_course_fisher');
+                    }
                 }
             }
         }
 
         return $this->content;
     }
-    
+
+    private function enabled_user() {
+        global $USER;
+
+        $enabled = false;
+        if (isset($this->config->userfield) && !empty($this->config->userfield)) {
+            if (isset($this->config->matchvalue) && !empty($this->config->matchvalue)) {
+                switch ($this->config->operator) {
+                    case 'contains':
+                        if (mb_strpos($USER->{$this->config->userfield}, $this->config->matchvalue) !== false) {
+                            $enabled = true;
+                        }
+                    break;
+                    case 'doesnotcontains':
+                        if (mb_strpos($USER->{$this->config->userfield}, $this->config->matchvalue) === false) {
+                            $enabled = true;
+                        }
+                    break;
+                    case 'isequalto':
+                        if ($this->config->matchvalue == $USER->{$this->config->userfield}) {
+                            $enabled = true;
+                        }
+                    break;
+                    case 'isnotequalto':
+                        if ($this->config->matchvalue != $USER->{$this->config->userfield}) {
+                            $enabled = true;
+                        }
+                    break;
+                    case 'startswith':
+                        if (mb_ereg_match('^'.$this->config->matchvalue, $USER->{$this->config->userfield}) !== false) {
+                            $enabled = true;
+                        }
+                    break;
+                    case 'endswith':
+                        if (mb_ereg($this->config->matchvalue.'$', $USER->{$this->config->userfield}) !== false) {
+                            $enabled = true;
+                        }
+                    break;
+                }
+                if (isset($this->config->display) && ($this->config->display == 'hidden')) {
+                    $enabled = !$enabled;
+                }
+            }
+        } else {
+            $enabled = true;
+        }
+
+        return $enabled;
+    }    
 
     public function cron() {
         global $CFG;

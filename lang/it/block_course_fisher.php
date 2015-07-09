@@ -36,6 +36,11 @@ $string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il
 $string['editcourse'] = 'Impostazioni corso';
 $string['viewcourse'] = 'Accedi al corso';
 $string['coursenotfound'] = 'Corso non disponibile';
+$string['filter'] = 'Filtro utenti';
+$string['shown'] = 'Mostrato';
+$string['hidden'] = 'Nascosto';
+$string['nouserfilterset'] = 'Nessun filtro definito';
+$string['ifuserprofilefield'] = 'se il campo del profilo utente';
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
