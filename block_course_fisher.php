@@ -149,7 +149,7 @@ class block_course_fisher extends block_list {
     }    
 
     public function cron() {
-        global $CFG;
+        global $CFG, $DB;
  
         if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
             require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
