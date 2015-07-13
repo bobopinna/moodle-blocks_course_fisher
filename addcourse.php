@@ -91,18 +91,24 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         $coursehash = md5($coursepath.' / '.$coursefullname);
 
                         $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
-                        $link = html_writer::tag('a', $coursefullname, array('href' => $addcourseurl));
-                        $availablecourses .= html_writer::tag('li', $coursepath.' / '.$link, array());
+                        $link = html_writer::tag('a', get_string('addcourse', 'block_course_fisher'), array('href' => $addcourseurl));
+                        if (is_siteadmin()) {
+                           $availablecourses .= html_writer::tag('li', $link.'&nbsp;'.$coursepath.' / '.$coursefullname.' '.$coursecode.$courseshortname, array('class' => 'addcourse'));
+                        } else {
+                           $availablecourses .= html_writer::tag('li', $link.'&nbsp;'.$coursepath.' / '.$coursefullname, array('class' => 'addcourse'));
+                        }
                     } else {
                         $categorieslist = coursecat::make_categories_list();
-                        if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true)) {
+                        $link = '';
+                        if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true) || is_siteadmin()) {
                             $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                            $link = html_writer::tag('a', get_string('entercourse', 'block_course_fisher'), array('href' => $courseurl));
                         } else {
                             $coursehash = md5($categorieslist[$course->category].' / '.$course->fullname);
                             $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
+                            $link = html_writer::tag('a', get_string('enroltocourse', 'block_course_fisher'), array('href' => $courseurl));
                         }
-                        $link = html_writer::tag('a', $course->fullname, array('href' => $courseurl));
-                        $existentcourses .= html_writer::tag('li', $categorieslist[$course->category].' / '.$link, array());
+                        $existentcourses .= html_writer::tag('li', $link.'&nbsp;'.$categorieslist[$course->category].' / '.$course->fullname, array('class' => 'entercourse'));
                     }
                 }
                 if (!empty($availablecourses)) {
