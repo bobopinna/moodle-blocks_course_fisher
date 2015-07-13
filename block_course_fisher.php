@@ -28,7 +28,7 @@ class block_course_fisher extends block_list {
     }
 
     function get_content() {
-        global $CFG, $USER, $OUTPUT;
+        global $CFG, $USER, $OUTPUT, $DB;
 
         if($this->content !== NULL) {
             return $this->content;
@@ -41,10 +41,27 @@ class block_course_fisher extends block_list {
         if (is_siteadmin()) {
 
             if (isset($this->config->userfield) && !empty($this->config->userfield)) {
+                $userfieldname = '';
+                $customfields = $DB->get_records('user_info_field');
+                if (!empty($customfields)) {
+                    foreach($customfields as $customfield) {
+                        if ($customfield->shortname == $this->config->userfield) {
+                            $userfieldname = $customfield->name;
+                        }
+                    }
+                }
+                if (empty($userfieldname)) {
+                    if (isset($USER->{$this->config->userfield})) {
+                        $userfieldname = get_string($this->config->userfield);
+                    } else {
+                        $userfieldname = $this->config->userfield;
+                    }
+                }
+
                 $footers = array();
                 $footers[] = get_string($this->config->display, 'block_course_fisher');
                 $footers[] = get_string('ifuserprofilefield', 'block_course_fisher');
-                $footers[] = get_string($this->config->userfield);
+                $footers[] = $userfieldname;
                 $footers[] = get_string($this->config->operator, 'filters');
                 $footers[] = '"'.format_string($this->config->matchvalue).'"';
                 $this->content->footer = implode(' ', $footers);
