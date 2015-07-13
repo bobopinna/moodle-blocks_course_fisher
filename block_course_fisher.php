@@ -117,7 +117,7 @@ class block_course_fisher extends block_list {
     }
 
     private function enabled_user() {
-        global $USER;
+        global $USER, $DB;
 
         $enabled = false;
         if (isset($this->config->userfield) && !empty($this->config->userfield)) {
