@@ -122,34 +122,52 @@ class block_course_fisher extends block_list {
         $enabled = false;
         if (isset($this->config->userfield) && !empty($this->config->userfield)) {
             if (isset($this->config->matchvalue) && !empty($this->config->matchvalue)) {
+           
+                $userfieldvalue = '';
+                $customfields = $DB->get_records('user_info_field');
+                if (!empty($customfields)) {
+                    foreach($customfields as $customfield) {
+                        if ($customfield->shortname == $this->config->userfield) {
+                            if (isset($USER->profile[$customfield->shortname]) && !empty($USER->profile[$customfield->shortname])) {
+                                $userfieldvalue = $USER->profile[$customfield->shortname];
+                            }
+                        }
+                    }
+                }
+                if (empty($userfieldvalue)) {
+                    if (isset($USER->{$this->config->userfield})) {
+                        $userfieldvalue = $USER->{$this->config->userfield};
+                    }
+                }
+
                 switch ($this->config->operator) {
                     case 'contains':
-                        if (mb_strpos($USER->{$this->config->userfield}, $this->config->matchvalue) !== false) {
+                        if (mb_strpos($userfieldvalue, $this->config->matchvalue) !== false) {
                             $enabled = true;
                         }
                     break;
                     case 'doesnotcontains':
-                        if (mb_strpos($USER->{$this->config->userfield}, $this->config->matchvalue) === false) {
+                        if (mb_strpos($userfieldvalue, $this->config->matchvalue) === false) {
                             $enabled = true;
                         }
                     break;
                     case 'isequalto':
-                        if ($this->config->matchvalue == $USER->{$this->config->userfield}) {
+                        if ($this->config->matchvalue == $userfieldvalue) {
                             $enabled = true;
                         }
                     break;
                     case 'isnotequalto':
-                        if ($this->config->matchvalue != $USER->{$this->config->userfield}) {
+                        if ($this->config->matchvalue != $userfieldvalue) {
                             $enabled = true;
                         }
                     break;
                     case 'startswith':
-                        if (mb_ereg_match('^'.$this->config->matchvalue, $USER->{$this->config->userfield}) !== false) {
+                        if (mb_ereg_match('^'.$this->config->matchvalue, $userfieldvalue) !== false) {
                             $enabled = true;
                         }
                     break;
                     case 'endswith':
-                        if (mb_ereg($this->config->matchvalue.'$', $USER->{$this->config->userfield}) !== false) {
+                        if (mb_ereg($this->config->matchvalue.'$', $userfield) !== false) {
                             $enabled = true;
                         }
                     break;
