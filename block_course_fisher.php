@@ -24,7 +24,7 @@ class block_course_fisher extends block_list {
     }
     
     function specialization() {
-        $this->title = isset($this->config->title) ? format_string($this->config->title) : $this->title;
+        $this->title = (isset($this->config->title) && !empty($this->config->title)) ? format_string($this->config->title) : $this->title;
     }
 
     function get_content() {
