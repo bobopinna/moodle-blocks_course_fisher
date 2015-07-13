@@ -45,7 +45,7 @@ class block_course_fisher_edit_form extends block_edit_form {
         $filters[] = &$mform->createElement('static', 'config_ifuserprofilefield', null,  get_string('ifuserprofilefield', 'block_course_fisher').'<br />');
 
         $fieldnames = array('lastname', 'firstname', 'username', 'email', 'city', 'idnumber', 'institution', 'department', 'address');
-        $fields = array('-' => get_string('choose'));
+        $fields = array('' => get_string('choose'));
         foreach ($fieldnames as $fieldname) {
             $fields[$fieldname] = get_string($fieldname);
         }
@@ -53,7 +53,9 @@ class block_course_fisher_edit_form extends block_edit_form {
         $customfields = $DB->get_records('user_info_field');
         if (!empty($customfields)) {
            foreach($customfields as $customfield) {
-               $fields[$customfield->shortname] = $customfield->name;
+               if (in_array($customfield->datatype, array('text', 'menu', 'checkbox'))) {
+                   $fields[$customfield->shortname] = $customfield->name;
+               }
            }
         }
 
@@ -82,7 +84,7 @@ class block_course_fisher_edit_form extends block_edit_form {
                  // Remove the title from the config so that parent::set_data doesn't set it.
                  unset($this->block->config->title);
             }
-            if  (!empty($this->block->config->userfield) && $this->block->config->userfield != '-') {
+            if  (!empty($this->block->config->userfield)) {
                  $userfield = $this->block->config->userfield;
                  $defaults->config_userfield = format_string($userfield, true, $this->page->context);
                  unset($this->block->config->userfield);
