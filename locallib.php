@@ -47,13 +47,21 @@
         $newcourse = new stdClass();
 
         $newcourse->id = '0';
-/*
-        $newcourse->MAX_FILE_SIZE = '0';
-        $newcourse->format = 'topics';
-        $newcourse->showgrades = '0';
-        $newcourse->enablecompletion = '0';
-        $newcourse->numsections = '2';
-*/
+
+        $courseconfig = get_config('moodlecourse');
+
+        // Apply course default settings
+        $newcourse->format             = $courseconfig->format;
+        $newcourse->newsitems          = $courseconfig->newsitems;
+        $newcourse->showgrades         = $courseconfig->showgrades;
+        $newcourse->showreports        = $courseconfig->showreports;
+        $newcourse->maxbytes           = $courseconfig->maxbytes;
+        $newcourse->groupmode          = $courseconfig->groupmode;
+        $newcourse->groupmodeforce     = $courseconfig->groupmodeforce;
+        $newcourse->visible            = $courseconfig->visible;
+        $newcourse->visibleold         = $newcourse->visible;
+        $newcourse->lang               = $courseconfig->lang;
+
         $newcourse->startdate = time();
         
         $newcourse->fullname = $course_fullname;
