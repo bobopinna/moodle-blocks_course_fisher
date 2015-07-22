@@ -30,7 +30,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                 $rs = $coursesdb->Execute($sql);
                 if (!$rs) {
                     $coursesdb->Close();
-                    debugging(get_string('auth_dbcantconnect','auth_db'));
+                    debugging(get_string('dbcantgetdata','block_course_fisher'));
                     debugging($sql);
                     return false;
                  } else {
@@ -48,6 +48,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                 }
                 $coursesdb->Close();
             } else {
+                debugging(get_string('dbcantconnect','block_course_fisher'));
                 return false;
             }
         }
