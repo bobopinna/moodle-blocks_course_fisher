@@ -15,14 +15,30 @@ class block_course_fisher extends block_list {
     }
 
     function applicable_formats() {
-        return array('site' => true, 'mod' => false, 'my' => false, 'admin' => false,
-                     'tag' => false);
+        return array('site' => true,
+                      'mod' => false);
     }
 
     public function instance_allow_multiple() {
       return false;
     }
-    
+   
+    function user_can_addto($page) {
+        // Don't allow people to add the block if they can't even use it
+        if (!is_siteadmin()) {
+            return false;
+        }
+        return parent::user_can_addto($page);
+    }
+
+    function user_can_edit() {
+        // Don't allow people to edit the block if they can't even use it
+        if (!is_siteadmin()) {
+            return false;
+        }
+        return parent::user_can_edit();
+    }
+ 
     function specialization() {
         $this->title = (isset($this->config->title) && !empty($this->config->title)) ? format_string($this->config->title) : $this->title;
     }
