@@ -30,7 +30,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                 $rs = $coursesdb->Execute($sql);
                 if (!$rs) {
                     $coursesdb->Close();
-                    debugging(get_string('dbcantgetdata','block_course_fisher'));
+                    debugging(get_string('backend_db:cantgetdata','block_course_fisher'));
                     debugging($sql);
                     return false;
                  } else {
@@ -39,7 +39,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                             $fields_obj = (object)array_change_key_case((array)$fields_obj , CASE_LOWER);
                             $row = new stdClass();
                             foreach ($fields_obj as $name => $value) {
-                                $row->$name = textlib::convert($value, 'iso8859-1', 'utf-8');
+                                $row->$name = format_string($value);
                             }
                             $result[] = $row;
                         }
@@ -48,7 +48,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                 }
                 $coursesdb->Close();
             } else {
-                debugging(get_string('dbcantconnect','block_course_fisher'));
+                debugging(get_string('backend_db:cantconnect','block_course_fisher'));
                 return false;
             }
         }

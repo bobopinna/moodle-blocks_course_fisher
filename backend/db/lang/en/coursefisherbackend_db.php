@@ -1,6 +1,6 @@
 <?php
 
 $string['pluginname'] = 'Database backend';
-$string['dbcantconnect'] = 'No connection available to database backend';
-$string['dbcantgetdata'] = 'Database backend can\'t get data';
+$string['cantconnect'] = 'No connection available to database backend';
+$string['cantgetdata'] = 'Database backend can\'t get data';
 
