@@ -403,17 +403,30 @@ class block_course_fisher_backend {
     return null;
   }
 
-  public function get_user_field($matches) 
-  {
-    global $USER;
-    if (isset($matches[1])) 
-    {
-      if (isset($USER->$matches[1])) 
-      {
-        return $USER->$matches[1];
+  public function get_user_field($matches) {
+      global $USER, $DB;
+
+      if (isset($matches[1])) {
+          $userfieldvalue = '';
+          $customfields = $DB->get_records('user_info_field');
+          if (!empty($customfields)) {
+              foreach($customfields as $customfield) {
+                  if ($customfield->shortname == $matches[1]) {
+                      if (isset($USER->profile[$customfield->shortname]) && !empty($USER->profile[$customfield->shortname])) {
+                          $userfieldvalue = $USER->profile[$customfield->shortname];
+                      }
+                  }
+              }
+          }
+          if (empty($userfieldvalue)) {
+              if (isset($USER->{$matches[1]})) {
+                  $userfieldvalue = $USER->{$matches[1]};
+              }
+          }
+          return $userfieldvalue;
       }
-    }
-    return null;
+
+      return null;
   }
 
   public function __destruct() 
