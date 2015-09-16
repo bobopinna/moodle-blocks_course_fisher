@@ -24,6 +24,8 @@
  */
 
 $string['course_fisher:addinstance'] = 'Aggiungere un nuovo blocco Course Fisher';
+$string['course_fisher:myaddinstance'] = 'Aggiungere un nuovo blocco Course Fisheri nella Dashboard';
+$string['course_fisher:addallcourses'] = 'Aggiungere tutti i corsi attivabili con il Course Fisher';
 $string['pluginname'] = 'Course Fisher';
 $string['configtitle'] = 'Title';
 $string['courseguides'] = 'Guide corsi';

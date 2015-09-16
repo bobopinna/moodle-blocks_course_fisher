@@ -15,8 +15,9 @@ class block_course_fisher extends block_list {
     }
 
     function applicable_formats() {
-        return array('site' => true,
-                      'mod' => false);
+        return array(
+            'site-index' => true,
+            'my' => true);
     }
 
     public function instance_allow_multiple() {
@@ -25,7 +26,7 @@ class block_course_fisher extends block_list {
    
     function user_can_addto($page) {
         // Don't allow people to add the block if they can't even use it
-        if (!is_siteadmin()) {
+        if (!has_capability('block/course_fisher:addallcourses', $page->context)) {
             return false;
         }
         return parent::user_can_addto($page);
@@ -33,7 +34,7 @@ class block_course_fisher extends block_list {
 
     function user_can_edit() {
         // Don't allow people to edit the block if they can't even use it
-        if (!is_siteadmin()) {
+        if (!has_capability('block/course_fisher:addallcourses', $this->context)) {
             return false;
         }
         return parent::user_can_edit();
@@ -54,7 +55,7 @@ class block_course_fisher extends block_list {
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
-        if (is_siteadmin()) {
+        if (has_capability('block/course_fisher:addallcourses', $this->context)) {
 
             if (isset($this->config->userfield) && !empty($this->config->userfield)) {
                 $userfieldname = '';
@@ -90,42 +91,14 @@ class block_course_fisher extends block_list {
            return $this->content;
         }
 
-        if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
-            require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
-
-            $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
-            if (class_exists($backendclassname)) {
-
-                $backend = new $backendclassname();
-
-                if (is_siteadmin() || $this->enabled_user()) {
-
-                    $teachercourses = $backend->get_data(is_siteadmin());
-    
-                    if (!empty($teachercourses)) {
-                        if (file_exists($CFG->dirroot."/blocks/course_fisher/guide.php")) {
-                            $icon = $OUTPUT->pix_icon('i/course', 'icon');
-                            $url =  new moodle_url('/blocks/course_fisher/guide.php', array('id' => $USER->id));
-                            $this->content->items[] = html_writer::tag('a', $icon.get_string('courseguides', 'block_course_fisher'), array('href' => $url));
-                        }
-                        if (file_exists($CFG->dirroot."/blocks/course_fisher/register.php")) {
-                            $icon = $OUTPUT->pix_icon('i/grades', 'icon');
-                            $url = new moodle_url('/blocks/course_fisher/register.php', array('id' => $USER->id));
-                            $this->content->items[] = html_writer::tag('a', $icon.get_string('courseregisters', 'block_course_fisher'), array('href' => $url));
-                        }
-                        $icon = $OUTPUT->pix_icon('t/add', 'icon');
-                        $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
-                        $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
-                    }
-                    if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
-                        $icon = $OUTPUT->pix_icon('help', 'icon');
-                        $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
-                        $this->content->items[] = html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
-                    }
-                    if ($teachercourses === false) {
-                        $this->content->footer .= get_string('backendfailure', 'block_course_fisher');
-                    }
-                }
+        if ($this->enabled_user()) {
+            $icon = $OUTPUT->pix_icon('t/add', 'icon');
+            $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
+            $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
+            if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
+                $icon = $OUTPUT->pix_icon('help', 'icon');
+                $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
+                $this->content->items[] = html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
             }
         }
 
@@ -136,7 +109,9 @@ class block_course_fisher extends block_list {
         global $USER, $DB;
 
         $enabled = false;
-        if (isset($this->config->userfield) && !empty($this->config->userfield)) {
+        $filterconfigured = (isset($this->config->userfield) && !empty($this->config->userfield));
+        if ($filterconfigured && !has_capability('block/course_fisher:addallcourses', $this->context)) {
+
             if (isset($this->config->matchvalue) && !empty($this->config->matchvalue)) {
            
                 $userfieldvalue = '';

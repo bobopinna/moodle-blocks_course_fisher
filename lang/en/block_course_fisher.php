@@ -24,6 +24,8 @@
  */
 
 $string['course_fisher:addinstance'] = 'Add a new Course Fisher block';
+$string['course_fisher:myaddinstance'] = 'Add a new Course Fisher block to Dashboard';
+$string['course_fisher:addallcourses'] = 'Add all courses got from Course Fisher';
 $string['pluginname'] = 'Course Fisher';
 $string['configtitle'] = 'Title';
 $string['courseguides'] = 'Course guides';

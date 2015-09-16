@@ -39,15 +39,20 @@ $capabilities = array(
     ),
 
     'block/course_fisher:myaddinstance' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
-
         'captype' => 'write',
-        'contextlevel' => CONTEXT_BLOCK,
+        'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW
         ),
-
-        'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
 
+    'block/course_fisher:addallcourses' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW
+        ),
+    ),
 );

@@ -65,7 +65,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
         $backend = new $backendclassname();
 
-        $teachercourses = $backend->get_data(is_siteadmin());
+        $teachercourses = $backend->get_data(has_capability('block/course_fisher:addallcourses', $systemcontext));
 
         if (!empty($teachercourses)) {
             if (empty($courseid)) {
@@ -92,7 +92,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $userid, 'courseid' => $coursehash));
                         $link = html_writer::tag('a', get_string('addcourse', 'block_course_fisher'), array('href' => $addcourseurl));
-                        if (is_siteadmin()) {
+                        if (has_capability('block/course_fisher:addallcourses', $systemcontext)) {
                            $availablecourses .= html_writer::tag('li', $link.'&nbsp;'.$coursepath.' / '.$coursefullname.' '.$coursecode.$courseshortname, array('class' => 'addcourse'));
                         } else {
                            $availablecourses .= html_writer::tag('li', $link.'&nbsp;'.$coursepath.' / '.$coursefullname, array('class' => 'addcourse'));
@@ -100,7 +100,10 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                     } else {
                         $categorieslist = coursecat::make_categories_list();
                         $link = '';
-                        if (is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true) || is_siteadmin()) {
+
+                        $isalreadyteacher = is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true);
+                        $canaddall = has_capability('block/course_fisher:addallcourses', $systemcontext);
+                        if ($isalreadyteacher || $canaddall) {
                             $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
                             $link = html_writer::tag('a', get_string('entercourse', 'block_course_fisher'), array('href' => $courseurl));
                         } else {
@@ -152,7 +155,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                     if ($coursehash == $courseid) {
                         $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
-                        if (is_siteadmin()) {
+                        if (has_capability('block/course_fisher:addallcourses', $systemcontext)) {
                             $userid = null;
                         }
                         if ($newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $coursecode, $userid, block_course_fisher_get_fields_items($categories))) {
