@@ -39,6 +39,9 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                             $fields_obj = (object)array_change_key_case((array)$fields_obj , CASE_LOWER);
                             $row = new stdClass();
                             foreach ($fields_obj as $name => $value) {
+                                if (mb_detect_encoding($value, mb_detect_order(), true) !== 'UTF-8') {
+                                    $value = mb_convert_encoding($value, 'UTF-8');
+                                }
                                 $row->$name = format_string($value);
                             }
                             $result[] = $row;
