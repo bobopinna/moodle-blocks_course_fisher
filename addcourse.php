@@ -117,7 +117,12 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         }
                         $cousecategories = html_writer::tag('span', $categorieslist[$course->category], array('class' => 'entercoursecategory'));
                         $coursename = html_writer::tag('span', $course->fullname, array('class' => 'entercoursename'));
-                        $existentcourses .= html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'entercourseitem'));
+                        if (has_capability('block/course_fisher:addallcourses', $systemcontext)) {
+                            $coursecodes = html_writer::tag('span', $course->idnumber.$course->shortname, array('class' => 'entercoursecode'));
+                            $existentcourses .= html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'entercourseitem'));
+                        } else {
+                            $existentcourses .= html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'entercourseitem'));
+                        }
                     }
                 }
                 if (!empty($availablecourses)) {
