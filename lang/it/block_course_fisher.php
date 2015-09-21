@@ -45,6 +45,7 @@ $string['shown'] = 'Mostrato';
 $string['hidden'] = 'Nascosto';
 $string['nouserfilterset'] = 'Nessun filtro definito';
 $string['ifuserprofilefield'] = 'se il campo del profilo utente';
+$string['nocourseavailable'] = 'Spicente non ci sono corsi attivabili';
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

@@ -45,6 +45,7 @@ $string['shown'] = 'Shown';
 $string['hidden'] = 'Hidden';
 $string['nouserfilterset'] = 'No user filter set';
 $string['ifuserprofilefield'] = 'if user profile field';
+$string['nocourseavailable'] = 'Sorry there aren\'t available courses';
 
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example

@@ -183,8 +183,9 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 }
                 print_error('Course hash does not match');
             }
+        } else {
+            notice(get_string('nocourseavailable', 'block_course_fisher'));
         }
-
     }
 }
 
