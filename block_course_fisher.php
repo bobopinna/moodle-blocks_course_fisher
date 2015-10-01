@@ -87,13 +87,13 @@ class block_course_fisher extends block_list {
             }
         }
 
-        if (!isloggedin()) {
+        if (!isloggedin() || is_guest($this->context)) {
            return $this->content;
         }
 
         if ($this->enabled_user()) {
             $icon = $OUTPUT->pix_icon('t/add', 'icon');
-            $url = new moodle_url('/blocks/course_fisher/addcourse.php', array('id' => $USER->id));
+            $url = new moodle_url('/blocks/course_fisher/addcourse.php', array());
             $this->content->items[] = html_writer::tag('a', $icon.get_string('addmoodlecourse', 'block_course_fisher'), array('href' => $url));
             if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
                 $icon = $OUTPUT->pix_icon('help', 'icon');

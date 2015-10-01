@@ -40,7 +40,7 @@
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array()) {
+    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array(), $linkedcourse = null) {
         global $DB, $CFG;
 
         
@@ -67,6 +67,16 @@
         $newcourse->fullname = $course_fullname;
         $newcourse->shortname = $course_shortname;
         $newcourse->idnumber = $course_code;
+
+        if ($linkedcourse !== null) {
+            if (in_array('courselink', get_sorted_course_formats(true))) {
+                $newcourse->format = 'courselink';
+                $newcourse->linkedcourse = $linkedcourse->shortname;
+            } else {
+                $newcourse->format = 'singleactivity';
+                $newcourse->activitytype = 'url';
+            }
+        }
 
         $course = null;
         if (!empty($course_code)) {
@@ -187,3 +197,22 @@
    function block_course_fisher_get_fields_description($field) {
        return block_course_fisher_get_fields_items($field, array('description' => 3));
    } 
+
+   function block_course_fisher_add_metacourses($course, $metacourseids = array()) {
+       global $CFG;
+
+       if (enrol_is_enabled('manual')) {
+           require_once("$CFG->dirroot/enrol/meta/locallib.php");
+
+           $context = context_course::instance($course->id, MUST_EXIST);
+           if (!empty($metacourseids) && has_capability('moodle/course:enrolconfig', $context)) {
+               $enrol = enrol_get_plugin('meta');
+               if ($enrol->get_newinstance_link($course->id)) {
+                   foreach ($metacourseids as $metacourseid) {
+                       $eid = $enrol->add_instance($course, array('customint1'=>$metacourseid));
+                   }
+               }
+               enrol_meta_sync($course->id);
+           }
+       }
+   }

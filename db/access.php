@@ -55,4 +55,14 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         ),
     ),
+
+    'block/course_fisher:addcourses' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW
+        ),
+    ),
 );

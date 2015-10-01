@@ -65,6 +65,8 @@ if ($ADMIN->fulltree) {
     
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
     
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Usato per raggruppare i corsi nella pagina di aggiunta', ''));
+
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
 
     $choices = array();
