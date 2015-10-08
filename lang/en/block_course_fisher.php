@@ -16,39 +16,43 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'block_course_fisher', language 'it', branch 'MOODLE_20_STABLE'
+ * Strings for component 'block_course_fisher', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   block_course_fisher
  * @copyright Roberto Pinna <roberto.pinna@unipmn.it
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['course_fisher:addinstance'] = 'Aggiungere un nuovo blocco Course Fisher';
-$string['course_fisher:myaddinstance'] = 'Aggiungere un nuovo blocco Course Fisheri nella Dashboard';
-$string['course_fisher:addallcourses'] = 'Aggiungere tutti i corsi attivabili con il Course Fisher';
-$string['course_fisher:addcourses'] = 'Aggiungere i propri corsi attivabili con il Course Fisher';
+$string['course_fisher:addinstance'] = 'Add a new Course Fisher block';
+$string['course_fisher:myaddinstance'] = 'Add a new Course Fisher block to Dashboard';
+$string['course_fisher:addallcourses'] = 'Add all courses got from Course Fisher';
+$string['course_fisher:addcourses'] = 'Add own courses got from Course Fisher';
 $string['pluginname'] = 'Course Fisher';
 $string['configtitle'] = 'Title';
-$string['courseguides'] = 'Guide corsi';
-$string['courseregisters'] = 'Registri corsi';
-$string['addmoodlecourse'] = 'Aggiungi corso moodle';
-$string['addcourse'] = 'Aggiungi corso';
-$string['nocourseavailable'] = 'Non ci sono corsi disponibili';
-$string['addcoursegroup'] = 'Aggiungi gruppo di corsi';
-$string['entercourse'] = 'Accedi al corso';
-$string['enroltocourse'] = 'Accedi al corso come docente';
-$string['availablecourses'] = 'Corsi creabili';
-$string['existentcourses'] = 'Corsi esistenti';
-$string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il recupero dei corsi';
-$string['editcourse'] = 'Impostazioni corso';
-$string['viewcourse'] = 'Accedi al corso';
-$string['coursenotfound'] = 'Corso non disponibile';
-$string['filter'] = 'Filtro utenti';
-$string['shown'] = 'Mostrato';
-$string['hidden'] = 'Nascosto';
-$string['nouserfilterset'] = 'Nessun filtro definito';
-$string['ifuserprofilefield'] = 'se il campo del profilo utente';
+$string['courseguides'] = 'Course guides';
+$string['courseregisters'] = 'Course registers';
+$string['addmoodlecourse'] = 'Add moodle course';
+$string['addcourse'] = 'Add course';
+$string['nocourseavailable'] = 'No courses available';
+$string['addcoursegroup'] = 'Add course group';
+$string['entercourse'] = 'Enter into course';
+$string['enroltocourse'] = 'Enrol as teacher into course';
+$string['availablecourses'] = 'Addable courses';
+$string['existentcourses'] = 'Existent courses';
+$string['backendfailure'] = 'Can not connect to course backend';
+$string['editcourse'] = 'Edit course';
+$string['viewcourse'] = 'View course';
+$string['coursenotfound'] = 'Course not found';
+$string['filter'] = 'User filter';
+$string['shown'] = 'Shown';
+$string['hidden'] = 'Hidden';
+$string['nouserfilterset'] = 'No user filter set';
+$string['ifuserprofilefield'] = 'if user profile field';
+$string['nocourseavailable'] = 'Sorry no available courses';
+$string['courselink'] = 'Linked course';
+$string['courselinkmessage'] = 'This course is linked to {$a}. Please click the link below';
 
-// Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
+
+// Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
-$string = block_course_fisher_backend_lang('it', $string);
+$string = block_course_fisher_backend_lang('en', $string);
