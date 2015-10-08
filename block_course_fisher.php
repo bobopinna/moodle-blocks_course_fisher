@@ -23,7 +23,7 @@ class block_course_fisher extends block_list {
     public function instance_allow_multiple() {
       return false;
     }
-   
+
     function user_can_addto($page) {
         // Don't allow people to add the block if they can't even use it
         if (!has_capability('block/course_fisher:addallcourses', $page->context)) {
@@ -39,7 +39,7 @@ class block_course_fisher extends block_list {
         }
         return parent::user_can_edit();
     }
- 
+
     function specialization() {
         $this->title = (isset($this->config->title) && !empty($this->config->title)) ? format_string($this->config->title) : $this->title;
     }
@@ -113,7 +113,7 @@ class block_course_fisher extends block_list {
         if ($filterconfigured && !has_capability('block/course_fisher:addallcourses', $this->context)) {
 
             if (isset($this->config->matchvalue) && !empty($this->config->matchvalue)) {
-           
+
                 $userfieldvalue = '';
                 $customfields = $DB->get_records('user_info_field');
                 if (!empty($customfields)) {
@@ -172,11 +172,11 @@ class block_course_fisher extends block_list {
         }
 
         return $enabled;
-    }    
+    }
 
     public function cron() {
         global $CFG, $DB;
- 
+
         if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
             require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
             $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
@@ -210,7 +210,7 @@ class block_course_fisher extends block_list {
                                 $categoriesdescriptions = block_course_fisher_get_fields_description($categories);
                                 $coursepath = implode(' / ', $categoriesdescriptions);
                                 $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
-        
+
                                 $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
                                 if (! $newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $coursecode, 0, block_course_fisher_get_fields_items($categories))) {
                                      notice(get_string('coursecreationerror', 'block_course_fisher'));
