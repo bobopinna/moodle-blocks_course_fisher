@@ -31,7 +31,7 @@ $BKEname="block_course_fisher_backend_".$CFG->block_course_fisher_backend;
 
 if(!strlen($CFG->block_course_fisher_backend))
 {
-  //ERROR no config 
+  //ERROR no config
 }
 else
 {
@@ -57,7 +57,7 @@ else
       }
       else
       {
-$Fld=array("block_course_fisher_fieldlevel", "block_course_fisher_course_fullname", "block_course_fisher_course_shortname",  "block_course_fisher_locator", "block_course_fisher_parameters", 
+$Fld=array("block_course_fisher_fieldlevel", "block_course_fisher_course_fullname", "block_course_fisher_course_shortname",  "block_course_fisher_locator", "block_course_fisher_parameters",
 "block_course_fisher_fieldtest");
 
 

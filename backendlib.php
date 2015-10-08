@@ -187,7 +187,7 @@ class block_course_fisher_parser {
            }
          }
        }
-      
+
        if($Muniq[$Mk]===false)
        {
          $this->parseResult=false;
@@ -276,7 +276,7 @@ class block_course_fisher_backend {
   private $Parser;
   private $BackendFields=array();
 
-  public function __construct() 
+  public function __construct()
   {
     $this->name="Course fisher backend class";
     $this->Parser=new block_course_fisher_parser();
@@ -313,8 +313,8 @@ class block_course_fisher_backend {
     $this->Parser->addObject("BACKEND", (object) $this->BackendFields );
     $this->error="";
     return(true);
-  } 
- 
+  }
+
 
 
   public function checkCFG($CFlist,$Cparm,$override=false)
@@ -340,7 +340,7 @@ class block_course_fisher_backend {
               {
                 if(strlen($CFG->$C))
                 {
-                   
+
                    $Muniq=$this->Parser->parseFields($CFG->$C,$override);
                    if($this->Parser->getResult()===false)
                    {
@@ -385,20 +385,20 @@ class block_course_fisher_backend {
     {
       return("Yes it is the right subclass");
     }
-    
+
     return("Ops, it seems no to be the right subclass");
-  } 
- 
+  }
+
 
 
   public function description()
   {
     return(false);
-  } 
+  }
 
 
 
-  public function get_data($alldata=false) 
+  public function get_data($alldata=false)
   {
     return null;
   }
@@ -429,7 +429,7 @@ class block_course_fisher_backend {
       return null;
   }
 
-  public function __destruct() 
+  public function __destruct()
   {
   }
 

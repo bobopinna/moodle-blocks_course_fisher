@@ -38,9 +38,9 @@ if ($ADMIN->fulltree) {
             }
         }
     }
-    
+
     $linkistruz = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
-    
+
     $settings->add(new admin_setting_heading('block_course_fisher_addheading', '', $linkistruz));
 
     $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
@@ -51,7 +51,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldtest','Valori per i test','uno per riga in forma [CAMPO]:valore', ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_separator','separatore','separatore dei campi, usato solo dove serve (es. csv)', '')); 
+    $settings->add(new admin_setting_configtext('block_course_fisher_separator','separatore','separatore dei campi, usato solo dove serve (es. csv)', ''));
 
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_firstrow', 'Salta la prima riga','se contiene la lista dei campi CSV',0));
 
@@ -62,9 +62,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_course_fisher_course_code','Codice del corso','Codice del corso', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_fullname','Campo nome completo del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
-    
+
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
-    
+
     $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Usato per raggruppare i corsi nella pagina di aggiunta', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));

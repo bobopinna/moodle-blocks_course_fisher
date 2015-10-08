@@ -49,7 +49,7 @@ class block_course_fisher_edit_form extends block_edit_form {
         foreach ($fieldnames as $fieldname) {
             $fields[$fieldname] = get_string($fieldname);
         }
-        
+
         $customfields = $DB->get_records('user_info_field');
         if (!empty($customfields)) {
            foreach($customfields as $customfield) {
@@ -60,7 +60,7 @@ class block_course_fisher_edit_form extends block_edit_form {
         }
 
         $filters[] = &$mform->createElement('select','config_userfield', null, $fields);
-    
+
         $operators = array('contains' => get_string('contains', 'filters'),
                          'doesnotcontain' => get_string('doesnotcontain', 'filters'),
                          'isequalto' => get_string('isequalto', 'filters'),
