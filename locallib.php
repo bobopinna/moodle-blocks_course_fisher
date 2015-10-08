@@ -43,7 +43,7 @@
     function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array(), $linkedcourse = null) {
         global $DB, $CFG;
 
-        
+
         $newcourse = new stdClass();
 
         $newcourse->id = '0';
@@ -63,7 +63,7 @@
         $newcourse->lang               = $courseconfig->lang;
 
         $newcourse->startdate = time();
-        
+
         $newcourse->fullname = $course_fullname;
         $newcourse->shortname = $course_shortname;
         $newcourse->idnumber = $course_code;
@@ -88,6 +88,37 @@
             $newcourse->category = block_course_fisher_create_categories($categories);
             if (!$course = create_course($newcourse)) {
                 print_error("Error inserting a new course in the database!");
+            }
+            if (($linkedcourse !== null) && ($course->format == 'singleactivity')) {
+                require_once($CFG->dirroot.'/course/modlib.php');
+
+                $cw = get_fast_modinfo($course->id)->get_section_info(0);
+
+                $urlresource = new stdClass();
+
+                $urlresource->cmidnumber = null;
+                $urlresource->section = 0;
+
+                $urlresource->course = $course->id;
+                $urlresource->name = get_string('courselink', 'block_course_fisher');
+                $urlresource->intro = get_string('courselinkmessage', 'block_course_fisher', $linkedcourse->fullname);
+
+                $urlresource->display = 0;
+                $displayoptions = array();
+                $displayoptions['printintro'] = 1;
+                $urlresource->displayoptions = serialize($displayoptions);
+                $urlresource->parameters = '';
+
+                $urlresource->externalurl = $CFG->wwwroot.'/course/view.php?id='.$linkedcourse->id;
+                $urlresource->timemodified = time();
+
+                $urlresource->visible = $cw->visible;
+                $urlresource->instance = 0;
+
+                $urlresource->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
+                $urlresource->modulename = 'url';
+
+                add_moduleinfo($urlresource, $course);
             }
         } else {
             $course = $oldcourse;
@@ -120,10 +151,10 @@
 
     function block_course_fisher_format_fields($formatstring, $data) {
 
-        $callback = function($matches) use ($data) { 
-             return block_course_fisher_get_field($matches, $data); 
-        }; 
-       
+        $callback = function($matches) use ($data) {
+             return block_course_fisher_get_field($matches, $data);
+        };
+
         $formattedstring = preg_replace_callback('/\[\%(\w+)(([#+-])(\d+))?\%\]/', $callback, $formatstring);
 
         return $formattedstring;
@@ -192,11 +223,11 @@
             return $result;
         }
     }
-   
+
 
    function block_course_fisher_get_fields_description($field) {
        return block_course_fisher_get_fields_items($field, array('description' => 3));
-   } 
+   }
 
    function block_course_fisher_add_metacourses($course, $metacourseids = array()) {
        global $CFG;
