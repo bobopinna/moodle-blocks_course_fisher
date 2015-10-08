@@ -74,8 +74,8 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 echo $OUTPUT->header();
                 echo html_writer::start_tag('div', array('class' => 'teachercourses'));
 
-                $availablecourses = array(); 
-                $existentcourses = ''; 
+                $availablecourses = array();
+                $existentcourses = '';
                 foreach($teachercourses as $teachercourse) {
 
                     $course = null;
@@ -95,7 +95,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                     if (! $course) {
                         $coursecode = !empty($courseidnumber)?$courseidnumber:$courseshortname;
-                        
+
                         $fieldlist = block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse);
                         $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", $fieldlist)));
                         $coursepath = implode(' / ', $categories);
@@ -118,21 +118,13 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $isalreadyteacher = is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true);
                         $canaddall = has_capability('block/course_fisher:addallcourses', $systemcontext);
-                        if ($isalreadyteacher || $canaddall) {
-                            $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                            $link = html_writer::tag('a', get_string('entercourse', 'block_course_fisher'), array('href' => $courseurl, 'class' => 'entercourselink'));
-                        } else {
+                        if (!$isalreadyteacher && !$canaddall) {
                             $coursehash = md5($categorieslist[$course->category].' / '.$coursecode);
                             $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $coursehash));
                             $link = html_writer::tag('a', get_string('enroltocourse', 'block_course_fisher'), array('href' => $courseurl, 'class' => 'enroltocourselink'));
-                        }
-                        $coursecategories = html_writer::tag('span', $categorieslist[$course->category], array('class' => 'entercoursecategory'));
-                        $coursename = html_writer::tag('span', $course->fullname, array('class' => 'entercoursename'));
-                        if (has_capability('block/course_fisher:addallcourses', $systemcontext)) {
-                            $coursecodes = html_writer::tag('span', $coursecode, array('class' => 'entercoursecode'));
-                            $existentcourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'entercourseitem'));
-                        } else {
-                            $existentcourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'entercourseitem'));
+                            $coursecategories = html_writer::tag('span', $categorieslist[$course->category], array('class' => 'enroltocoursecategory'));
+                            $coursename = html_writer::tag('span', $course->fullname, array('class' => 'enroltocoursename'));
+                            $existentcourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'enroltocourseitem'));
                         }
                     }
                 }
