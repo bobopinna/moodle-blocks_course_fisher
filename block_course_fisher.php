@@ -55,6 +55,11 @@ class block_course_fisher extends block_list {
         $this->content->items = array();
         $this->content->icons = array();
         $this->content->footer = '';
+
+        if (!isloggedin() || isguestuser()) {
+           return $this->content;
+        }
+
         if (has_capability('block/course_fisher:addallcourses', $this->context)) {
 
             if (isset($this->config->userfield) && !empty($this->config->userfield)) {
@@ -85,10 +90,6 @@ class block_course_fisher extends block_list {
             } else {
                 $this->content->footer = html_writer::tag('span', get_string('nouserfilterset', 'block_course_fisher'), array('class' => 'block_course_fisher_permission'));
             }
-        }
-
-        if (!isloggedin() || is_guest($this->context)) {
-           return $this->content;
         }
 
         if ($this->enabled_user()) {
