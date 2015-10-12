@@ -17,8 +17,14 @@
             $newcategory = new stdClass();
             $newcategory->parent = $parentid;
             $newcategory->name = $category->description;
-            $newcategory->idnumber = $category->code;
-            if (! $oldcategory = $DB->get_record('course_categories', array('name' => $newcategory->name, 'idnumber' => $newcategory->idnumber, 'parent' => $newcategory->parent))) {
+       
+            $searchquery = array('name' => $newcategory->name, 'parent' => $newcategory->parent);
+            if (!empty($category->code)) {
+                $newcategory->idnumber = $category->code;
+                $searchquery = array('idnumber' => $newcategory->idnumber);
+            }
+            
+            if (! $oldcategory = $DB->get_record('course_categories', $searchquery)) {
                 $result = coursecat::create($newcategory);
             } else {
                 $result = $oldcategory;
@@ -194,13 +200,11 @@
         }
 
         foreach($fields as $element) {
-            preg_match('/^((.+)\=\>)?(.+)$/', $element, $matches);
+            preg_match('/^((.+)\=\>)?(.+)?$/', $element, $matches);
             $item = new stdClass();
             foreach ($items as $itemname => $itemid) {
                 if (!empty($matches) && !empty($matches[$itemid])) {
                     $item->$itemname = $matches[$itemid];
-                } else {
-                    $item->$itemname = null;
                 }
             }
             if (count((array)$item)) {
