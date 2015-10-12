@@ -1,0 +1,27 @@
+#page-blocks-course_fisher-addcourse .teachercourses .entercourseitem,
+#page-blocks-course_fisher-addcourse .teachercourses .addcourseitem {
+    border: thin solid black;
+    padding: 0.5em;
+    list-style: outside none none;
+    margin-bottom: 0.5em;
+}
+
+#page-blocks-course_fisher-addcourse .teachercourses .entercourselink,
+#page-blocks-course_fisher-addcourse .teachercourses .addcourselink {
+    padding: 0.4em;
+    margin-right: 1em;
+}
+
+#page-blocks-course_fisher-addcourse .teachercourses .entercoursename,
+#page-blocks-course_fisher-addcourse .teachercourses .addcoursename,
+#page-blocks-course_fisher-addcourse .teachercourses .entercoursecode,
+#page-blocks-course_fisher-addcourse .teachercourses .addcoursecode {
+    font-weight: bold;
+}
+
+#page-blocks-course_fisher-addcourse .teachercourses .entercoursecategory,
+#page-blocks-course_fisher-addcourse .teachercourses .addcoursecategory {
+   margin-top: 0.4em;
+   display: block;
+   font-style: oblique;
+}
