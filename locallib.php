@@ -14,22 +14,24 @@
         $result = null;
 
         foreach ($categories as $category) {
-            $newcategory = new stdClass();
-            $newcategory->parent = $parentid;
-            $newcategory->name = $category->description;
-       
-            $searchquery = array('name' => $newcategory->name, 'parent' => $newcategory->parent);
-            if (!empty($category->code)) {
-                $newcategory->idnumber = $category->code;
-                $searchquery = array('idnumber' => $newcategory->idnumber);
+            if (!empty($category->description)) {
+                $newcategory = new stdClass();
+                $newcategory->parent = $parentid;
+                $newcategory->name = $category->description;
+           
+                $searchquery = array('name' => $newcategory->name, 'parent' => $newcategory->parent);
+                if (!empty($category->code)) {
+                    $newcategory->idnumber = $category->code;
+                    $searchquery = array('idnumber' => $newcategory->idnumber);
+                }
+                
+                if (! $oldcategory = $DB->get_record('course_categories', $searchquery)) {
+                    $result = coursecat::create($newcategory);
+                } else {
+                    $result = $oldcategory;
+                }
+                $parentid = $result->id;
             }
-            
-            if (! $oldcategory = $DB->get_record('course_categories', $searchquery)) {
-                $result = coursecat::create($newcategory);
-            } else {
-                $result = $oldcategory;
-            }
-            $parentid = $result->id;
         }
 
         return $result->id;
