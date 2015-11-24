@@ -1,5 +1,5 @@
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink,
-#page-blocks-course_fisher-addcourse .teachercourses .entercourseitem,
+#page-blocks-course_fisher-addcourse .teachercourses .enroltocourseitem,
 #page-blocks-course_fisher-addcourse .teachercourses .addcourseitem {
     border: thin solid black;
     padding: 0.5em;
@@ -11,20 +11,20 @@
 }
 
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink,
-#page-blocks-course_fisher-addcourse .teachercourses .entercourselink,
+#page-blocks-course_fisher-addcourse .teachercourses .enroltocourselink,
 #page-blocks-course_fisher-addcourse .teachercourses .addcourselink {
     padding: 0.4em;
     margin-right: 1em;
 }
 
-#page-blocks-course_fisher-addcourse .teachercourses .entercoursename,
+#page-blocks-course_fisher-addcourse .teachercourses .enroltocoursename,
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursename,
-#page-blocks-course_fisher-addcourse .teachercourses .entercoursecode,
+#page-blocks-course_fisher-addcourse .teachercourses .enroltocoursecode,
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursecode {
     font-weight: bold;
 }
 
-#page-blocks-course_fisher-addcourse .teachercourses .entercoursecategory,
+#page-blocks-course_fisher-addcourse .teachercourses .enroltocoursecategory,
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursecategory {
    margin-top: 0.4em;
    display: block;
