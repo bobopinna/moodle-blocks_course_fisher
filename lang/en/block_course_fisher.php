@@ -35,13 +35,15 @@ $string['addmoodlecourse'] = 'Add moodle course';
 $string['addcourse'] = 'Add course';
 $string['nocourseavailable'] = 'No courses available';
 $string['addcoursegroup'] = 'Add course group';
+$string['addsinglecourse'] = 'Add single course';
 $string['entercourse'] = 'Enter into course';
 $string['enroltocourse'] = 'Enrol as teacher into course';
 $string['availablecourses'] = 'Addable courses';
 $string['existentcourses'] = 'Existent courses';
 $string['backendfailure'] = 'Can not connect to course backend';
-$string['editcourse'] = 'Edit course';
-$string['viewcourse'] = 'View course';
+$string['edit'] = 'Edit course settings';
+$string['view'] = 'View course';
+$string['import'] = 'Import data from an other course';
 $string['coursenotfound'] = 'Course not found';
 $string['filter'] = 'User filter';
 $string['shown'] = 'Shown';
@@ -51,6 +53,9 @@ $string['ifuserprofilefield'] = 'if user profile field';
 $string['nocourseavailable'] = 'Sorry no available courses';
 $string['courselink'] = 'Linked course';
 $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the link below';
+$string['choosewhatadd'] = 'Choose what would you add:';
+$string['choosenextaction'] = 'What would you do after course creation:';
+$string['execute'] = 'Execute';
 
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
