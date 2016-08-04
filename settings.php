@@ -65,16 +65,14 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Campo_Codice_del_corso_Padre=Combinazione di codici o singolo codice che identifica univocamente il corso (in genere stesso valore che si mette nel campo codice corso)<br>es:[%mut_padre_cod%]=[%aa_offerta%]-[%cds_cod%]-[%pds_cod%]-[%aa_regdid%]-[%af_cod%]-[%partizione_codice%]', ''));
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Usato per raggruppare i corsi nella pagina di aggiunta', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
 
     $choices = array();
-    $choices['view'] = get_string('viewcourse', 'block_course_fisher');
-    $choices['edit'] = get_string('editcourse', 'block_course_fisher');
-    $choices['import'] = get_string('importcourse', 'block_course_fisher');
-    $defaultchoices = array('view', 'edit', 'import');
-    $settings->add(new admin_setting_configmulticheckbox('block_course_fisher_actions', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', $defaultchoices, $choices));
+    $choices[0] = get_string('viewcourse', 'block_course_fisher');
+    $choices[1] = get_string('editcourse', 'block_course_fisher');
+    $settings->add(new admin_setting_configselect('block_course_fisher_redirect', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', 0, $choices));
 
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
 }

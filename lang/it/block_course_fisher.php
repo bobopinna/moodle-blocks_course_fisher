@@ -35,15 +35,13 @@ $string['addmoodlecourse'] = 'Aggiungi corso moodle';
 $string['addcourse'] = 'Aggiungi corso';
 $string['nocourseavailable'] = 'Non ci sono corsi disponibili';
 $string['addcoursegroup'] = 'Aggiungi gruppo di corsi';
-$string['addsinglecourse'] = 'Add single course';
 $string['entercourse'] = 'Accedi al corso';
 $string['enroltocourse'] = 'Accedi al corso come docente';
 $string['availablecourses'] = 'Corsi creabili';
 $string['existentcourses'] = 'Corsi esistenti';
 $string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il recupero dei corsi';
-$string['edit'] = 'Modifica le impostazioni corso';
-$string['view'] = 'Visualizza il corso';
-$string['import'] = 'Importa dati da un altro corso';
+$string['editcourse'] = 'Impostazioni corso';
+$string['viewcourse'] = 'Accedi al corso';
 $string['coursenotfound'] = 'Corso non disponibile';
 $string['filter'] = 'Filtro utenti';
 $string['shown'] = 'Mostrato';
@@ -53,9 +51,6 @@ $string['ifuserprofilefield'] = 'se il campo del profilo utente';
 $string['nocourseavailable'] = 'Spicente non ci sono corsi attivabili';
 $string['courselink'] = 'Corso collegato';
 $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di {$a}. Cliccare sul link qui sotto.';
-$string['choosewhatadd'] = 'Scegli cosa aggiungere:';
-$string['choosenextaction'] = 'Cosa vuoi fare dopo aver creato il corso:';
-$string['execute'] = 'Esegui';
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

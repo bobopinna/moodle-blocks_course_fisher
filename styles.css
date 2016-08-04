@@ -39,10 +39,5 @@
 }
 
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink {
-   border-bottom: none;
+  border-bottom: none;
 }
-
-#page-blocks-course_fisher-addcourse .teachercourses .fgroup span {
-   display: block;
-}
-
