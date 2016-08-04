@@ -7,7 +7,8 @@
 
     require_once($CFG->dirroot .'/course/lib.php');
     require_once($CFG->libdir .'/coursecatlib.php');
-
+    
+    
     function block_course_fisher_create_categories($categories) {
         global $DB;
         $parentid = 0;
@@ -17,7 +18,9 @@
             if (!empty($category->description)) {
                 $newcategory = new stdClass();
                 $newcategory->parent = $parentid;
-                $newcategory->name = $category->description;
+
+				//$newcategory->name = $category->description;
+                $newcategory->name = trim($category->description);
            
                 $searchquery = array('name' => $newcategory->name, 'parent' => $newcategory->parent);
                 if (!empty($category->code)) {
@@ -48,8 +51,8 @@
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array(), $linkedcourse = null) {
-        global $DB, $CFG;
+    function block_course_fisher_create_course($course_fullname, $course_shortname, $course_code, $teacher_id = 0, $categories = array(), $linkedcourse = null, $summary='', $sectionzero=null, $educationaloffer_link=null, $template=null, $sendmail=false) {
+        global $DB, $CFG, $USER;
 
 
         $newcourse = new stdClass();
@@ -75,6 +78,8 @@
         $newcourse->fullname = $course_fullname;
         $newcourse->shortname = $course_shortname;
         $newcourse->idnumber = $course_code;
+        
+        $newcourse->summary = $summary;
 
         if ($linkedcourse !== null) {
             if (in_array('courselink', get_sorted_course_formats(true))) {
@@ -93,10 +98,36 @@
             $oldcourse = $DB->get_record('course', array('shortname' => $course_shortname));
         }
         if (!$oldcourse) {
-            $newcourse->category = block_course_fisher_create_categories($categories);
+			$newcourse->category = block_course_fisher_create_categories($categories);
+
             if (!$course = create_course($newcourse)) {
                 print_error("Error inserting a new course in the database!");
             }
+
+			// Invio mail al contatto di supporto per avvisare dell'avvenuta creazione
+			if($sendmail){
+            	$mail = get_mailer();
+
+            	$mail->From     = $CFG->supportemail;
+            	$mail->FromName = $CFG->supportname;
+            	$mail->Subject = get_string('mail_subject', 'block_course_fisher');
+            	$mail->isHTML(true);
+
+            	$a = array();
+            	$a['course_link'] = $CFG->wwwroot."/course/view.php?id=".$course->id;
+				$a['course'] = $course_fullname;
+            	if(isset($educationaloffer_link) && !empty($educationaloffer_link)){
+            		$a['educationaloffer_link'] = $educationaloffer_link;
+            		$mail->Body = get_string('mail_body_complete', 'block_course_fisher', $a);
+            	}
+            	else
+            		$mail->Body = get_string('mail_body', 'block_course_fisher', $a);
+            
+            	$mail->addAddress($CFG->supportemail, $CFG->supportname);
+            
+            	$mail->send();
+            }
+
             if (($linkedcourse !== null) && ($course->format == 'singleactivity')) {
                 require_once($CFG->dirroot.'/course/modlib.php');
 
@@ -126,8 +157,74 @@
                 $urlresource->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
                 $urlresource->modulename = 'url';
 
+				// Accesso agli ospiti per mutuazioni
+				if (enrol_is_enabled('guest')) {
+                	$guest = enrol_get_plugin('guest');
+					$has_guest = false;
+					if ($instances = enrol_get_instances($course->id, false)){
+						foreach ($instances as $instance) {
+		                    if ($instance->enrol === 'guest') {
+		                        $guest->update_status($instance, ENROL_INSTANCE_ENABLED);
+								$has_guest = true;
+                        	}
+							if ($instance->enrol !== 'guest') {
+		                        $guest->update_status($instance, ENROL_INSTANCE_DISABLED);
+                        	}
+                    	}
+					}
+		            if(!$has_guest)
+						$guest->add_instance($course);
+            	}
+
                 add_moduleinfo($urlresource, $course);
+                
+        		return $course;
             }
+            
+            // rimomino la prima sezione
+            if (isset($sectionzero) && !empty($sectionzero))
+            	$DB->set_field('course_sections', 'name', $sectionzero, array('section' => 0, 'course' => $course->id));
+            
+
+            // aggiungo il link alla scheda dell'insegnamento
+            if (isset($educationaloffer_link) && !empty($educationaloffer_link)){
+            	require_once($CFG->dirroot.'/course/modlib.php');
+            	$url = new stdClass();
+            	$url->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
+            	$url->name = get_string('educationaloffer', 'block_course_fisher');
+            	$url->intro = get_string('educationaloffer', 'block_course_fisher');
+            	$url->externalurl = $educationaloffer_link;
+            	$url->display = 6; //popup
+            	$url->popupwidth = 1024;
+                $url->popupheight = 768;
+            	$url->cmidnumber = null;
+            	$url->visible = 1;
+            	$url->instance = 0;
+            	$url->section = 0;
+            	$url->modulename = 'url';
+            	add_moduleinfo($url, $course);
+            }
+            
+            // importo il corso template
+            if (isset($template) && !empty($template)){
+            	require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
+            	require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
+            	$templateid = $DB->get_field('course', 'id', array('shortname' => $template));
+            	if (!$templateid) {
+            		print_error("Error importing course template content!");
+            	}
+            	else{
+					$primaryadmin = get_admin();
+
+            		$bc = new backup_controller(backup::TYPE_1COURSE, $templateid, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_IMPORT, $primaryadmin->id);
+            		$bc->execute_plan();
+            		
+            		$rc = new restore_controller($bc->get_backupid(), $course->id, backup::INTERACTIVE_NO, backup::MODE_IMPORT, $primaryadmin->id, backup::TARGET_EXISTING_ADDING);
+            		$rc->execute_precheck();
+            		$rc->execute_plan();
+            	}
+            }
+            
         } else {
             $course = $oldcourse;
         }

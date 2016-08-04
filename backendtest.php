@@ -8,7 +8,8 @@ global $CFG;
 
 
 $urlparams = array();
-$confurl = new moodle_url('http://mooshib.units.it/admin/settings.php?section=blocksettingcourse_fisher', $urlparams);
+//$confurl = new moodle_url('http://mooshib.units.it/admin/settings.php?section=blocksettingcourse_fisher', $urlparams);
+$confurl = new moodle_url('/admin/settings.php?section=blocksettingcourse_fisher', $urlparams);
 $baseurl = new moodle_url('/blocks/course_fisher/backendtest.php', $urlparams);
 $PAGE->set_url($baseurl);
 

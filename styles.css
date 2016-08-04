@@ -41,3 +41,8 @@
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink {
   border-bottom: none;
 }
+
+
+ul[class*=availablecourses] ul li a{
+  display: none;
+}

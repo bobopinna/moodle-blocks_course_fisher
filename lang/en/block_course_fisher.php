@@ -52,6 +52,14 @@ $string['nocourseavailable'] = 'Sorry no available courses';
 $string['courselink'] = 'Linked course';
 $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the link below';
 
+$string['educationaloffer'] = 'Educational Offer Page';
+$string['mail_subject'] = 'Course Fisher - A new course requires your attention!';
+$string['mail_body'] = 'Gentile Amministratore,<br>
+						E\' stato attivato un nuovo corso che richiede attenzione!<br><br>
+						<b>{$a->course}</b><br>
+						Link al corso: <a href="{$a->course_link}">{$a->course_link}</a>';
+$string['mail_body_complete'] = $string['mail_body'] . '<br>Link alla scheda dell\'insegnamento: <a href="{$a->educationaloffer_link}">{$a->educationaloffer_link}</a>';
+
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

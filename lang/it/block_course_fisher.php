@@ -52,6 +52,14 @@ $string['nocourseavailable'] = 'Spicente non ci sono corsi attivabili';
 $string['courselink'] = 'Corso collegato';
 $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di {$a}. Cliccare sul link qui sotto.';
 
+$string['educationaloffer'] = 'Scheda dell\'insegnamento';
+$string['mail_subject'] = 'Course Fisher - E\' stato attivato un nuovo corso che richiede attenzione!';
+$string['mail_body'] = 'Gentile Amministratore,<br>
+						E\' stato attivato un nuovo corso che richiede attenzione!<br><br>
+						<b>{$a->course}</b><br>
+						Link al corso: <a href="{$a->course_link}">{$a->course_link}</a>';
+$string['mail_body_complete'] = $string['mail_body'] . '<br>Link alla scheda dell\'insegnamento: <a href="{$a->educationaloffer_link}">{$a->educationaloffer_link}</a>';
+
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
 $string = block_course_fisher_backend_lang('it', $string);

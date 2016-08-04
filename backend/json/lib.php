@@ -26,10 +26,35 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                          "block_course_fisher_fieldtest");
 
             if (!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override)))) {
-               
-                $D = array();
+                
+				/*$D = array();
                 $j = file_get_contents($CFG->block_course_fisher_locator);
-                $d = json_decode($j,true);
+                $d = json_decode($j,true);*/
+
+				// aumento tempo di timeout
+				$opts = array('http' =>
+  
+					array(
+    					'method'  => 'GET',
+						'header'=>"Content-Type: application/json; charset=utf-8",    
+    					'timeout' => 500
+  					)
+				);
+                       
+				$context  = stream_context_create($opts);
+
+				// carico il primo file utile alla lettura dell'offerta formativa
+				$D = array();
+				foreach(preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line){
+					$backend = $P->substituteObjects($line,false);
+					$backend = str_replace("'", "", $backend);
+                	$j = file_get_contents($backend, false, $context);
+                	$d = json_decode($j,true);
+					if($j && $d) 
+						break;
+				}
+				
+
                 while (list($k,$v)=each($d)) {
         
                     if ($alldata) { 

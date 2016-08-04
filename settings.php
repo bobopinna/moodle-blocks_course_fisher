@@ -66,6 +66,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Usato per raggruppare i corsi nella pagina di aggiunta', ''));
+	
+    $settings->add(new admin_setting_configtext('block_course_fisher_linked_course_category','Isola mutuazioni in una categoria a parte','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
 
@@ -74,6 +76,19 @@ if ($ADMIN->fulltree) {
     $choices[1] = get_string('editcourse', 'block_course_fisher');
     $settings->add(new admin_setting_configselect('block_course_fisher_redirect', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', 0, $choices));
 
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_email_condition','Condizione per invio mail ad account di supporto','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
+    
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
+    
+    
+    $settings->add(new admin_setting_heading('block_course_fisher_templating', 'Generazione di un template', 'Da qui &egrave; possibile decidere se includere alcune risorse/attivit&agrave; nei nuovi corsi'));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_summary','Introduzione al corso','Testo da usare come descrizione dei nuovi corsi', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_sectionzero_name','Nome della prima sezione','Nome della prima sezione', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_educationaloffer_link','Formato del link alla scheda dell\'insegnamento','Formato del link alla scheda dell\'insegnamento. Se vuoto il link non verr&agrave; creato', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_template','Nome breve template','Se indicato, il contenuto del corso corrispondente verr&agrave; importato nel nuovo spazio', ''));
 }
 
