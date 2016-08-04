@@ -239,12 +239,17 @@
        global $CFG;
 
        if (enrol_is_enabled('manual')) {
+           require_once("$CFG->dirroot/enrol/meta/locallib.php");
+
            $context = context_course::instance($course->id, MUST_EXIST);
            if (!empty($metacourseids) && has_capability('moodle/course:enrolconfig', $context)) {
                $enrol = enrol_get_plugin('meta');
-               if ($enrol->can_add_instance($course->id)) {
-                   $eid = $enrol->add_instance($course, array('customint1'=>$metacourseids));
+               if ($enrol->get_newinstance_link($course->id)) {
+                   foreach ($metacourseids as $metacourseid) {
+                       $eid = $enrol->add_instance($course, array('customint1'=>$metacourseid));
+                   }
                }
+               enrol_meta_sync($course->id);
            }
        }
    }
