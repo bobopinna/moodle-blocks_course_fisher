@@ -1,4 +1,27 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Course fisher
+ *
+ * @package    blocks
+ * @subpackage course_fisher
+ * @copyright  2014 Roberto Pinna
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
     defined('MOODLE_INTERNAL') || die();
 
@@ -258,12 +281,12 @@
 
            $mform = $this->_form;
 
+           $firstcoursehash = $this->_customdata['coursehash'];
            $groupcourses = $this->_customdata['groupcourses'];
            if (!empty($groupcourses)) {
                $coursehashes = array_keys($groupcourses);
 
                $courseidchoices = array();
-               $firstcoursehash = $coursehashes[0];
                $coursecategories = html_writer::tag('span', $groupcourses[$firstcoursehash]->path, array('class' => 'addcoursecategory'));
                $coursename = html_writer::tag('span', $groupcourses[$firstcoursehash]->fullname, array('class' => 'addcoursename'));
                $courseidchoices[] = &$mform->createElement('radio', 'courseid', get_string('addsinglecourse', 'block_course_fisher'), $coursename.$coursecategories, $firstcoursehash);
@@ -294,13 +317,15 @@
                    $mform->addElement('hidden', 'courseid',  $firstcoursehash);
                }
                
-               $permittedactions = explode(',', $CFG->block_course_fisher_actions);
                $actionchoices = array();
-               foreach ($permittedactions as $permittedaction) {
-                   $actionchoices[] = &$mform->createElement('radio', 'action', '', get_string($permittedaction, 'block_course_fisher'), $permittedaction);
-               }
-               if (!empty($actionchoices)) {
-                   $mform->addGroup($actionchoices, 'actiongrp', get_string('choosenextaction', 'block_course_fisher'), array(''), false);
+               if (!empty($CFG->block_course_fisher_actions)) {
+                   $permittedactions = explode(',', $CFG->block_course_fisher_actions);
+                   foreach ($permittedactions as $permittedaction) {
+                       $actionchoices[] = &$mform->createElement('radio', 'action', '', get_string($permittedaction, 'block_course_fisher'), $permittedaction);
+                   }
+                   if (!empty($actionchoices)) {
+                       $mform->addGroup($actionchoices, 'actiongrp', get_string('choosenextaction', 'block_course_fisher'), array(''), false);
+                   }
                }
                if ((count($courseidchoices) > 1) || (!empty($actionchoices) && (count($actionchoices) > 1))) {
                    //normally you use add_action_buttons instead of this code

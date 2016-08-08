@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Course fishe course generator.
+ * Course fisher
  *
  * @package    blocks
  * @subpackage course_fisher
- * @copyright  2014 Roberto Pinna
+ * @copyright  2014 Roberto Pinna and Angelo CalÃ
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -232,6 +232,8 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                             $firstcourseid = block_course_fisher_format_fields($firstcoursematch, $teachercourse);
                                         }
                                     }
+                                } else {
+                                    $groupcourses[$coursehash] = $coursedata;
                                 }
                                 if ((count($groupcourses) == 1) && !empty($firstcourseid)) {
                                     /* Search for othercourses */
@@ -250,7 +252,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                             $othercoursedata->path = implode(' / ', $categoriesdescriptions);
                                             $othercoursedata->fullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
                                             $othercoursedata->hash = $teachercoursehash;
-     
+
                                             $groupcourses[$teachercoursehash] = $othercoursedata;
                                         }
                                     }
@@ -261,6 +263,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         }
                     }
                 }
+
                 if (!empty($action)) {
                     if ($firstcourse !== null) {
                         if (!empty($metacourseids)) {
@@ -278,13 +281,15 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                     } else {
                         print_error('Course hash does not match');
                     }
-                } else {
-                    $preferences = new preferences_form(null, array('groupcourses' => $groupcourses));
+                } else if (!empty($groupcourses)) {
+                    $preferences = new preferences_form(null, array('coursehash' => $coursehash, 'groupcourses' => $groupcourses));
                     echo $OUTPUT->header();
                     echo html_writer::start_tag('div', array('class' => 'teachercourses'));
                     $preferences->display();
                     echo html_writer::end_tag('div');
                     echo $OUTPUT->footer();
+                } else {
+                    print_error('Course hash does not match');
                 }
             }
         } else {
