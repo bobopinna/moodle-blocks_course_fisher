@@ -19,7 +19,7 @@
  *
  * @package    block
  * @subpackage course_fisher
- * @copyright  Roberto Pinna <roberto.pinna@unipmn.it>
+ * @copyright  2014 Roberto Pinna <roberto.pinna@uniupo.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

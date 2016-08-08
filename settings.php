@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for the RSS client block.
+ * Settings for the Course Fisher block.
  *
- * @package   block_rss_client
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @package   block_course_fisher
+ * @copyright 2014 Roberto Pinna
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -70,11 +70,11 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
 
     $choices = array();
-    $choices['view'] = get_string('viewcourse', 'block_course_fisher');
-    $choices['edit'] = get_string('editcourse', 'block_course_fisher');
-    $choices['import'] = get_string('importcourse', 'block_course_fisher');
+    $choices['view'] = get_string('view', 'block_course_fisher');
+    $choices['edit'] = get_string('edit', 'block_course_fisher');
+    $choices['import'] = get_string('import', 'block_course_fisher');
     $defaultchoices = array('view', 'edit', 'import');
-    $settings->add(new admin_setting_configmulticheckbox('block_course_fisher_actions', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', $defaultchoices, $choices));
+    $settings->add(new admin_setting_configmultiselect('block_course_fisher_actions', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', $defaultchoices, $choices));
 
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
 }

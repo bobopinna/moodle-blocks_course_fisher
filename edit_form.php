@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Form for editing Course Fischer block instances.
+ * Form for editing Course Fisher block instances.
  *
- * @package   block_course_fischer
+ * @package   block_course_fisher
  * @copyright 2014 Roberto Pinna
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ class block_course_fisher_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
         global $CFG, $DB;
 
-        // Fields for editing Course Fischer block title and contents.
+        // Fields for editing Course Fisher block title and contents.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
         $mform->addElement('text', 'config_title', get_string('configtitle', 'block_course_fisher'));
