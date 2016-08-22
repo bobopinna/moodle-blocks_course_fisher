@@ -281,15 +281,17 @@
 
            $mform = $this->_form;
 
-           $firstcoursehash = $this->_customdata['coursehash'];
+           $selectedcoursehash = $this->_customdata['coursehash'];
            $groupcourses = $this->_customdata['groupcourses'];
            if (!empty($groupcourses)) {
                $coursehashes = array_keys($groupcourses);
 
                $courseidchoices = array();
-               $coursecategories = html_writer::tag('span', $groupcourses[$firstcoursehash]->path, array('class' => 'addcoursecategory'));
-               $coursename = html_writer::tag('span', $groupcourses[$firstcoursehash]->fullname, array('class' => 'addcoursename'));
-               $courseidchoices[] = &$mform->createElement('radio', 'courseid', get_string('addsinglecourse', 'block_course_fisher'), $coursename.$coursecategories, $firstcoursehash);
+               $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
+               $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
+               $singletext = get_string('addsinglecourse', 'block_course_fisher');
+               $singletext .= $coursename.$coursecategories;
+               $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $singletext, $selectedcoursehash);
                if (count($coursehashes) > 1) {
                    $grouphash = implode('', $coursehashes);
                    $grouptext = get_string('addcoursegroup', 'block_course_fisher');
@@ -306,22 +308,23 @@
                        $grouptext .= html_writer::tag ('span', $coursename.$coursecategories, array('class' => $class));
                    }
                    $grouptext .= html_writer::end_tag ('span');
-                   $courseidchoices[] = &$mform->createElement('radio', 'courseid', get_string('addcoursegroup', 'block_course_fisher'), $grouptext, $grouphash);
+                   $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $grouptext, $grouphash);
                }
                if (count($courseidchoices) == 2) {
                    $mform->addGroup($courseidchoices, 'coursegrp', get_string('choosewhatadd', 'block_course_fisher'), array(''), false);
                } else {
-                   $coursecategories = html_writer::tag('span', $groupcourses[$firstcoursehash]->path, array('class' => 'addcoursecategory'));
-                   $coursename = html_writer::tag('span', $groupcourses[$firstcoursehash]->fullname, array('class' => 'addcoursename'));
+                   $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
+                   $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
                    $mform->addElement('static', 'coursegrp', get_string('addcourse', 'block_course_fisher'), $coursename.$coursecategories);
-                   $mform->addElement('hidden', 'courseid',  $firstcoursehash);
+                   $mform->addElement('hidden', 'courseid',  $selectedcoursehash);
+                   $mform->setType('courseid',  PARAM_ALPHANUM);
                }
                
                $actionchoices = array();
                if (!empty($CFG->block_course_fisher_actions)) {
                    $permittedactions = explode(',', $CFG->block_course_fisher_actions);
                    foreach ($permittedactions as $permittedaction) {
-                       $actionchoices[] = &$mform->createElement('radio', 'action', '', get_string($permittedaction, 'block_course_fisher'), $permittedaction);
+                       $actionchoices[] = &$mform->createElement('radio', 'action', null, get_string($permittedaction, 'block_course_fisher'), $permittedaction);
                    }
                    if (!empty($actionchoices)) {
                        $mform->addGroup($actionchoices, 'actiongrp', get_string('choosenextaction', 'block_course_fisher'), array(''), false);
@@ -331,9 +334,9 @@
                    //normally you use add_action_buttons instead of this code
                    $mform->addElement('submit', 'submitbutton', get_string('execute', 'block_course_fisher'));
                } else if (!empty($actionchoices) && (count($actionchoices) == 1)) {
-                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $firstcoursehash, 'action' => $permittedactions[0])));
+                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $selectedcoursehash, 'action' => $permittedactions[0])));
                } else {
-                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $firstcoursehash, 'action' => 'view')));
+                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $selectedcoursehash, 'action' => 'view')));
                }
            } else {
                redirect(new moodle_url('/blocks/course_fisher/addcourse.php'));
