@@ -144,7 +144,7 @@
 */
             }
             if (($linkedcourse !== null)) {
-                if ($CFG->block_course_fisher_linktype == 'guest') {
+                if (isset($CFG->block_course_fisher_linktype) && ($CFG->block_course_fisher_linktype == 'guest')) {
                     if (enrol_is_enabled('guest')) {
                         $guest = enrol_get_plugin('guest');
                         $has_guest = false;
