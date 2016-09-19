@@ -214,10 +214,10 @@ class block_course_fisher extends block_list {
 
                 if (isset($CFG->block_course_fisher_autocreation) && !empty($CFG->block_course_fisher_autocreation)) {
                     mtrace('Processing course autocreation...');
-                    $teachercourses = $backend->get_data(true);
+                    $teachercourses = block_course_fisher_get_coursehashes($backend->get_data(true));
 
                     if (!empty($teachercourses)) {
-                        foreach($teachercourses as $teachercourse) {
+                        foreach($teachercourses as $coursehash => $teachercourse) {
                             $course = null;
                             $coursecode = '';
                             $courseshortname = '';

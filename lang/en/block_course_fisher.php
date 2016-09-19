@@ -56,7 +56,35 @@ $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the 
 $string['choosewhatadd'] = 'Choose what would you add:';
 $string['choosenextaction'] = 'What would you do after course creation:';
 $string['execute'] = 'Execute';
+$string['chooseexistsaction'] = 'Some courses in course group already exists. What you would to do with those courses?';
+$string['join'] = 'Join them to course group';
+$string['separated'] = 'Keep them separated from course group';
+$string['educationaloffer'] = 'Educational Offer Page';
+$string['educationaloffermessage'] = 'Here you find all information about this course edudcational offer';
+$string['coursenotifysubject'] = 'Course Fisher - A new course requires your attention!';
+$string['coursenotifytext'] = 'Dear {$a-user},
+You need to check a Course Fisher new course
+{$a->course}
 
+Course URL: {$a->courseurl}';
+$string['coursenotifytextcomplete'] = 'Dear {$a-user},
+You need to check a Course Fisher new course
+{$a->course}
+
+Course URL: {$a->courseurl}
+
+Educational Offer Page URL: {$a->educationalofferurl}';
+$string['coursenotifyhtml'] = 'Dear {$a-user},<br />
+You need to check a Course Fisher new course<br />
+<b>{$a->course}</b><br /><br />
+Course URL: <a href="{$a->course_link}">{$a->courseurl}</a>';
+$string['coursenotifyhtmlcomplete'] = 'Dear {$a->user},<br />
+You need to check a Course Fisher new course<br />
+<b>{$a->course}</b><br /><br />
+Course URL: <a href="{$a->course_link}">{$a->courseurl}</a><br />
+Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
+$string['meta'] = 'Connected with Meta Link enrolment in father course';
+$string['guest'] = 'Connected with Guest enrolment in sons courses';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

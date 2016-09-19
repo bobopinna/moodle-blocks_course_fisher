@@ -41,7 +41,9 @@ if ($ADMIN->fulltree) {
 
     $linkistruz = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
 
-    $settings->add(new admin_setting_heading('block_course_fisher_addheading', '', $linkistruz));
+    $settings->add(new admin_setting_heading('block_course_fisher_backendtestlink', '', $linkistruz));
+
+    $settings->add(new admin_setting_heading('block_course_fisher_backend_config', 'Configurazione Backend', ''));
 
     $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
 
@@ -65,7 +67,31 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_shortname','Campo nome breve del corso','Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
+
+    $settings->add(new admin_setting_heading('block_course_fisher_groups', 'Generazione di gruppi di corsi', 'Da qui &egrave; possibile decidere se permettere di creare gruppi di corsi. Es. mutuazioni'));
+    
     $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Campo_Codice_del_corso_Padre=Combinazione di codici o singolo codice che identifica univocamente il corso (in genere stesso valore che si mette nel campo codice corso)<br>es:[%mut_padre_cod%]=[%aa_offerta%]-[%cds_cod%]-[%pds_cod%]-[%aa_regdid%]-[%af_cod%]-[%partizione_codice%]', ''));
+
+    $choices = array();
+    $choices['meta'] = get_string('meta', 'block_course_fisher');
+    $choices['guest'] = get_string('guest', 'block_course_fisher');
+    $settings->add(new admin_setting_configselect('block_course_fisher_linktype', 'Collegamento ai corsi figli','L\'accesso dai corsi figli al corso padre deve avvenire tramite', 'meta', $choices));
+
+    $settings->add(new admin_setting_configtext('block_course_fisher_linked_course_category','Isola corsi figli in una categoria a parte','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
+
+    
+    $settings->add(new admin_setting_heading('block_course_fisher_templating', 'Generazione di un template', 'Da qui &egrave; possibile decidere se includere alcune risorse/attivit&agrave; nei nuovi corsi'));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_summary','Introduzione al corso','Testo da usare come descrizione dei nuovi corsi', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_sectionzero_name','Nome della prima sezione','Nome della prima sezione', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_educationaloffer_link','Formato del link alla scheda dell\'insegnamento','Formato del link alla scheda dell\'insegnamento. Se vuoto il link non verr&agrave; creato', ''));
+    
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_template','Nome breve template','Se indicato, il contenuto del corso corrispondente verr&agrave; importato nel nuovo spazio', ''));
+
+
+    $settings->add(new admin_setting_heading('block_course_fisher_general_config', 'Configurazioni generali', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
 
@@ -76,6 +102,9 @@ if ($ADMIN->fulltree) {
     $defaultchoices = array('view', 'edit', 'import');
     $settings->add(new admin_setting_configmultiselect('block_course_fisher_actions', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', $defaultchoices, $choices));
 
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_email_condition','Condizione per invio mail ad account di supporto','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
+
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
+
 }
 
