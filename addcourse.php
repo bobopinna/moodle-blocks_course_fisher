@@ -203,7 +203,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                             if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse)) {
                                 if ($firstcourse === null) {
                                     $firstcourse = clone($newcourse);
-                                } elseif ($CFG->block_course_fisher_linktype == 'meta') {
+                                } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
                                     $metacourseids[] = $newcourse->id;
                                 }
                             } else {
@@ -218,7 +218,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                 if (!empty($action)) {
                     if ($firstcourse !== null) {
-                        if (!empty($metacourseids) && ($CFG->block_course_fisher_linktype == 'meta')) {
+                        if (!empty($metacourseids) && (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta'))) {
                              block_course_fisher_add_metacourses($firstcourse, $metacourseids);
                         }
                         switch ($action) {
