@@ -19,7 +19,8 @@
  *
  * @package    blocks
  * @subpackage course_fisher
- * @copyright  2014 Roberto Pinna
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2016 and above Francesco Carbone
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -71,7 +72,7 @@
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($coursedata, $teacher_id = 0, $categories = array(), $linkedcourse = null) {
+    function block_course_fisher_create_course($coursedata, $teacher_id = 0, $categories = array(), $linkedcourse = null, $existent) {
         global $DB, $CFG;
 
 
@@ -166,36 +167,9 @@
                 }
 
                 if (($course->format == 'singleactivity')) {
-                    require_once($CFG->dirroot.'/course/modlib.php');
-
-                    $cw = get_fast_modinfo($course->id)->get_section_info(0);
-
-                    $urlresource = new stdClass();
-
-                    $urlresource->cmidnumber = null;
-                    $urlresource->section = 0;
-
-                    $urlresource->course = $course->id;
-                    $urlresource->name = get_string('courselink', 'block_course_fisher');
-                    $urlresource->intro = get_string('courselinkmessage', 'block_course_fisher', $linkedcourse->fullname);
-
-                    $urlresource->display = 0;
-                    $displayoptions = array();
-                    $displayoptions['printintro'] = 1;
-                    $urlresource->displayoptions = serialize($displayoptions);
-                    $urlresource->parameters = '';
-
-                    $urlresource->externalurl = $CFG->wwwroot.'/course/view.php?id='.$linkedcourse->id;
-                    $urlresource->timemodified = time();
-
-                    $urlresource->visible = $cw->visible;
-                    $urlresource->instance = 0;
-
-                    $urlresource->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
-                    $urlresource->modulename = 'url';
-
-                    add_moduleinfo($urlresource, $course);
+                   block_course_fisher_add_linkedcourse_url($course, $linkedcourse);
                 }
+
             } else {
                 // Set default name for section 0
                 if (isset($coursedata->sectionzero) && !empty($coursedata->sectionzero)) {
@@ -340,9 +314,42 @@
         }
     }
 
+    function block_course_fisher_get_fields_description($field) {
+        return block_course_fisher_get_fields_items($field, array('description' => 3));
+    }
 
-   function block_course_fisher_get_fields_description($field) {
-       return block_course_fisher_get_fields_items($field, array('description' => 3));
+    function block_course_fisher_add_linkedcourse_url($course, $linkedcourse) {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot.'/course/modlib.php');
+
+        $cw = get_fast_modinfo($course->id)->get_section_info(0);
+
+        $urlresource = new stdClass();
+
+        $urlresource->cmidnumber = null;
+        $urlresource->section = 0;
+
+        $urlresource->course = $course->id;
+        $urlresource->name = get_string('courselink', 'block_course_fisher');
+        $urlresource->intro = get_string('courselinkmessage', 'block_course_fisher', $linkedcourse->fullname);
+
+        $urlresource->display = 0;
+        $displayoptions = array();
+        $displayoptions['printintro'] = 1;
+        $urlresource->displayoptions = serialize($displayoptions);
+        $urlresource->parameters = '';
+
+        $urlresource->externalurl = $CFG->wwwroot.'/course/view.php?id='.$linkedcourse->id;
+        $urlresource->timemodified = time();
+
+        $urlresource->visible = $cw->visible;
+        $urlresource->instance = 0;
+
+        $urlresource->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
+        $urlresource->modulename = 'url';
+
+        add_moduleinfo($urlresource, $course);
    }
 
    function block_course_fisher_add_metacourses($course, $metacourseids = array()) {
@@ -423,6 +430,7 @@
                        }
                        if ($oldcourse) {
                            $firstcoursedata->exists = true;
+                           $firstcoursedata->id = $oldcourse->id;
                        }
 
                        $groupcourses[$coursehash] = $firstcoursedata;
@@ -457,7 +465,8 @@
                            $oldcourse = $DB->get_record('course', array('shortname' => $firstcoursedata->shortname));
                        }
                        if ($oldcourse) {
-                           $firstcoursedata->exists = true;
+                           $othercoursedata->exists = true;
+                           $othercoursedata->id = $oldcourse->id;
                        }
 
                        $groupcourses[$coursehash] = $othercoursedata;

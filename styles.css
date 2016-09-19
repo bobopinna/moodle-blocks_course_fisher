@@ -7,7 +7,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
-#page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink,
 #page-blocks-course_fisher-addcourse .teachercourses .enroltocourseitem,
 #page-blocks-course_fisher-addcourse .teachercourses .addcourseitem {
     border: thin solid black;
@@ -19,11 +18,12 @@
     list-style: outside none none;
 }
 
-#page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink,
 #page-blocks-course_fisher-addcourse .teachercourses .enroltocourselink,
 #page-blocks-course_fisher-addcourse .teachercourses .addcourselink {
     padding: 0.4em;
-    margin-right: 1em;
+    margin-right: 0.4em;
+    margin-bottom: 0.4em;
+    display: inline-block;
 }
 
 #page-blocks-course_fisher-addcourse .teachercourses .enroltocoursename,
@@ -35,23 +35,29 @@
 
 #page-blocks-course_fisher-addcourse .teachercourses .enroltocoursecategory,
 #page-blocks-course_fisher-addcourse .teachercourses .addcoursecategory {
-   margin-top: 0.4em;
    display: block;
    font-style: oblique;
 }
 
-#page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink + ul {
-   border: thin solid black;
-   padding: 0.5em 0.5em 0 25px;
-   margin-left: 0;
-   margin-top: 0.2em;
-}
-
-#page-blocks-course_fisher-addcourse .teachercourses .addcoursegrouplink {
-   border-bottom: none;
-}
-
-#page-blocks-course_fisher-addcourse .teachercourses .fgroup span {
+#page-blocks-course_fisher-addcourse .teachercourses .singlecourse, 
+#page-blocks-course_fisher-addcourse .teachercourses .groupcourses,
+#page-blocks-course_fisher-addcourse .teachercourses .groupcourse,
+#page-blocks-course_fisher-addcourse .teachercourses #fgroup_id_exitentgrp fieldset span,
+#page-blocks-course_fisher-addcourse .teachercourses #fgroup_id_actiongrp fieldset span{
    display: block;
 }
 
+
+#page-blocks-course_fisher-addcourse .teachercourses .groupcourse {
+   margin-top: 0.4em;
+}
+
+
+#page-blocks-course_fisher-addcourse .teachercourses .groupcourse.groupfirstcourse {
+   margin-top: 0;
+}
+
+#page-blocks-course_fisher-addcourse .teachercourses .groupcourse .existentcourse {
+   color: red;
+   margin-left: 1em;
+}

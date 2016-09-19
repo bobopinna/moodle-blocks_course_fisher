@@ -85,6 +85,7 @@ Course URL: <a href="{$a->course_link}">{$a->courseurl}</a><br />
 Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
 $string['meta'] = 'Connected with Meta Link enrolment in father course';
 $string['guest'] = 'Connected with Guest enrolment in sons courses';
+$string['existentcourse'] = 'This course was already created';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

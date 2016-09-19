@@ -18,7 +18,7 @@
                $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
                $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
                $singletext = get_string('addsinglecourse', 'block_course_fisher');
-               $singletext .= $coursename.$coursecategories;
+               $singletext .= html_writer::tag ('span', $coursename.$coursecategories, array('class' => 'singlecourse'));
                $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $singletext, $selectedcoursehash);
                if (count($coursehashes) > 1) {
                    $grouphash = implode('', $coursehashes);
@@ -27,17 +27,22 @@
                    $first = true;
                    foreach ($groupcourses as $groupcourse) {
                        $class = 'groupcourse';
+                       $alertmessage = '';
                        if ($first) {
                            $class .= ' groupfirstcourse';
                            $first = false;
                        }
-                       if ($groupcourse->exists) {
-                           $class .= ' existscourse';
-                           $existscourse = true;
-                       }
                        $coursecategories = html_writer::tag('span', $groupcourse->path, array('class' => 'addcoursecategory'));
                        $coursename = html_writer::tag('span', $groupcourse->fullname, array('class' => 'addcoursename'));
-                       $grouptext .= html_writer::tag ('span', $coursename.$coursecategories, array('class' => $class));
+                       if ($groupcourse->exists) {
+                           $class .= ' existentcourse';
+                           $alertmessage = html_writer::tag('span', get_string('existentcourse', 'block_course_fisher'), array('class' => 'existentcourse'));
+                           $existscourse = true;
+                           $courseurl = new moodle_url('/course/view.php', array('id' => $groupcourse->id));
+                           $courselink = html_writer::tag('a', $groupcourse->fullname, array('href' => $courseurl, 'target' => '_blank'));
+                           $coursename = html_writer::tag('span', $courselink, array('class' => 'addcoursename'));
+                       }
+                       $grouptext .= html_writer::tag ('span', $coursename.$alertmessage.$coursecategories, array('class' => $class));
                    }
                    $grouptext .= html_writer::end_tag ('span');
                    $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $grouptext, $grouphash);

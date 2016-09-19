@@ -19,7 +19,8 @@
  *
  * @package    blocks
  * @subpackage course_fisher
- * @copyright  2014 Roberto Pinna and Angelo CalÃ
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2016 and above Francesco Carbone
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -199,15 +200,33 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                             if($firstcourse !== null && isset($CFG->block_course_fisher_linked_course_category) && !empty($CFG->block_course_fisher_linked_course_category)) {
                                 $categories[] = block_course_fisher_format_fields($CFG->block_course_fisher_linked_course_category, $hashcourse);
                             }
- 
-                            if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse)) {
-                                if ($firstcourse === null) {
-                                    $firstcourse = clone($newcourse);
-                                } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
-                                    $metacourseids[] = $newcourse->id;
+
+                            if (!empty($coursedata->idnumber)) {
+                                $oldcourse = $DB->get_record('course', array('idnumber' => $coursedata->idnumber));
+                            } else {
+                                $oldcourse = $DB->get_record('course', array('shortname' => $coursedata->shortname));
+                            }
+                            if (!$oldcourse) {
+                                if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse, $existent)) {
+                                    if ($firstcourse === null) {
+                                        $firstcourse = clone($newcourse);
+                                    } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
+                                        $metacourseids[] = $newcourse->id;
+                                    }
+                                } else {
+                                    notice(get_string('coursecreationerror', 'block_course_fisher'), new moodle_url('/index.php'));
                                 }
                             } else {
-                                notice(get_string('coursecreationerror', 'block_course_fisher'), new moodle_url('/index.php'));
+                                if ($existent == 'join') {
+                                    if ($firstcourse !== null) {
+                                        block_course_fisher_add_linkedcourse_url($oldcourse, $firstcourse);
+                                        if (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
+                                            $metacourseids[] = $oldcourse->id;
+                                        }
+                                    } else {
+                                        $firstcourse = clone($oldcourse);
+                                    }
+                                }
                             }
                         } else if (count($groupcourses) == 0) { 
                             // Get teacher grouped courses
