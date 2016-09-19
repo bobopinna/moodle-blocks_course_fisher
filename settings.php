@@ -18,7 +18,8 @@
  * Settings for the Course Fisher block.
  *
  * @package   block_course_fisher
- * @copyright 2014 Roberto Pinna
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2016 and above Francesco Carbone
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -80,9 +81,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_course_fisher_linked_course_category','Isola corsi figli in una categoria a parte','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
 
     
-    $settings->add(new admin_setting_heading('block_course_fisher_templating', 'Generazione di un template', 'Da qui &egrave; possibile decidere se includere alcune risorse/attivit&agrave; nei nuovi corsi'));
+    $settings->add(new admin_setting_heading('block_course_fisher_templating', 'Impostazioni di base del corso', 'Da qui &egrave; possibile decidere se includere alcune risorse/attivit&agrave; nei nuovi corsi'));
     
-    $settings->add(new admin_setting_configtext('block_course_fisher_course_summary','Introduzione al corso','Testo da usare come descrizione dei nuovi corsi', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_course_summary','Introduzione al corso','Testo da usare come descrizione dei nuovi corsi', ''));
     
     $settings->add(new admin_setting_configtext('block_course_fisher_sectionzero_name','Nome della prima sezione','Nome della prima sezione', ''));
     
