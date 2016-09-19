@@ -209,7 +209,7 @@
                     $url->module = $DB->get_field('modules', 'id', array('name' => 'url', 'visible' => 1));
                     $url->name = get_string('educationaloffer', 'block_course_fisher');
                     $url->intro = get_string('educationaloffermessage', 'block_course_fisher');
-                    $url->externalurl = $coursedata->educationalofferlink;
+                    $url->externalurl = $coursedata->educationalofferurl;
                     $url->display = 0;
                     $url->cmidnumber = null;
                     $url->visible = 1;
