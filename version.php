@@ -19,13 +19,14 @@
  *
  * @package    block
  * @subpackage course_fisher
- * @copyright  2014 Roberto Pinna <roberto.pinna@uniupo.it>
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2016 and above Francesco Carbone
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015100102;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2016091900;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2010112400;        // Requires this Moodle version
 $plugin->component = 'block_course_fisher'; // Full name of the plugin (used for diagnostics)
 $plugin->cron = 3600;
