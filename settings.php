@@ -73,6 +73,8 @@ if ($ADMIN->fulltree) {
     
     $settings->add(new admin_setting_configtext('block_course_fisher_course_group','Raggruppamento corsi','Campo_Codice_del_corso_Padre=Combinazione di codici o singolo codice che identifica univocamente il corso (in genere stesso valore che si mette nel campo codice corso)<br>es:[%mut_padre_cod%]=[%aa_offerta%]-[%cds_cod%]-[%pds_cod%]-[%aa_regdid%]-[%af_cod%]-[%partizione_codice%]', ''));
 
+    $settings->add(new admin_setting_configcheckbox('block_course_fisher_forceonlygroups', 'Creazione solo gruppi di corsi','Forza la creazione solo dei gruppi di corsi, i docenti non potranno creare corsi figli singolarmente. I corsi singoli potranno essere creati comunque.',0));
+
     $choices = array();
     $choices['meta'] = get_string('meta', 'block_course_fisher');
     $choices['guest'] = get_string('guest', 'block_course_fisher');

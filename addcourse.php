@@ -35,7 +35,7 @@ $existent = optional_param('existent', '', PARAM_ALPHANUM);
 
 if (isset($CFG->block_course_fisher_actions) && !empty($CFG->block_course_fisher_actions) && !in_array($action, explode(',', $CFG->block_course_fisher_actions))) {
     $action = '';
-} if ((!isset($CFG->block_course_fisher_actions) || empty($CFG->block_course_fisher_actions)) && ($action != 'view')) {
+} elseif ((!isset($CFG->block_course_fisher_actions) || empty($CFG->block_course_fisher_actions)) && ($action != 'view')) {
     $action = '';
 }
 

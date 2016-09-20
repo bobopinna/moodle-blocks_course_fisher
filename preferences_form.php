@@ -10,19 +10,27 @@
 
            $selectedcoursehash = $this->_customdata['coursehash'];
            $groupcourses = $this->_customdata['groupcourses'];
+
            if (!empty($groupcourses)) {
                $coursehashes = array_keys($groupcourses);
 
                $courseidchoices = array();
                $existscourse = false;
-               $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
-               $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
-               $singletext = get_string('addsinglecourse', 'block_course_fisher');
-               $singletext .= html_writer::tag ('span', $coursename.$coursecategories, array('class' => 'singlecourse'));
-               $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $singletext, $selectedcoursehash);
+
+               $singletext = '';
+               $grouptext = '';
+
+               $addsinglecoursestr = get_string('addsinglecourse', 'block_course_fisher');
+               $addcoursegroupstr = get_string('addcoursegroup', 'block_course_fisher');
+
+               if ((count($coursehashes) == 1) || !isset($CFG->block_course_fisher_forceonlygroups) || empty($CFG->block_course_fisher_forceonlygroups)) {
+                   $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
+                   $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
+                   $singletext .= html_writer::tag ('span', $coursename.$coursecategories, array('class' => 'singlecourse'));
+                   $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $addsinglecoursestr.$singletext, $selectedcoursehash);
+               }
                if (count($coursehashes) > 1) {
                    $grouphash = implode('', $coursehashes);
-                   $grouptext = get_string('addcoursegroup', 'block_course_fisher');
                    $grouptext .= html_writer::start_tag ('span', array('class' => 'groupcourses'));
                    $first = true;
                    foreach ($groupcourses as $groupcourse) {
@@ -45,16 +53,20 @@
                        $grouptext .= html_writer::tag ('span', $coursename.$alertmessage.$coursecategories, array('class' => $class));
                    }
                    $grouptext .= html_writer::end_tag ('span');
-                   $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $grouptext, $grouphash);
+                   $courseidchoices[] = &$mform->createElement('radio', 'courseid', null, $addcoursegroupstr.$grouptext, $grouphash);
                }
                if (count($courseidchoices) == 2) {
                    $mform->addGroup($courseidchoices, 'coursegrp', get_string('choosewhatadd', 'block_course_fisher'), array(''), false);
                    $mform->setDefault('courseid', $grouphash);
                } else {
-                   $coursecategories = html_writer::tag('span', $groupcourses[$selectedcoursehash]->path, array('class' => 'addcoursecategory'));
-                   $coursename = html_writer::tag('span', $groupcourses[$selectedcoursehash]->fullname, array('class' => 'addcoursename'));
-                   $mform->addElement('static', 'coursegrp', get_string('addcourse', 'block_course_fisher'), $coursename.$coursecategories);
-                   $mform->addElement('hidden', 'courseid',  $selectedcoursehash);
+                   if (count($coursehashes) == 1) {
+                       $mform->addElement('static', 'coursegrp', $addsinglecoursestr, $singletext);
+                       $mform->addElement('hidden', 'courseid',  $selectedcoursehash);
+                   } else {
+                       $grouphash = implode('', $coursehashes);
+                       $mform->addElement('static', 'coursegrp', $addcoursegroupstr, $grouptext);
+                       $mform->addElement('hidden', 'courseid',  $grouphash);
+                   }
                    $mform->setType('courseid',  PARAM_ALPHANUM);
                }
              
