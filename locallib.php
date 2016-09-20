@@ -125,12 +125,11 @@
                 print_error("Error inserting a new course in the database!");
             }
             if ($coursedata->notifycreation) {
-/*
+
                 $notifyinfo = new stdClass();
                 $notifyinfo->coursefullname = $coursedata->fullname;
                 $notifyinfo->courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
 
-                $notifyinfo->user = $user->fullname;
                 $notifysubject = get_string('coursenotifysubject', 'block_course_fisher');
                 $notifytext = get_string('coursenotifytext', 'block_course_fisher', $notifyinfo);
                 $notifyhtml = get_string('coursenotifyhtml', 'block_course_fisher', $notifyinfo);
@@ -139,10 +138,14 @@
                     $notifytext = get_string('coursenotifycomplete', 'block_course_fisher', $notifyinfo);
                     $notifyhtml = get_string('coursenotifyhtmlcomplete', 'block_course_fisher', $notifyinfo);
                 }
-                if (! email_to_user($user, $sender, $notifysubject, $notifytext, $notifyhtml)) {
-                    mtrace('Error: Could not send out mail to user '.$user->id.' ('.$user->email.')');
+
+                $recip = get_users_from_config($CFG->block_course_fisher_notifycoursecreation, 'block/course_fisher:addallcourses');
+                foreach ($recip as $user) {
+                    if (! email_to_user($user, \core_user::get_support_user(), $notifysubject, $notifytext, $notifyhtml)) {
+                        mtrace('Error: Could not send out mail to user '.$user->id.' ('.$user->email.')');
+                    }
                 }
-*/
+
             }
             if (($linkedcourse !== null)) {
                 if (isset($CFG->block_course_fisher_linktype) && ($CFG->block_course_fisher_linktype == 'guest')) {

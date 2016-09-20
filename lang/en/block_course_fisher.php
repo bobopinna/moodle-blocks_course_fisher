@@ -62,30 +62,32 @@ $string['separated'] = 'Keep them separated from course group';
 $string['educationaloffer'] = 'Educational Offer Page';
 $string['educationaloffermessage'] = 'Here you find all information about this course edudcational offer';
 $string['coursenotifysubject'] = 'Course Fisher - A new course requires your attention!';
-$string['coursenotifytext'] = 'Dear {$a-user},
+$string['coursenotifytext'] = 'Dear Admin,
 You need to check a Course Fisher new course
-{$a->course}
+{$a->coursefullname}
 
 Course URL: {$a->courseurl}';
-$string['coursenotifytextcomplete'] = 'Dear {$a-user},
+$string['coursenotifytextcomplete'] = 'Dear Admin,
 You need to check a Course Fisher new course
-{$a->course}
+{$a->coursefullname}
 
 Course URL: {$a->courseurl}
 
 Educational Offer Page URL: {$a->educationalofferurl}';
-$string['coursenotifyhtml'] = 'Dear {$a-user},<br />
+$string['coursenotifyhtml'] = 'Dear Admin,<br />
 You need to check a Course Fisher new course<br />
-<b>{$a->course}</b><br /><br />
-Course URL: <a href="{$a->course_link}">{$a->courseurl}</a>';
-$string['coursenotifyhtmlcomplete'] = 'Dear {$a->user},<br />
+<b>{$a->coursefullname}</b><br /><br />
+Course URL: <a href="{$a->courseurl}">{$a->courseurl}</a>';
+$string['coursenotifyhtmlcomplete'] = 'Dear Admin,<br />
 You need to check a Course Fisher new course<br />
-<b>{$a->course}</b><br /><br />
-Course URL: <a href="{$a->course_link}">{$a->courseurl}</a><br />
+<b>{$a->coursefullname}</b><br /><br />
+Course URL: <a href="{$a->courseurl}">{$a->courseurl}</a><br />
 Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
 $string['meta'] = 'Connected with Meta Link enrolment in father course';
 $string['guest'] = 'Connected with Guest enrolment in sons courses';
 $string['existentcourse'] = 'This course was already created';
+$string['notifycoursecreation'] = 'Email course creation based on rule to';
+$string['confignotifycoursecreation'] = 'Send course creation notification messages to these selected users. Notification will be sent upon the previous rule verification.';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
