@@ -20,6 +20,8 @@
                $singletext = '';
                $grouptext = '';
 
+               $hiddencoursehash = '';
+
                $addsinglecoursestr = get_string('addsinglecourse', 'block_course_fisher');
                $addcoursegroupstr = get_string('addcoursegroup', 'block_course_fisher');
 
@@ -61,12 +63,13 @@
                } else {
                    if (count($coursehashes) == 1) {
                        $mform->addElement('static', 'coursegrp', $addsinglecoursestr, $singletext);
-                       $mform->addElement('hidden', 'courseid',  $selectedcoursehash);
+                       $hiddencoursehash = $selectedcoursehash;
                    } else {
                        $grouphash = implode('', $coursehashes);
                        $mform->addElement('static', 'coursegrp', $addcoursegroupstr, $grouptext);
-                       $mform->addElement('hidden', 'courseid',  $grouphash);
+                       $hiddencoursehash = $grouphash;
                    }
+                   $mform->addElement('hidden', 'courseid',  $hiddencoursehash);
                    $mform->setType('courseid',  PARAM_ALPHANUM);
                }
              
@@ -97,9 +100,9 @@
                    //normally you use add_action_buttons instead of this code
                    $mform->addElement('submit', 'submitbutton', get_string('execute', 'block_course_fisher'));
                } else if (!empty($actionchoices) && (count($actionchoices) == 1)) {
-                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $selectedcoursehash, 'action' => $permittedactions[0])));
+                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $hiddencoursehash, 'action' => $permittedactions[0])));
                } else {
-                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $selectedcoursehash, 'action' => 'view')));
+                   redirect(new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $hiddencoursehash, 'action' => 'view')));
                }
            } else {
                redirect(new moodle_url('/blocks/course_fisher/addcourse.php'));
