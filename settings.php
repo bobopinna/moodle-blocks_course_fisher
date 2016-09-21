@@ -106,7 +106,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configmultiselect('block_course_fisher_actions', 'Dopo la creazione del corso','Cosa fare dopo la creazione del corso', $defaultchoices, $choices));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_email_condition','Condizione per invio mail ad account di supporto','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
-    $settings->add(new admin_setting_users_with_capability('notifycoursecreation', new lang_string('notifycoursecreation', 'block_course_fisher'), new lang_string('confignotifycoursecreation', 'block_course_fisher'), array(), 'block/course_fisher:addallcourses'));
+    $settings->add(new admin_setting_users_with_capability('block_course_fisher_notifycoursecreation', new lang_string('notifycoursecreation', 'block_course_fisher'), new lang_string('confignotifycoursecreation', 'block_course_fisher'), array(), 'block/course_fisher:addallcourses'));
 
     $settings->add(new admin_setting_configcheckbox('block_course_fisher_autocreation', 'Creazione automatica corsi','Se il backend lo prevede, è pssibile abilitare la creazione automatica dei corsirecuperati dal backend ad ogni esecuzione del cron ',0));
 
