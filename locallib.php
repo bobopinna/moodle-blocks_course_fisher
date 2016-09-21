@@ -139,6 +139,9 @@
                     $notifyhtml = get_string('coursenotifyhtmlcomplete', 'block_course_fisher', $notifyinfo);
                 }
 
+                if (!isset($CFG->block_course_fisher_notifycoursecreation)) {
+                    $CFG->block_course_fisher_notifycoursecreation = '$@NONE@$';
+                }
                 $recip = get_users_from_config($CFG->block_course_fisher_notifycoursecreation, 'block/course_fisher:addallcourses');
                 foreach ($recip as $user) {
                     if (! email_to_user($user, \core_user::get_support_user(), $notifysubject, $notifytext, $notifyhtml)) {
