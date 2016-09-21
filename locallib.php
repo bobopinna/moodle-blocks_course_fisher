@@ -19,7 +19,7 @@
  *
  * @package    blocks
  * @subpackage course_fisher
- * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo Calò
  * @copyright 2016 and above Francesco Carbone
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -187,7 +187,8 @@
                     $url->name = get_string('educationaloffer', 'block_course_fisher');
                     $url->intro = get_string('educationaloffermessage', 'block_course_fisher');
                     $url->externalurl = $coursedata->educationalofferurl;
-                    $url->display = 0;
+                    // open the url in a new frame
+                    $url->display = 3;
                     $url->cmidnumber = null;
                     $url->visible = 1;
                     $url->instance = 0;
