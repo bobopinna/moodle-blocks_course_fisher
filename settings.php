@@ -18,7 +18,7 @@
  * Settings for the Course Fisher block.
  *
  * @package   block_course_fisher
- * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo CalÃ²
+ * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo Calò
  * @copyright 2016 and above Francesco Carbone
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

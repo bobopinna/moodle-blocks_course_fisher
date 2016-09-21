@@ -187,7 +187,7 @@
                     $url->name = get_string('educationaloffer', 'block_course_fisher');
                     $url->intro = get_string('educationaloffermessage', 'block_course_fisher');
                     $url->externalurl = $coursedata->educationalofferurl;
-                    // open the url in a new frame
+                    // open the url in a new tab
                     $url->display = 3;
                     $url->cmidnumber = null;
                     $url->visible = 1;
