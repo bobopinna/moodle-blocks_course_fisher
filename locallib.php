@@ -477,7 +477,7 @@
                }
            }
        } else {
-           $groupcourses[$coursehash] = $coursedata;
+           $groupcourses[$selectedcoursehash] = $coursedata;
        }
        return $groupcourses;
    }
