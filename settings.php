@@ -97,6 +97,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('block_course_fisher_general_config', 'Configurazioni generali', ''));
 
     $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink',new lang_string('helplink', 'block_course_fisher'), new lang_string('confighelplink', 'block_course_fisher'), ''));
 
     $choices = array();
     $choices['view'] = get_string('view', 'block_course_fisher');

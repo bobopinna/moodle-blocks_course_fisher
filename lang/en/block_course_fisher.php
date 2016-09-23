@@ -86,6 +86,8 @@ Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educational
 $string['meta'] = 'Connected with Meta Link enrolment in father course';
 $string['guest'] = 'Connected with Guest enrolment in sons courses';
 $string['existentcourse'] = 'This course was already created';
+$string['helplink'] = 'Help page URL';
+$string['confighelplink'] = 'Enter the URL of an help page to provide an Help link in Course Fisher Block. Keep it blank for no help.';
 $string['notifycoursecreation'] = 'Email course creation based on rule to';
 $string['confignotifycoursecreation'] = 'Send course creation notification messages to these selected users. Notification will be sent upon the previous rule verification.';
 
