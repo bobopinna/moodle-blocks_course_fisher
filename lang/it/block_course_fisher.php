@@ -56,7 +56,38 @@ $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di 
 $string['choosewhatadd'] = 'Scegli cosa aggiungere:';
 $string['choosenextaction'] = 'Cosa vuoi fare dopo aver creato il corso:';
 $string['execute'] = 'Esegui';
+$string['chooseexistsaction'] = 'Alcuni corsi del gruppo di corsi risultano già esistenti. Cosa vuoi fare con questi corsi?';
+$string['join'] = 'Uniscili al gruppo di corsi';
+$string['separated'] = 'Mantienili separati dal gruppo di corsi';
+$string['educationaloffer'] = 'Pagina dell\'offerta Formativa';
+$string['educationaloffermessage'] = 'Qui puoi trovare tutte le informazioni sull\'offerta formativa di questo corso';
+$string['coursenotifysubject'] = 'Course Fisher - Un nuovo corso creato richiede la tua attenzione!';
+$string['coursenotifytext'] = 'Gentile Amministratore,
+è necessario verificare il nuovo corso
+{$a->coursefullname}
 
+link al Corso: {$a->courseurl}';
+$string['coursenotifytextcomplete'] = 'Gentile Amministratore,
+è necessario verificare il nuovo corso
+{$a->coursefullname}
+
+link al Corso: {$a->courseurl}
+
+link alla pagina dell\'offerta formativa: {$a->educationalofferurl}';
+$string['coursenotifyhtml'] = 'Gentile Amministratore,<br />
+è necessario verificare il nuovo corso<br />
+<b>{$a->coursefullname}</b><br /><br />
+link al Corso: <a href="{$a->courseurl}">{$a->courseurl}</a>';
+$string['coursenotifyhtmlcomplete'] = 'Gentile Amministratore,<br />
+è necessario verificare il nuovo corso<br />
+<b>{$a->coursefullname}</b><br /><br />
+link al Corso: <a href="{$a->courseurl}">{$a->courseurl}</a><br />
+link alla pagina dell\'offerta formativa: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
+$string['meta'] = 'Connessi con il metodo di iscrizione Meta Link nel corso padre';
+$string['guest'] = 'Connessi con l\'accesso agli ospiti attivato per i corsi figli';
+$string['existentcourse'] = 'Questo corso è già stato creato';
+$string['notifycoursecreation'] = 'Invia la mail di avviso creazione corso a';
+$string['confignotifycoursecreation'] = 'Invia la notifica di creazione corso agli utenti selezionati. La notifica verrà inviata solo agli utenti che hanno il ruolo selezionato.';
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
 $string = block_course_fisher_backend_lang('it', $string);
