@@ -186,6 +186,10 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         echo html_writer::end_tag('ul');
                     }
                 }
+                if (empty($availablecourses) && empty($existentcourses)) {
+                    notice(get_string('nocourseavailable', 'block_course_fisher'), new moodle_url('/index.php'));
+                }
+
                 echo html_writer::end_tag('div');
                 echo $OUTPUT->footer();
             } else {
