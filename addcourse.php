@@ -100,6 +100,11 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         $course = $DB->get_record('course', array('shortname' => $courseshortname));
                     }
 
+                    $coursegroup = '';
+                    if (isset($CFG->block_course_fisher_course_group) && !empty($CFG->block_course_fisher_course_group)) {
+                        $coursegroup = block_course_fisher_format_fields($CFG->block_course_fisher_course_group, $teachercourse);
+                    }
+
                     if (! $course) {
                         $coursecode = !empty($courseidnumber)?$courseidnumber:$courseshortname;
 
@@ -114,9 +119,11 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         $coursename = html_writer::tag('span', $coursefullname, array('class' => 'addcoursename'));
                         if (has_capability('block/course_fisher:addallcourses', $systemcontext)) {
                            $coursecodes = html_writer::tag('span', $coursecode.$courseshortname, array('class' => 'addcoursecode'));
-                           $availablecourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
+                           //$availablecourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
+                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
                         } else {
-                           $availablecourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'addcourseitem'));
+                           //$availablecourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'addcourseitem'));
+                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'addcourseitem'));
                         }
                     } else {
                         $coursecode = isset($course->idnumber) && !empty($course->idnumber)?$course->idnumber:$course->shortname;
@@ -130,17 +137,54 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                             $link = html_writer::tag('a', get_string('enroltocourse', 'block_course_fisher'), array('href' => $courseurl, 'class' => 'enroltocourselink'));
                             $coursecategories = html_writer::tag('span', $categorieslist[$course->category], array('class' => 'enroltocoursecategory'));
                             $coursename = html_writer::tag('span', $course->fullname, array('class' => 'enroltocoursename'));
-                            $existentcourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'enroltocourseitem'));
+                            //$existentcourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'enroltocourseitem'));
+                            $existentcourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories, array('class' => 'enroltocourseitem'));
                         }
                     }
                 }
                 if (!empty($availablecourses)) {
                     echo html_writer::tag('h1', get_string('availablecourses', 'block_course_fisher'), array());
-                    echo implode("\n", $availablecourses);
+                    //echo implode("\n", $availablecourses);
+                    foreach ($availablecourses as $coursegroup => $availablegroupelements) {
+                        echo html_writer::start_tag('ul', array('class' => 'availablecourses'));
+                        if (count($availablegroupelements) > 1) {
+                            if (!empty($coursegroup)) {
+                                echo html_writer::start_tag('li', array('class' => 'availablecourses coursegroup'));
+                                echo html_writer::tag('span', get_string('coursegroup', 'block_course_fisher'), array('class' => 'coursegrouptitle'));
+                                echo html_writer::start_tag('ul', array('class' => 'availablecourses'));
+                                echo implode("\n", $availablegroupelements);
+                                echo html_writer::end_tag('ul');
+                                echo html_writer::end_tag('li');
+                            } else {
+                                echo implode("\n", $availablegroupelements);
+                            }
+                        } else {
+                            echo current($availablegroupelements);
+                        }
+                        echo html_writer::end_tag('ul');
+                    }
                 }
                 if (!empty($existentcourses)) {
                     echo html_writer::tag('h1', get_string('existentcourses', 'block_course_fisher'), array());
-                    echo implode("\n", $existentcourses);
+                    //echo implode("\n", $existentcourses);
+                    foreach ($existentcourses as $coursegroup => $existentgroupelements) {
+                        echo html_writer::start_tag('ul', array('class' => 'existentcourses'));
+                        if (count($existentgroupelements) > 1) {
+                            if (!empty($coursegroup)) {
+                                echo html_writer::start_tag('li', array('class' => 'existentcourses coursegroup'));
+                                echo html_writer::tag('span', get_string('coursegroup', 'block_course_fisher'), array('class' => 'coursegrouptitle'));
+                                echo html_writer::start_tag('ul', array('class' => 'existentcourses'));
+                                echo implode("\n", $existentgroupelements);
+                                echo html_writer::end_tag('ul');
+                                echo html_writer::end_tag('li');
+                            } else {
+                                echo implode("\n", $existentgroupelements);
+                            }
+                        } else {
+                            echo current($existentgroupelements);
+                        }
+                        echo html_writer::end_tag('ul');
+                    }
                 }
                 echo html_writer::end_tag('div');
                 echo $OUTPUT->footer();

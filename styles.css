@@ -8,6 +8,7 @@
 */
 
 #page-blocks-course_fisher-addcourse .teachercourses .enroltocourseitem,
+#page-blocks-course_fisher-addcourse .teachercourses .coursegroup,
 #page-blocks-course_fisher-addcourse .teachercourses .addcourseitem {
     border: thin solid black;
     padding: 0.5em;
