@@ -367,7 +367,7 @@
            if (!empty($metacourseids) && has_capability('moodle/course:enrolconfig', $context)) {
                $enrol = enrol_get_plugin('meta');
                $context = context_course::instance($course->id, MUST_EXIST);
-               if (has_capability('moodle/course:enrolconfig', $context) && has_capability('enrol/meta:config', $context)) {
+               if (has_capability('enrol/meta:config', $context)) {
                    $eid = $enrol->add_instance($course, array('customint1'=>$metacourseids));
                }
            }
@@ -402,6 +402,8 @@
        $groupcourses = array();
 
        $selectedcourse = $courses[$selectedcoursehash];
+
+       $coursedata->exists = false;
 
        $firstcoursematch = null;
        $othercoursesmatch = null;
@@ -446,7 +448,6 @@
                    }
                }
            } else {
-
                $groupcourses[$selectedcoursehash] = $coursedata;
            }
            if ((count($groupcourses) == 1) && !empty($firstcourseid)) {

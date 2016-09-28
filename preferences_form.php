@@ -44,7 +44,7 @@
                        }
                        $coursecategories = html_writer::tag('span', $groupcourse->path, array('class' => 'addcoursecategory'));
                        $coursename = html_writer::tag('span', $groupcourse->fullname, array('class' => 'addcoursename'));
-                       if ($groupcourse->exists) {
+                       if (isset($groupcourse->exists) && $groupcourse->exists) {
                            $class .= ' existentcourse';
                            $alertmessage = html_writer::tag('span', get_string('existentcourse', 'block_course_fisher'), array('class' => 'existentcourse'));
                            $existscourse = true;
