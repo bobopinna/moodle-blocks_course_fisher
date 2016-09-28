@@ -101,8 +101,10 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                     }
 
                     $coursegroup = '';
-                    if (isset($CFG->block_course_fisher_course_group) && !empty($CFG->block_course_fisher_course_group)) {
-                        $coursegroup = block_course_fisher_format_fields($CFG->block_course_fisher_course_group, $teachercourse);
+                    $groupcourses = block_course_fisher_get_groupcourses($teachercourses, $coursehash, $teachercourse);
+                    if (count($groupcourses) > 1) {
+                        reset($groupcourses);
+                        $coursegroup = key($groupcourses);
                     }
 
                     if (! $course) {
