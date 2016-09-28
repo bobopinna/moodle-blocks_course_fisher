@@ -363,11 +363,11 @@
        global $CFG;
 
        if (enrol_is_enabled('meta')) {
-           require_once("$CFG->dirroot/enrol/meta/locallib.php");
            $context = context_course::instance($course->id, MUST_EXIST);
            if (!empty($metacourseids) && has_capability('moodle/course:enrolconfig', $context)) {
                $enrol = enrol_get_plugin('meta');
-               if ($enrol->can_add_instance($course->id)) {
+               $context = context_course::instance($courseid, MUST_EXIST);
+               if (has_capability('moodle/course:enrolconfig', $context) && has_capability('enrol/meta:config', $context)) {
                    $eid = $enrol->add_instance($course, array('customint1'=>$metacourseids));
                }
            }
