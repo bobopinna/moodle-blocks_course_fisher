@@ -35,6 +35,7 @@ $string['addmoodlecourse'] = 'Aggiungi corso moodle';
 $string['addcourse'] = 'Aggiungi corso';
 $string['nocourseavailable'] = 'Non ci sono corsi disponibili';
 $string['coursegroup'] = 'Gruppo di corsi';
+$string['addcoursegroup'] = 'Aggiungi gruppo di corsi';
 $string['addsinglecourse'] = 'Aggiungi corso singolo';
 $string['entercourse'] = 'Accedi al corso';
 $string['enroltocourse'] = 'Accedi al corso come docente';

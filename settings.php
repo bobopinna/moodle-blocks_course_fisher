@@ -40,15 +40,15 @@ if ($ADMIN->fulltree) {
         }
     }
 
-    $linkistruz = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.'Test della configurazione'.'</a>';
+    $linkistruz = '<a href="'.$CFG->wwwroot.'/blocks/course_fisher/backendtest.php">'.' // '.new lang_string('configurationtest', 'block_course_fisher').'</a>';
 
     $settings->add(new admin_setting_heading('block_course_fisher_backendtestlink', '', $linkistruz));
 
-    $settings->add(new admin_setting_heading('block_course_fisher_backend_config', 'Configurazione Backend', ''));
+    $settings->add(new admin_setting_heading('block_course_fisher_backend_config', new lang_string('configurationbackend', 'block_course_fisher'), ''));
 
-    $settings->add(new admin_setting_configselect('block_course_fisher_backend', 'Backend','tipo di backend da usare','', $choices));
+    $settings->add(new admin_setting_configselect('block_course_fisher_backend', new lang_string('backend', 'block_course_fisher'),new lang_string('backendtype', 'block_course_fisher'),'', $choices));
 
-    $settings->add(new admin_setting_configtextarea('block_course_fisher_locator','Locator (URL)','eg. file://path or mysql:username:password@host:port/database/table use multiple rows if want to use multiple sources in a first match order', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_locator',new lang_string('locatorurl', 'block_course_fisher'),new lang_string('sourceformat', 'block_course_fisher'), ''));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_parameters','Parametri da passare','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
 
@@ -96,8 +96,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('block_course_fisher_general_config', 'Configurazioni generali', ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink','Link alla pagina di help','inserire un link', ''));
-    $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink',new lang_string('helplink', 'block_course_fisher'), new lang_string('confighelplink', 'block_course_fisher'), ''));
+    $settings->add(new admin_setting_configtext('block_course_fisher_course_helplink',new lang_string('linkhelppage', 'block_course_fisher'), new lang_string('insertlink', 'block_course_fisher'), ''));
 
     $choices = array();
     $choices['view'] = get_string('view', 'block_course_fisher');

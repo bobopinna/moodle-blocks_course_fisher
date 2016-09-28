@@ -35,6 +35,7 @@ $string['addmoodlecourse'] = 'Add moodle course';
 $string['addcourse'] = 'Add course';
 $string['nocourseavailable'] = 'No courses available';
 $string['coursegroup'] = 'Course group';
+$string['addcoursegroup'] = 'Add course group';
 $string['addsinglecourse'] = 'Add single course';
 $string['entercourse'] = 'Enter into course';
 $string['enroltocourse'] = 'Enrol as teacher into course';
@@ -56,6 +57,19 @@ $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the 
 $string['choosewhatadd'] = 'Choose what would you add:';
 $string['choosenextaction'] = 'What would you do after course creation:';
 $string['execute'] = 'Execute';
+
+
+
+
+$string['linkhelppage'] = 'Help Page URL';
+$string['insertlink'] = 'Insert link';
+$string['configurationtest'] = 'Configuration Test';
+$string['configurationbackend'] = 'Backend Configuration';
+$string['backend'] = 'Backend';
+$string['backendtype'] = 'Backend Type';
+$string['locatorurl'] = 'Locator (URL)';
+$string['sourceformat'] = 'eg. file://path or mysql:username:password@host:port/database/table use multiple rows if want to use multiple sources in a first match order';
+
 $string['chooseexistsaction'] = 'Some courses in course group already exists. What you would to do with those courses?';
 $string['join'] = 'Join them to course group';
 $string['separated'] = 'Keep them separated from course group';
@@ -86,8 +100,6 @@ Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educational
 $string['meta'] = 'Connected with Meta Link enrolment in father course';
 $string['guest'] = 'Connected with Guest enrolment in sons courses';
 $string['existentcourse'] = 'This course was already created';
-$string['helplink'] = 'Help page URL';
-$string['confighelplink'] = 'Enter the URL of an help page to provide an Help link in Course Fisher Block. Keep it blank for no help.';
 $string['notifycoursecreation'] = 'Email course creation based on rule to';
 $string['confignotifycoursecreation'] = 'Send course creation notification messages to these selected users. Notification will be sent upon the previous rule verification.';
 
