@@ -363,6 +363,7 @@
        global $CFG;
 
        if (enrol_is_enabled('meta')) {
+           require_once("$CFG->dirroot/enrol/meta/locallib.php");
            $context = context_course::instance($course->id, MUST_EXIST);
            if (!empty($metacourseids) && has_capability('moodle/course:enrolconfig', $context)) {
                $enrol = enrol_get_plugin('meta');
@@ -466,10 +467,10 @@
                        $othercoursedata->fullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $course);
                        $othercoursedata->hash = $coursehash;
                        $othercoursedata->exists = false;
-                       if (!empty($firstcoursedata->idnumber)) {
-                           $oldcourse = $DB->get_record('course', array('idnumber' => $firstcoursedata->idnumber));
+                       if (!empty($othercoursedata->idnumber)) {
+                           $oldcourse = $DB->get_record('course', array('idnumber' => $othercoursedata->idnumber));
                        } else {
-                           $oldcourse = $DB->get_record('course', array('shortname' => $firstcoursedata->shortname));
+                           $oldcourse = $DB->get_record('course', array('shortname' => $othercoursedata->shortname));
                        }
                        if ($oldcourse) {
                            $othercoursedata->exists = true;
