@@ -368,7 +368,9 @@
                $enrol = enrol_get_plugin('meta');
                $context = context_course::instance($course->id, MUST_EXIST);
                if (has_capability('enrol/meta:config', $context)) {
-                   $eid = $enrol->add_instance($course, array('customint1'=>$metacourseids));
+                   foreach ($metacourseids as $metacourseid) {
+                       $eid = $enrol->add_instance($course, array('customint1'=>$metacourseid));
+                   }
                }
            }
        }
