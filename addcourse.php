@@ -135,7 +135,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         $canaddall = has_capability('block/course_fisher:addallcourses', $systemcontext);
                         if (!$isalreadyteacher && !$canaddall) {
                             //$coursehash = md5($categorieslist[$course->category].' / '.$coursecode);
-                            $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $coursehash));
+                            $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $coursehash, 'action' => 'view'));
                             $link = html_writer::tag('a', get_string('enroltocourse', 'block_course_fisher'), array('href' => $courseurl, 'class' => 'enroltocourselink'));
                             $coursecategories = html_writer::tag('span', $categorieslist[$course->category], array('class' => 'enroltocoursecategory'));
                             $coursename = html_writer::tag('span', $course->fullname, array('class' => 'enroltocoursename'));
@@ -256,17 +256,18 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                             } else {
                                 $oldcourse = $DB->get_record('course', array('shortname' => $coursedata->shortname));
                             }
-                            if (!$oldcourse) {
-                                if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse, $existent)) {
-                                    if ($firstcourse === null) {
-                                        $firstcourse = clone($newcourse);
-                                    } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
-                                        $metacourseids[] = $newcourse->id;
-                                    }
-                                } else {
-                                    notice(get_string('coursecreationerror', 'block_course_fisher'), new moodle_url('/index.php'));
+
+                            if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse, $existent)) {
+                                if ($firstcourse === null) {
+                                    $firstcourse = clone($newcourse);
+                                } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
+                                    $metacourseids[] = $newcourse->id;
                                 }
                             } else {
+                                notice(get_string('coursecreationerror', 'block_course_fisher'), new moodle_url('/index.php'));
+                            }
+
+                            if ($oldcourse) {
                                 if ($existent == 'join') {
                                     if ($firstcourse !== null) {
                                         block_course_fisher_add_linkedcourse_url($oldcourse, $firstcourse);
@@ -300,7 +301,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                             break;
                         }
                     } else {
-                        print_error('Course hash does not match');
+                        print_error('Course hash does not match for course access');
                     }
                 } else if (!empty($groupcourses)) {
                     $preferences = new preferences_form(null, array('coursehash' => $coursehash, 'groupcourses' => $groupcourses));
@@ -310,7 +311,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                     echo html_writer::end_tag('div');
                     echo $OUTPUT->footer();
                 } else {
-                    print_error('Course hash does not match');
+                    print_error('Course hash does not match for preferences page');
                 }
             }
         } else {
