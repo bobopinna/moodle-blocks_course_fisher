@@ -483,6 +483,8 @@
                        $groupcourses[$coursehash] = $othercoursedata;
                    }
                }
+           } else {
+               $groupcourses[$selectedcoursehash] = $coursedata;
            }
        } else {
            $groupcourses[$selectedcoursehash] = $coursedata;
