@@ -381,19 +381,21 @@
 
        // Generate courses hash
        $hashedcourses = array();
-       foreach ($courses as $i => $course) {
-           $courseidnumber = '';
-           $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $course);
-           if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
-               $courseidnumber = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $course);
-           }
-           $coursecode = !empty($courseidnumber)?$courseidnumber:$courseshortname;
+       if (!empty($courses)) {
+           foreach ($courses as $i => $course) {
+               $courseidnumber = '';
+               $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $course);
+               if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
+                   $courseidnumber = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $course);
+               }
+               $coursecode = !empty($courseidnumber)?$courseidnumber:$courseshortname;
 
-           $fieldlist = block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $course);
-           $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", $fieldlist)));
-           $coursepath = implode(' / ', $categories);
-           $coursehash = md5($coursepath.' / '.$coursecode);
-           $hashedcourses[$coursehash] = $course;
+               $fieldlist = block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $course);
+               $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", $fieldlist)));
+               $coursepath = implode(' / ', $categories);
+               $coursehash = md5($coursepath.' / '.$coursecode);
+               $hashedcourses[$coursehash] = $course;
+           }
        }
        return $hashedcourses;
    }
