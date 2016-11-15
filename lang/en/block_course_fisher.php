@@ -19,7 +19,7 @@
  * Strings for component 'block_course_fisher', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   block_course_fisher
- * @copyright Roberto Pinna <roberto.pinna@unipmn.it
+ * @copyright Roberto Pinna Angelo Calò
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -69,6 +69,18 @@ $string['backend'] = 'Backend';
 $string['backendtype'] = 'Backend Type';
 $string['locatorurl'] = 'Locator (URL)';
 $string['sourceformat'] = 'eg. file://path or mysql:username:password@host:port/database/table use multiple rows if want to use multiple sources in a first match order';
+$string['parameters'] = 'parameters';
+$string['parametersformat'] = 'es. query or filter get. Use [%fiel%] for userfield, eg. [%uidnumber%]';
+$string['testvalue'] = 'Values for test';
+$string['testvalueformat'] = 'one for row:  [field]:value';
+$string['separator'] = 'separator';
+$string['separatoruse'] = 'fields separator, used only where necessary (es. csv)';
+$string['firstrow'] = 'Jump first row';
+$string['firstrowcontent'] = 'if is the list of CSV fields';
+$string['fieldlist'] = 'Fields list';
+$string['fieldlistformat'] = 'one for row in a first match order';
+
+
 
 $string['chooseexistsaction'] = 'Some courses in course group already exists. What you would to do with those courses?';
 $string['join'] = 'Join them to course group';

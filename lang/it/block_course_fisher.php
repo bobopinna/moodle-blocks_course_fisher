@@ -19,7 +19,7 @@
  * Strings for component 'block_course_fisher', language 'it', branch 'MOODLE_20_STABLE'
  *
  * @package   block_course_fisher
- * @copyright Roberto Pinna <roberto.pinna@unipmn.it
+ * @copyright Roberto Pinna Angelo Calò
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,12 +51,35 @@ $string['shown'] = 'Mostrato';
 $string['hidden'] = 'Nascosto';
 $string['nouserfilterset'] = 'Nessun filtro definito';
 $string['ifuserprofilefield'] = 'se il campo del profilo utente';
-$string['nocourseavailable'] = 'Spiacente non ci sono corsi attivabili';
+$string['nocourseavailable'] = 'Spicente non ci sono corsi attivabili';
 $string['courselink'] = 'Corso collegato';
 $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di {$a}. Cliccare sul link qui sotto.';
 $string['choosewhatadd'] = 'Scegli cosa aggiungere:';
 $string['choosenextaction'] = 'Cosa vuoi fare dopo aver creato il corso:';
 $string['execute'] = 'Esegui';
+
+
+
+$string['linkhelppage'] = 'URL della pagina di help';
+$string['insertlink'] = 'Inserisci il link';
+$string['configurationtest'] = 'Test della configurazione';
+$string['configurationbackend'] = 'Configurazione del backend';
+$string['backend'] = 'Backend';
+$string['backendtype'] = 'Tipo di Backend';
+$string['locatorurl'] = 'Sorgente (URL)';
+$string['sourceformat'] = 'eg. file://path or mysql:username:password@host:port/database/table usare più righe per usare più sorgenti in ordine';
+$string['parameters'] = 'Parametri da passare';
+$string['parametersformat'] = 'es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]';
+$string['testvalue'] = 'Valori per i test';
+$string['testvalueformat'] = 'uno per riga in forma [CAMPO]:valore';
+$string['separator'] = 'separatore';
+$string['separatoruse'] = 'separatore dei campi, usato solo dove serve (es. csv)';
+$string['firstrow'] = 'Salta la prima riga';
+$string['firstrowcontent'] = 'se contiene la lista dei campi CSV';
+$string['fieldlist'] = 'Lista dei campi ricevuti';
+$string['fieldlistformat'] = 'uno per riga nell\'ordine in cui vengono ricevuti';
+
+
 $string['chooseexistsaction'] = 'Alcuni corsi del gruppo di corsi risultano già esistenti. Cosa vuoi fare con questi corsi?';
 $string['join'] = 'Uniscili al gruppo di corsi';
 $string['separated'] = 'Mantienili separati dal gruppo di corsi';

@@ -50,15 +50,15 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_locator',new lang_string('locatorurl', 'block_course_fisher'),new lang_string('sourceformat', 'block_course_fisher'), ''));
 
-    $settings->add(new admin_setting_configtextarea('block_course_fisher_parameters','Parametri da passare','es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_parameters',new lang_string('parameters', 'block_course_fisher'),new lang_string('parametersformat', 'block_course_fisher'), ''));
 
-    $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldtest','Valori per i test','uno per riga in forma [CAMPO]:valore', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldtest',new lang_string('testvalue', 'block_course_fisher'),new lang_string('testvalueformat', 'block_course_fisher'), ''));
 
-    $settings->add(new admin_setting_configtext('block_course_fisher_separator','separatore','separatore dei campi, usato solo dove serve (es. csv)', ''));
+    $settings->add(new admin_setting_configtext('block_course_fisher_separator',new lang_string('separator', 'block_course_fisher'),new lang_string('separatoruse', 'block_course_fisher'), ''));
 
-    $settings->add(new admin_setting_configcheckbox('block_course_fisher_firstrow', 'Salta la prima riga','se contiene la lista dei campi CSV',0));
+    $settings->add(new admin_setting_configcheckbox('block_course_fisher_firstrow', new lang_string('firstrow', 'block_course_fisher'),new lang_string('firstrowcontent', 'block_course_fisher'),0));
 
-    $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlist','Lista dei campi ricevuti','uno per riga nell\'ordine in cui vengono ricevuti', ''));
+    $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlist',new lang_string('fieldlist', 'block_course_fisher'),new lang_string('fieldlistformat', 'block_course_fisher'), ''));
 
     $settings->add(new admin_setting_configtextarea('block_course_fisher_fieldlevel','Ordine dei campi ','uno per riga tra quelli indicati sopra, il primo corrisponde al primo livello di categoria. Usare campoCodice:campoDescrizione per associare il codice al nome', ''));
 
