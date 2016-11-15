@@ -77,7 +77,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     if ($j && $d) {
                         break;
                     }
-                    else{
+                    elseif(!$j){
                     print_error('l\'URL'.$CFG->block_course_fisher_locator.' inserito non è corretto');
                     }
                 }
