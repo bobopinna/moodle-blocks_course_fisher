@@ -182,7 +182,7 @@ class block_course_fisher extends block_list {
                         }
                     break;
                     case 'endswith':
-                        if (mb_ereg($this->config->matchvalue.'$', $userfield) !== false) {
+                        if (mb_ereg($this->config->matchvalue.'$', $userfieldvalue) !== false) {
                             $enabled = true;
                         }
                     break;
