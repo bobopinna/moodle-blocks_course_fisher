@@ -1,4 +1,28 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Course fisher
+ *
+ * @package    blocks
+ * @subpackage course_fisher
+ * @copyright  2014 adn above Angelo Calò
+ * @copyright  2016 Francesco Carbone
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 class block_course_fisher_backend_json extends block_course_fisher_backend {
     public function __construct() {
@@ -26,34 +50,37 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                          "block_course_fisher_fieldtest");
 
             if (!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override)))) {
-                
-				/*$D = array();
+               
+              /*$D = array();
                 $j = file_get_contents($CFG->block_course_fisher_locator);
                 $d = json_decode($j,true);*/
 
-				// aumento tempo di timeout
-				$opts = array('http' =>
+                // aumento tempo di timeout
+                $opts = array('http' =>
   
-					array(
-    					'method'  => 'GET',
-						'header'=>"Content-Type: application/json; charset=utf-8",    
-    					'timeout' => 500
-  					)
-				);
+                    array(
+                        'method'  => 'GET',
+                        'header'=>"Content-Type: application/json; charset=utf-8",    
+                        'timeout' => 500
+                      )
+                );
                        
-				$context  = stream_context_create($opts);
+                $context  = stream_context_create($opts);
 
-				// carico il primo file utile alla lettura dell'offerta formativa
-				$D = array();
-				foreach(preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line){
-					$backend = $P->substituteObjects($line,false);
-					$backend = str_replace("'", "", $backend);
-                	$j = file_get_contents($backend, false, $context);
-                	$d = json_decode($j,true);
-					if($j && $d) 
-						break;
-				}
-				
+                // carico il primo file utile alla lettura dell'offerta formativa
+                $D = array();
+                foreach (preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line) {
+                    $backend = $P->substituteObjects($line,false);
+                    $backend = str_replace('\'', '', $backend);
+                    $j = file_get_contents($backend, false, $context);
+                    $d = json_decode($j,true);
+                    if ($j && $d) {
+                        break;
+                    }
+                    elseif(!$j){
+                    print_error('l\'URL'.$CFG->block_course_fisher_locator.' inserito non è corretto');
+                    }
+                }
 
                 while (list($k,$v)=each($d)) {
         

@@ -19,7 +19,7 @@
  * Strings for component 'block_course_fisher', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   block_course_fisher
- * @copyright Roberto Pinna <roberto.pinna@unipmn.it
+ * @copyright Roberto Pinna Angelo Calò
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,14 +34,17 @@ $string['courseregisters'] = 'Course registers';
 $string['addmoodlecourse'] = 'Add moodle course';
 $string['addcourse'] = 'Add course';
 $string['nocourseavailable'] = 'No courses available';
+$string['coursegroup'] = 'Course group';
 $string['addcoursegroup'] = 'Add course group';
+$string['addsinglecourse'] = 'Add single course';
 $string['entercourse'] = 'Enter into course';
 $string['enroltocourse'] = 'Enrol as teacher into course';
 $string['availablecourses'] = 'Addable courses';
 $string['existentcourses'] = 'Existent courses';
 $string['backendfailure'] = 'Can not connect to course backend';
-$string['editcourse'] = 'Edit course';
-$string['viewcourse'] = 'View course';
+$string['edit'] = 'Edit course settings';
+$string['view'] = 'View course';
+$string['import'] = 'Import data from an other course';
 $string['coursenotfound'] = 'Course not found';
 $string['filter'] = 'User filter';
 $string['shown'] = 'Shown';
@@ -51,15 +54,66 @@ $string['ifuserprofilefield'] = 'if user profile field';
 $string['nocourseavailable'] = 'Sorry no available courses';
 $string['courselink'] = 'Linked course';
 $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the link below';
+$string['choosewhatadd'] = 'Choose what would you add:';
+$string['choosenextaction'] = 'What would you do after course creation:';
+$string['execute'] = 'Execute';
 
+
+
+
+$string['linkhelppage'] = 'Help Page URL';
+$string['insertlink'] = 'Insert link';
+$string['configurationtest'] = 'Configuration Test';
+$string['configurationbackend'] = 'Backend Configuration';
+$string['backend'] = 'Backend';
+$string['backendtype'] = 'Backend Type';
+$string['locatorurl'] = 'Locator (URL)';
+$string['sourceformat'] = 'eg. file://path or mysql:username:password@host:port/database/table use multiple rows if want to use multiple sources in a first match order';
+$string['parameters'] = 'parameters';
+$string['parametersformat'] = 'es. query or filter get. Use [%fiel%] for userfield, eg. [%uidnumber%]';
+$string['testvalue'] = 'Values for test';
+$string['testvalueformat'] = 'one for row:  [field]:value';
+$string['separator'] = 'separator';
+$string['separatoruse'] = 'fields separator, used only where necessary (es. csv)';
+$string['firstrow'] = 'Jump first row';
+$string['firstrowcontent'] = 'if is the list of CSV fields';
+$string['fieldlist'] = 'Fields list';
+$string['fieldlistformat'] = 'one for row in a first match order';
+
+
+
+$string['chooseexistsaction'] = 'Some courses in course group already exists. What you would to do with those courses?';
+$string['join'] = 'Join them to course group';
+$string['separated'] = 'Keep them separated from course group';
 $string['educationaloffer'] = 'Educational Offer Page';
-$string['mail_subject'] = 'Course Fisher - A new course requires your attention!';
-$string['mail_body'] = 'Gentile Amministratore,<br>
-						E\' stato attivato un nuovo corso che richiede attenzione!<br><br>
-						<b>{$a->course}</b><br>
-						Link al corso: <a href="{$a->course_link}">{$a->course_link}</a>';
-$string['mail_body_complete'] = $string['mail_body'] . '<br>Link alla scheda dell\'insegnamento: <a href="{$a->educationaloffer_link}">{$a->educationaloffer_link}</a>';
+$string['educationaloffermessage'] = 'Here you find all information about this course edudcational offer';
+$string['coursenotifysubject'] = 'Course Fisher - A new course requires your attention!';
+$string['coursenotifytext'] = 'Dear Admin,
+You need to check a Course Fisher new course
+{$a->coursefullname}
 
+Course URL: {$a->courseurl}';
+$string['coursenotifytextcomplete'] = 'Dear Admin,
+You need to check a Course Fisher new course
+{$a->coursefullname}
+
+Course URL: {$a->courseurl}
+
+Educational Offer Page URL: {$a->educationalofferurl}';
+$string['coursenotifyhtml'] = 'Dear Admin,<br />
+You need to check a Course Fisher new course<br />
+<b>{$a->coursefullname}</b><br /><br />
+Course URL: <a href="{$a->courseurl}">{$a->courseurl}</a>';
+$string['coursenotifyhtmlcomplete'] = 'Dear Admin,<br />
+You need to check a Course Fisher new course<br />
+<b>{$a->coursefullname}</b><br /><br />
+Course URL: <a href="{$a->courseurl}">{$a->courseurl}</a><br />
+Educational Offer Page URL: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
+$string['meta'] = 'Connected with Meta Link enrolment in father course';
+$string['guest'] = 'Connected with Guest enrolment in sons courses';
+$string['existentcourse'] = 'This course was already created';
+$string['notifycoursecreation'] = 'Email course creation based on rule to';
+$string['confignotifycoursecreation'] = 'Send course creation notification messages to these selected users. Notification will be sent upon the previous rule verification.';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

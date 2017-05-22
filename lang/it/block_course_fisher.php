@@ -19,7 +19,7 @@
  * Strings for component 'block_course_fisher', language 'it', branch 'MOODLE_20_STABLE'
  *
  * @package   block_course_fisher
- * @copyright Roberto Pinna <roberto.pinna@unipmn.it
+ * @copyright Roberto Pinna Angelo Calò
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,14 +34,17 @@ $string['courseregisters'] = 'Registri corsi';
 $string['addmoodlecourse'] = 'Aggiungi corso moodle';
 $string['addcourse'] = 'Aggiungi corso';
 $string['nocourseavailable'] = 'Non ci sono corsi disponibili';
+$string['coursegroup'] = 'Gruppo di corsi';
 $string['addcoursegroup'] = 'Aggiungi gruppo di corsi';
+$string['addsinglecourse'] = 'Aggiungi corso singolo';
 $string['entercourse'] = 'Accedi al corso';
 $string['enroltocourse'] = 'Accedi al corso come docente';
 $string['availablecourses'] = 'Corsi creabili';
 $string['existentcourses'] = 'Corsi esistenti';
 $string['backendfailure'] = 'Non &egrave; possibile collegarsi al backend per il recupero dei corsi';
-$string['editcourse'] = 'Impostazioni corso';
-$string['viewcourse'] = 'Accedi al corso';
+$string['edit'] = 'Modifica le impostazioni corso';
+$string['view'] = 'Visualizza il corso';
+$string['import'] = 'Importa dati da un altro corso';
 $string['coursenotfound'] = 'Corso non disponibile';
 $string['filter'] = 'Filtro utenti';
 $string['shown'] = 'Mostrato';
@@ -51,15 +54,64 @@ $string['ifuserprofilefield'] = 'se il campo del profilo utente';
 $string['nocourseavailable'] = 'Spicente non ci sono corsi attivabili';
 $string['courselink'] = 'Corso collegato';
 $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di {$a}. Cliccare sul link qui sotto.';
+$string['choosewhatadd'] = 'Scegli cosa aggiungere:';
+$string['choosenextaction'] = 'Cosa vuoi fare dopo aver creato il corso:';
+$string['execute'] = 'Esegui';
 
-$string['educationaloffer'] = 'Scheda dell\'insegnamento';
-$string['mail_subject'] = 'Course Fisher - E\' stato attivato un nuovo corso che richiede attenzione!';
-$string['mail_body'] = 'Gentile Amministratore,<br>
-						E\' stato attivato un nuovo corso che richiede attenzione!<br><br>
-						<b>{$a->course}</b><br>
-						Link al corso: <a href="{$a->course_link}">{$a->course_link}</a>';
-$string['mail_body_complete'] = $string['mail_body'] . '<br>Link alla scheda dell\'insegnamento: <a href="{$a->educationaloffer_link}">{$a->educationaloffer_link}</a>';
 
+
+$string['linkhelppage'] = 'URL della pagina di help';
+$string['insertlink'] = 'Inserisci il link';
+$string['configurationtest'] = 'Test della configurazione';
+$string['configurationbackend'] = 'Configurazione del backend';
+$string['backend'] = 'Backend';
+$string['backendtype'] = 'Tipo di Backend';
+$string['locatorurl'] = 'Sorgente (URL)';
+$string['sourceformat'] = 'eg. file://path or mysql:username:password@host:port/database/table usare più righe per usare più sorgenti in ordine';
+$string['parameters'] = 'Parametri da passare';
+$string['parametersformat'] = 'es. query o filtri get. Usare [%campo%] per sostituire i campi utente, p.es. [%uidnumber%]';
+$string['testvalue'] = 'Valori per i test';
+$string['testvalueformat'] = 'uno per riga in forma [CAMPO]:valore';
+$string['separator'] = 'separatore';
+$string['separatoruse'] = 'separatore dei campi, usato solo dove serve (es. csv)';
+$string['firstrow'] = 'Salta la prima riga';
+$string['firstrowcontent'] = 'se contiene la lista dei campi CSV';
+$string['fieldlist'] = 'Lista dei campi ricevuti';
+$string['fieldlistformat'] = 'uno per riga nell\'ordine in cui vengono ricevuti';
+
+
+$string['chooseexistsaction'] = 'Alcuni corsi del gruppo di corsi risultano già esistenti. Cosa vuoi fare con questi corsi?';
+$string['join'] = 'Uniscili al gruppo di corsi';
+$string['separated'] = 'Mantienili separati dal gruppo di corsi';
+$string['educationaloffer'] = 'Pagina dell\'offerta Formativa';
+$string['educationaloffermessage'] = 'Qui puoi trovare tutte le informazioni sull\'offerta formativa di questo corso';
+$string['coursenotifysubject'] = 'Course Fisher - Un nuovo corso creato richiede la tua attenzione!';
+$string['coursenotifytext'] = 'Gentile Amministratore,
+è necessario verificare il nuovo corso
+{$a->coursefullname}
+
+link al Corso: {$a->courseurl}';
+$string['coursenotifytextcomplete'] = 'Gentile Amministratore,
+è necessario verificare il nuovo corso
+{$a->coursefullname}
+
+link al Corso: {$a->courseurl}
+
+link alla pagina dell\'offerta formativa: {$a->educationalofferurl}';
+$string['coursenotifyhtml'] = 'Gentile Amministratore,<br />
+è necessario verificare il nuovo corso<br />
+<b>{$a->coursefullname}</b><br /><br />
+link al Corso: <a href="{$a->courseurl}">{$a->courseurl}</a>';
+$string['coursenotifyhtmlcomplete'] = 'Gentile Amministratore,<br />
+è necessario verificare il nuovo corso<br />
+<b>{$a->coursefullname}</b><br /><br />
+link al Corso: <a href="{$a->courseurl}">{$a->courseurl}</a><br />
+link alla pagina dell\'offerta formativa: <a href="{$a->educationalofferurl}">{$a->educationalofferurl}</a>';
+$string['meta'] = 'Connessi con il metodo di iscrizione Meta Link nel corso padre';
+$string['guest'] = 'Connessi con l\'accesso agli ospiti attivato per i corsi figli';
+$string['existentcourse'] = 'Questo corso è già stato creato';
+$string['notifycoursecreation'] = 'Invia la mail di avviso creazione corso a';
+$string['confignotifycoursecreation'] = 'Invia la notifica di creazione corso agli utenti selezionati. La notifica verrà inviata solo agli utenti che hanno il ruolo selezionato.';
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');
 $string = block_course_fisher_backend_lang('it', $string);
