@@ -95,6 +95,9 @@
         $newcourse->lang               = $courseconfig->lang;
 
         $newcourse->startdate = time();
+        if (isset($courseconfig->courseduration) && !empty($courseconfig->courseduration)) {
+            $newcourse->enddate = time() + $courseconfig->courseduration;
+        }
 
         $newcourse->fullname = $coursedata->fullname;
         $newcourse->shortname = $coursedata->shortname;
