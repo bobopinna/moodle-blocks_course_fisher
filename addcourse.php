@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(dirname(__FILE__) . '/../../config.php');
+require(__DIR__ . '/../../config.php');
 require_once('locallib.php');
 require_once('backendlib.php');
 require_once('preferences_form.php');
