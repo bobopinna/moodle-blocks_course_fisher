@@ -266,21 +266,21 @@
         $replace = null;
 
         if (isset($matches[1])) {
-            if (isset($data->$matches[1]) && !empty($data->$matches[1])) {
+            if (isset($data->{$matches[1]}) && !empty($data->{$matches[1]})) {
                 if (isset($matches[2])) {
                     switch($matches[3]) {
                         case '#':
-                           $replace = substr($data->$matches[1], 0, $matches[4]);
+                           $replace = substr($data->{$matches[1]}, 0, $matches[4]);
                         break;
                         case '+':
-                           $replace = $data->$matches[1]+$matches[4];
+                           $replace = $data->{$matches[1]}+$matches[4];
                         break;
                         case '-':
-                           $replace = $data->$matches[1]-$matches[4];
+                           $replace = $data->{$matches[1]}-$matches[4];
                         break;
                     }
                 } else {
-                    $replace = $data->$matches[1];
+                    $replace = $data->{$matches[1]};
                 }
             }
         }

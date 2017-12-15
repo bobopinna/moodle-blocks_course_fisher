@@ -129,7 +129,7 @@ class block_course_fisher_parser {
          {
             if(is_object($this->Objects[$R[1][0]]))
             {
-              if(isset($this->Objects[$R[1][0]]->$R[2][0]))
+              if(isset($this->Objects[$R[1][0]]->{$R[2][0]}))
               {
 
                   if(is_array($override))
@@ -144,9 +144,9 @@ class block_course_fisher_parser {
                   }
 
 
-                  if(strlen(strval($this->Objects[$R[1][0]]->$R[2][0])))
+                  if(strlen(strval($this->Objects[$R[1][0]]->{$R[2][0]})))
                   {
-                    return($this->Objects[$R[1][0]]->$R[2][0]);
+                    return($this->Objects[$R[1][0]]->{$R[2][0]});
                   }
 
               }
