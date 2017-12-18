@@ -232,7 +232,7 @@ class block_course_fisher_parser {
   public function substituteObjects($string2check,$override=false)
   {
     $S=$string2check;
-    $Muniq=$this->parseFields($S,$this->Fields);
+    $Muniq=$this->parseFields($S,$override);
     if( is_array($Muniq) )
     {
       while(list($Mk,$Mv)=each($Muniq))
