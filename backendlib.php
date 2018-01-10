@@ -276,7 +276,7 @@ class block_course_fisher_parser {
     {
       while(list($Fk,$Fv)=each($Record))
       {
-        if (is_string($Fv))
+        if (!is_array($Fv) && !is_object($Fv))
         {
           $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
         }
