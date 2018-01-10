@@ -70,7 +70,12 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                 // carico il primo file utile alla lettura dell'offerta formativa
                 $D = array();
                 foreach (preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line) {
-                    $backend = $P->substituteObjects($line,false);
+                    $backend = ''; 
+                    if ($alldata) { 
+                        $backend = $P->substituteObjects($line, $override);
+                    } else {
+                        $backend = $P->substituteObjects($line, true);
+                    }
                     $backend = str_replace('\'', '', $backend);
                     $j = file_get_contents($backend, false, $context);
                     $d = json_decode($j,true);
@@ -78,7 +83,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                         break;
                     }
                     elseif(!$j){
-                    print_error('l\'URL'.$CFG->block_course_fisher_locator.' inserito non è corretto');
+                    	print_error('l\'URL'.$backend.' inserito non è corretto');
                     }
                 }
 
@@ -86,7 +91,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
         
                     if ($alldata) { 
                         $D[] = (object)$v;
-                    } elseif (eval($P->prepareRecord($P->substituteObjects($CFG->block_course_fisher_parameters,false),$v))) {
+                    } elseif ($P->evalRecord($P->substituteObjects($CFG->block_course_fisher_parameters, true),$v)) {
                         $D[] = (object)$v;
                     }
         

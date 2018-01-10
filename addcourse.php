@@ -26,7 +26,7 @@
 
 /*added*/set_time_limit(300);/*added*/
 
-require(dirname(__FILE__) . '/../../config.php');
+require(__DIR__ . '/../../config.php');
 require_once('locallib.php');
 require_once('backendlib.php');
 require_once('preferences_form.php');

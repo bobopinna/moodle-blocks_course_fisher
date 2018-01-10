@@ -121,34 +121,37 @@ class block_course_fisher_parser {
   {
      preg_match_all("/".$this->LeftObjSep."(\w+)".$this->ObjSep."(\w+)".$this->RightObjSep."/",$Var,$R,PREG_PATTERN_ORDER);
 
+//error_log(print_r($R, true));
      if(is_array($R))
      {
        if(is_array($R[1]) && is_array($R[2]))
        {
          if(isset($R[1][0]) && isset($R[2][0]))
          {
-            if(is_object($this->Objects[$R[1][0]]))
+            $objectname = $R[1][0];
+            $itemname = $R[2][0];
+            if (is_object($this->Objects[$objectname]))
             {
-              if(isset($this->Objects[$R[1][0]]->$R[2][0]))
+              if (isset($this->Objects[$objectname]->$itemname))
               {
 
                   if(is_array($override))
                   {
-                     if(isset($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep]))
+                     if(isset($override[$this->LeftObjSep.$objectname.$this->ObjSep.$itemname.$this->RightObjSep]))
                      {
-                       if(strlen(strval($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep])))
+                       if(strlen(strval($override[$this->LeftObjSep.$objectname.$this->ObjSep.$itemname.$this->RightObjSep])))
                        {
-                         return($override[$this->LeftObjSep.$R[1][0].$this->ObjSep.$R[2][0].$this->RightObjSep]);
+                         return($override[$this->LeftObjSep.$objectname.$this->ObjSep.$itemname.$this->RightObjSep]);
                        }
                      }
+                  } else {
+  
+                     if(strlen(strval($this->Objects[$objectname]->{$itemname})))
+                     {
+                        return($this->Objects[$objectname]->{$itemname});
+                     }
+
                   }
-
-
-                  if(strlen(strval($this->Objects[$R[1][0]]->$R[2][0])))
-                  {
-                    return($this->Objects[$R[1][0]]->$R[2][0]);
-                  }
-
               }
             }
          }
@@ -186,6 +189,7 @@ class block_course_fisher_parser {
     $this->parseResultString="";
 
     preg_match_all("/".$this->LeftSep."(\w+|".$this->LeftObjSep."\w+".$this->ObjSep."\w+".$this->RightObjSep.")".$this->RightSep."/",$string2check,$M,PREG_PATTERN_ORDER);
+    
     if(isset($M[1]))
     {
      $Muniq=array();
@@ -195,29 +199,30 @@ class block_course_fisher_parser {
      {
       if(strlen($Mk))
       {
-       $Muniq[$Mk]=false;
-       if(isset($this->Fields[$Mk]))
-       {
-          $Muniq[$Mk]=true;
-       }
-       else
-       {
-         if($allowVars)
-         {
-           if($this->parseObjectVariable($Mk,$allowVars))
-           {
-             $Muniq[$Mk]=$this->parseObjectVariable($Mk,$allowVars);
-             $this->ObjValues[$Mk]=$Muniq[$Mk];
-           }
-         }
-       }
+        $Muniq[$Mk]=false;
 
-       if($Muniq[$Mk]===false)
-       {
+       if(isset($this->Fields[$Mk]))
+        {
+           $Muniq[$Mk]=true;
+        }
+        else
+        {
+          if($allowVars)
+          {
+            if($this->parseObjectVariable($Mk,$allowVars))
+            {
+              $Muniq[$Mk]=$this->parseObjectVariable($Mk,$allowVars);
+              $this->ObjValues[$Mk]=$Muniq[$Mk];
+            }
+          }
+        }
+
+        if($Muniq[$Mk]===false)
+        {
          $this->parseResult=false;
 //         $this->parseResultString="Not a valid field $Mk::$Mv -".print_r($F,1);
          $this->parseResultString="Not a valid field $Mk::$Mv -";
-       }
+        }
       }
      }
     }
@@ -232,7 +237,8 @@ class block_course_fisher_parser {
   public function substituteObjects($string2check,$override=false)
   {
     $S=$string2check;
-    $Muniq=$this->parseFields($S,$this->Fields);
+    $Muniq=$this->parseFields($S,$override);
+    
     if( is_array($Muniq) )
     {
       while(list($Mk,$Mv)=each($Muniq))
@@ -270,7 +276,10 @@ class block_course_fisher_parser {
     {
       while(list($Fk,$Fv)=each($Record))
       {
-        $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
+		if (!is_array($Fv) && !is_object($Fv))
+        {
+          $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
+        }
       }
       $validation = 'return (' . trim($S) . ') ? true : false;';
     }
@@ -281,7 +290,7 @@ class block_course_fisher_parser {
 
   public function evalRecord($string2check,$Record,$override=false)
   {
-    return(eval(prepareRecord($string2check,$Record,$override)));
+    return(eval($this->prepareRecord($string2check,$Record,$override)));
   }
 
 
