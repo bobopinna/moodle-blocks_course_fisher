@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*added*/set_time_limit(300);/*added*/
+set_time_limit(300);
 
 require(__DIR__ . '/../../config.php');
 require_once('locallib.php');
@@ -108,7 +108,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         reset($groupcourses);
                         $coursegroup = key($groupcourses);
                     }
-                  
+
                     if (! $course) {
                         $coursecode = !empty($courseidnumber)?$courseidnumber:$courseshortname;
 
@@ -119,14 +119,13 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $addcourseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $coursehash));
                         
-                        /*added*/$link = '';
+                        $link = '';
                         if(!isset($CFG->block_course_fisher_forceonlygroups) || !$CFG->block_course_fisher_forceonlygroups || count($groupcourses) == 1)/*added*/
                         	$link = html_writer::tag('a', get_string('addcourse', 'block_course_fisher'), array('href' => $addcourseurl, 'class' => 'addcourselink'));
                         
                         $coursecategories = html_writer::tag('span', $coursepath, array('class' => 'addcoursecategory'));
                         $coursename = html_writer::tag('span', $coursefullname, array('class' => 'addcoursename'));
                         
-                        /*added*/
                         $coursecodes = '';
                         if (has_capability('block/course_fisher:addallcourses', $systemcontext))
                            $coursecodes = html_writer::tag('span', $coursecode.', '.$courseshortname, array('class' => 'addcoursecode'));
@@ -135,9 +134,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         if($groupcourses[$coursehash]->first && isset($availablecourses[$coursegroup]))
                            $availablecourses[$coursegroup] = array_merge(array($coursehash => html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'))), $availablecourses[$coursegroup]);
                         else
-                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
-                        /*added*/
-                           
+                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));                           
                     } else {
                         $coursecode = isset($course->idnumber) && !empty($course->idnumber)?$course->idnumber:$course->shortname;
                         $link = '';
@@ -163,7 +160,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         if (count($availablegroupelements) > 1) {
                             if (!empty($coursegroup)) {
                                 echo html_writer::start_tag('li', array('class' => 'availablecourses coursegroup'));
-                                /*added*/
+
                                 if(!isset($CFG->block_course_fisher_forceonlygroups) || !$CFG->block_course_fisher_forceonlygroups)
                                    echo html_writer::tag('span', get_string('coursegroup', 'block_course_fisher'), array('class' => 'coursegrouptitle'));
                                 else{
@@ -171,7 +168,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                    $groupurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $grouphash));
                                    echo html_writer::tag('a', get_string('addcoursegroup', 'block_course_fisher'), array('href' => $groupurl, 'class' => 'addcoursegrouplink'));
                                 }
-                                /*added*/
+
                                 echo html_writer::start_tag('ul', array('class' => 'availablecourses'));
                                 echo implode("\n", $availablegroupelements);
                                 echo html_writer::end_tag('ul');
@@ -206,11 +203,12 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                         }
                         echo html_writer::end_tag('ul');
                     }
+
                 }
                 if (empty($availablecourses) && empty($existentcourses)) {
                     notice(get_string('nocourseavailable', 'block_course_fisher'), new moodle_url('/index.php'));
                 }
-
+              
                 echo html_writer::end_tag('div');
                 echo $OUTPUT->footer();
             } else {

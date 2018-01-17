@@ -145,7 +145,6 @@ class block_course_fisher_parser {
                        }
                      }
                   } else {
-  
                      if(strlen(strval($this->Objects[$objectname]->{$itemname})))
                      {
                         return($this->Objects[$objectname]->{$itemname});
@@ -201,7 +200,7 @@ class block_course_fisher_parser {
       {
         $Muniq[$Mk]=false;
 
-       if(isset($this->Fields[$Mk]))
+        if(isset($this->Fields[$Mk]))
         {
            $Muniq[$Mk]=true;
         }
@@ -238,7 +237,7 @@ class block_course_fisher_parser {
   {
     $S=$string2check;
     $Muniq=$this->parseFields($S,$override);
-    
+
     if( is_array($Muniq) )
     {
       while(list($Mk,$Mv)=each($Muniq))
@@ -250,7 +249,7 @@ class block_course_fisher_parser {
              $setVal=$Mv;
              if(is_array($override))
              {
-	       if(isset($override[$Mk]))
+               if(isset($override[$Mk]))
                {
                  if(strlen(strval($override[$Mk])))
                  {
@@ -276,7 +275,7 @@ class block_course_fisher_parser {
     {
       while(list($Fk,$Fv)=each($Record))
       {
-		if (!is_array($Fv) && !is_object($Fv))
+        if (!is_array($Fv) && !is_object($Fv))
         {
           $S=preg_replace('/'.$this->LeftSep.$Fk.$this->RightSep.'/',"'".$Fv."'",$S);
         }

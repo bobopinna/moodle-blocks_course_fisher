@@ -131,17 +131,18 @@
 
                 $notifyinfo = new stdClass();
                 $notifyinfo->coursefullname = $coursedata->fullname;
-                $notifyinfo->courseurl = /*added*/(string)/*added*/new moodle_url('/course/view.php', array('id' => $course->id));
+
+                $notifyinfo->courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
 
                 $notifysubject = get_string('coursenotifysubject', 'block_course_fisher');
                 $notifytext = get_string('coursenotifytext', 'block_course_fisher', $notifyinfo);
                 $notifyhtml = get_string('coursenotifyhtml', 'block_course_fisher', $notifyinfo);
-                
-                /*added*/if (isset($coursedata->educationalofferurl) && !empty($coursedata->educationalofferurl)) {
+
+                if (isset($coursedata->educationalofferurl) && !empty($coursedata->educationalofferurl)) {
                     $notifyinfo->educationalofferurl = $coursedata->educationalofferurl;
                     $notifytext = get_string('coursenotifytextcomplete', 'block_course_fisher', $notifyinfo);
                     $notifyhtml = get_string('coursenotifyhtmlcomplete', 'block_course_fisher', $notifyinfo);
-                }/*added*/
+                }
 
                 if (!isset($CFG->block_course_fisher_notifycoursecreation)) {
                     $CFG->block_course_fisher_notifycoursecreation = '$@NONE@$';
@@ -441,8 +442,10 @@
                        $firstcoursedata->fullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $course);
                        $firstcoursedata->hash = $coursehash;
                        $firstcoursedata->exists = false;
-                       /*added*/$firstcoursedata->first = true;/*added*/
-                       if (!empty($firstcoursedata->idnumber)) {
+ 
+                       $firstcoursedata->first = true;
+
+                     if (!empty($firstcoursedata->idnumber)) {
                            $oldcourse = $DB->get_record('course', array('idnumber' => $firstcoursedata->idnumber));
                        } else {
                            $oldcourse = $DB->get_record('course', array('shortname' => $firstcoursedata->shortname));
@@ -453,12 +456,12 @@
                        }
 
                        $groupcourses[$coursehash] = $firstcoursedata;
-                       
+
                        $firstcourseid = block_course_fisher_format_fields($firstcoursematch, $course);
                    }
                }
            } else {
-           	   /*added*/$coursedata->first = true;/*added*/
+               $coursedata->first = true;
                $groupcourses[$selectedcoursehash] = $coursedata;
            }
            if ((count($groupcourses) == 1) && !empty($firstcourseid)) {
