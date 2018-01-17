@@ -131,16 +131,17 @@
 
                 $notifyinfo = new stdClass();
                 $notifyinfo->coursefullname = $coursedata->fullname;
-                $notifyinfo->courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                $notifyinfo->courseurl = /*added*/(string)/*added*/new moodle_url('/course/view.php', array('id' => $course->id));
 
                 $notifysubject = get_string('coursenotifysubject', 'block_course_fisher');
                 $notifytext = get_string('coursenotifytext', 'block_course_fisher', $notifyinfo);
                 $notifyhtml = get_string('coursenotifyhtml', 'block_course_fisher', $notifyinfo);
-                if (isset($coursedata->educationofferurl) && !empty($coursedata->educationofferurl)) {
-                    $notifyinfo->educationalofferurl = $coursedata->educationofferurl;
-                    $notifytext = get_string('coursenotifycomplete', 'block_course_fisher', $notifyinfo);
+                
+                /*added*/if (isset($coursedata->educationalofferurl) && !empty($coursedata->educationalofferurl)) {
+                    $notifyinfo->educationalofferurl = $coursedata->educationalofferurl;
+                    $notifytext = get_string('coursenotifytextcomplete', 'block_course_fisher', $notifyinfo);
                     $notifyhtml = get_string('coursenotifyhtmlcomplete', 'block_course_fisher', $notifyinfo);
-                }
+                }/*added*/
 
                 if (!isset($CFG->block_course_fisher_notifycoursecreation)) {
                     $CFG->block_course_fisher_notifycoursecreation = '$@NONE@$';
