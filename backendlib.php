@@ -145,7 +145,6 @@ class block_course_fisher_parser {
                        }
                      }
                   } else {
-
                      if(strlen(strval($this->Objects[$objectname]->{$itemname})))
                      {
                         return($this->Objects[$objectname]->{$itemname});
@@ -189,7 +188,7 @@ class block_course_fisher_parser {
     $this->parseResultString="";
 
     preg_match_all("/".$this->LeftSep."(\w+|".$this->LeftObjSep."\w+".$this->ObjSep."\w+".$this->RightObjSep.")".$this->RightSep."/",$string2check,$M,PREG_PATTERN_ORDER);
-
+    
     if(isset($M[1]))
     {
      $Muniq=array();
@@ -250,7 +249,7 @@ class block_course_fisher_parser {
              $setVal=$Mv;
              if(is_array($override))
              {
-	       if(isset($override[$Mk]))
+               if(isset($override[$Mk]))
                {
                  if(strlen(strval($override[$Mk])))
                  {
