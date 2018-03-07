@@ -57,6 +57,8 @@ $string['courselinkmessage'] = 'This course is linked to {$a}. Please click the 
 $string['choosewhatadd'] = 'Choose what would you add:';
 $string['choosenextaction'] = 'What would you do after course creation:';
 $string['execute'] = 'Execute';
+$string['enablecollaps'] = 'Allow the user to collapse this block';
+$string['enabledock'] = 'Allow the user to dock this block';
 
 
 

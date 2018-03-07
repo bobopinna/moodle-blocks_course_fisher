@@ -44,7 +44,15 @@ class block_course_fisher extends block_list {
     }
 
     public function instance_allow_multiple() {
-      return false;
+         return false;
+    }
+
+    public function instance_can_be_collapsed() {
+        return (parent::instance_can_be_collapsed() && (empty($this->config->enablecollaps) || $this->config->enablecollaps=='yes'));
+    }
+
+    public function instance_can_be_docked() {
+        return (parent::instance_can_be_docked() && (empty($this->config->enabledock) || $this->config->enabledock=='yes'));
     }
 
     function user_can_addto($page) {

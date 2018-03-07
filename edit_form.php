@@ -39,6 +39,22 @@ class block_course_fisher_edit_form extends block_edit_form {
         $mform->addElement('text', 'config_title', get_string('configtitle', 'block_course_fisher'));
         $mform->setType('config_title', PARAM_TEXT);
 
+        $yesnooptions = array('yes'=>get_string('yes'), 'no'=>get_string('no'));
+
+        $mform->addElement('select', 'config_enabledock', get_string('enabledock', 'block_course_fisher'), $yesnooptions);
+        if (empty($this->block->config->enabledock) || $this->block->config->enabledock=='yes') {
+            $mform->getElement('config_enabledock')->setSelected('yes');
+        } else {
+            $mform->getElement('config_enabledock')->setSelected('no');
+        }
+
+        $mform->addElement('select', 'config_enablecollaps', get_string('enablecollaps', 'block_course_fisher'), $yesnooptions);
+        if (empty($this->block->config->enablecollaps) || $this->block->config->enablecollaps=='yes') {
+            $mform->getElement('config_enablecollaps')->setSelected('yes');
+        } else {
+            $mform->getElement('config_enablecollaps')->setSelected('no');
+        }
+
         $choices = array('shown' => get_string('shown', 'block_course_fisher'),
                          'hidden' => get_string('hidden', 'block_course_fisher'));
         $filters[] = &$mform->createElement('select','config_display', 'shown', $choices);

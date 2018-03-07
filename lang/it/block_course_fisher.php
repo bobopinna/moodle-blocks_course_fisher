@@ -57,6 +57,8 @@ $string['courselinkmessage'] = 'Questo corso &egrave; collegato con il corso di 
 $string['choosewhatadd'] = 'Scegli cosa aggiungere:';
 $string['choosenextaction'] = 'Cosa vuoi fare dopo aver creato il corso:';
 $string['execute'] = 'Esegui';
+$string['enablecollaps'] = 'Consenti all\'utente di nascondere il blocco';
+$string['enabledock'] = 'Consenti all\'utente di spostare il blocco nel dock';
 
 
 
