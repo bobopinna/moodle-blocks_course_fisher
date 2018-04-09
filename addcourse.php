@@ -131,10 +131,11 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                            $coursecodes = html_writer::tag('span', $coursecode.', '.$courseshortname, array('class' => 'addcoursecode'));
                            
                         //$availablecourses[$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
-                        if($groupcourses[$coursehash]->first && isset($availablecourses[$coursegroup]))
+                        if (isset($groupcourses[$coursehash]->first) && !empty($groupcourses[$coursehash]->first)  && isset($availablecourses[$coursegroup])) {
                            $availablecourses[$coursegroup] = array_merge(array($coursehash => html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'))), $availablecourses[$coursegroup]);
-                        else
-                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));                           
+                        } else {
+                           $availablecourses[$coursegroup][$coursehash] = html_writer::tag('li', $link.$coursename.$coursecategories.$coursecodes, array('class' => 'addcourseitem'));
+                        }
                     } else {
                         $coursecode = isset($course->idnumber) && !empty($course->idnumber)?$course->idnumber:$course->shortname;
                         $link = '';
