@@ -55,6 +55,7 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
                     $coursesdb->Close();
                     debugging(get_string('backend_db:cantgetdata','block_course_fisher'));
                     debugging($sql);
+                    debugging($coursesdb->errorMsg());
                     return false;
                  } else {
                     if (!$rs->EOF) {
@@ -86,12 +87,17 @@ class block_course_fisher_backend_db extends block_course_fisher_backend {
         global $CFG;
 
         // Connect to the external database (forcing new connection).
-        $db = ADONewConnection($CFG->block_course_fisher_locator);
-        if ($db) {
-            $db->SetFetchMode(ADODB_FETCH_ASSOC);
+        try {
+            $db = ADONewConnection($CFG->block_course_fisher_locator);
+            if ($db) {
+                $db->SetFetchMode(ADODB_FETCH_ASSOC);
+
+            }
+        } catch (Exception $e) {
+            debugging($e->getTraceAsString());
+            
         }
 
         return $db;
     }
-
 }
