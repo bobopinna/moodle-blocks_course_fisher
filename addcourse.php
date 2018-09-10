@@ -142,7 +142,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                         $isalreadyteacher = is_enrolled(context_course::instance($course->id), $user, 'moodle/course:update', true);
                         $canaddall = has_capability('block/course_fisher:addallcourses', $systemcontext);
-                        if (!$isalreadyteacher && !$canaddall/*added*/&& (!isset($CFG->block_course_fisher_forceonlygroups) || !$CFG->block_course_fisher_forceonlygroups || $groupcourses[$coursehash]->first)/*added*/) {
+                        if (!empty($coursegroup) && !$isalreadyteacher && !$canaddall/*added*/&& (!isset($CFG->block_course_fisher_forceonlygroups) || !$CFG->block_course_fisher_forceonlygroups || $groupcourses[$coursehash]->first)/*added*/) {
                             //$coursehash = md5($categorieslist[$course->category].' / '.$coursecode);
                             $courseurl = new moodle_url('/blocks/course_fisher/addcourse.php', array('courseid' => $coursehash, 'action' => 'view'));
                             $link = html_writer::tag('a', get_string('enroltocourse', 'block_course_fisher'), array('href' => $courseurl, 'class' => 'enroltocourselink'));
