@@ -28,13 +28,16 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot."/blocks/course_fisher/locallib.php");
 require_once($CFG->dirroot."/blocks/course_fisher/backendlib.php");
 
-global $CFG;
-
-
 $urlparams = array();
-$confurl = new moodle_url('/admin/settings.php?section=blocksettingcourse_fisher', $urlparams);
 $baseurl = new moodle_url('/blocks/course_fisher/backendtest.php', $urlparams);
 $PAGE->set_url($baseurl);
+
+require_login();
+
+$systemcontext = context_system::instance();
+$PAGE->set_context($systemcontext);
+
+$confurl = new moodle_url('/admin/settings.php?section=blocksettingcourse_fisher', $urlparams);
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Course Fisher Backend Test page');
@@ -81,20 +84,23 @@ else
       }
       else
       {
+            $P = $BC->getParser();
+            $override = $P->parseFieldAssign($CFG->block_course_fisher_fieldtest);
+
 $Fld=array("block_course_fisher_fieldlevel", "block_course_fisher_course_fullname", "block_course_fisher_course_shortname",  "block_course_fisher_locator", "block_course_fisher_parameters",
 "block_course_fisher_fieldtest");
 
 
-         if(false===($BC->checkCFG("block_course_fisher_fieldlist",$Fld)))
+         if(false===($BC->checkCFG("block_course_fisher_fieldlist",$Fld, $override)))
          {
-           print "Error: ".$BC->getError()."!!!";
+           print_error($BC->getError());
          }
          else
          {
 
 print "\r\n\r\n<br>Backend ready<br>\r\n\r\n";
 print "<pre>";
-print_r($BC->HTTPfetch(true));
+print_r($BC->get_data(true));
 print "</pre>";
 
          }
