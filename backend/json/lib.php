@@ -53,7 +53,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                
               /*$D = array();
                 $j = file_get_contents($CFG->block_course_fisher_locator);
-                $d = json_decode($j,true);*/
+                $d = json_decode($j,true);
 
                 // aumento tempo di timeout
                 $opts = array('http' =>
@@ -66,6 +66,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                 );
                        
                 $context  = stream_context_create($opts);
+*/
 
                 // carico il primo file utile alla lettura dell'offerta formativa
                 $D = array();
@@ -77,14 +78,24 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                         $backend = $P->substituteObjects($line, true);
                     }
                     $backend = str_replace('\'', '', $backend);
-                    $j = file_get_contents($backend, false, $context);
+
+                    $request = curl_init($backend);
+
+                    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($request, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+                    curl_setopt($request, CURLOPT_TIMEOUT, 500);
+                    //    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+
+                    $j = curl_exec($request);
+                    //$j = file_get_contents($backend, false, $context);
                     $d = json_decode($j,true);
                     if ($j && $d) {
                         break;
                     }
                     elseif(!$j){
-                        print_error('l\'URL'.$backend.' inserito non è corretto');
+                        print_error(curl_error($request).' l\'URL '.$backend.' inserito non è corretto');
                     }
+                    curl_close($request);
                 }
 
                 while (list($k,$v)=each($d)) {

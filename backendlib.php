@@ -289,7 +289,11 @@ class block_course_fisher_parser {
 
   public function evalRecord($string2check,$Record,$override=false)
   {
-    return(eval($this->prepareRecord($string2check,$Record,$override)));
+    if (!empty($string2check)) {
+        return(eval($this->prepareRecord($string2check,$Record,$override)));
+    } else {
+        return true;
+    }
   }
 
 
