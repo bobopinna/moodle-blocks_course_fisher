@@ -388,6 +388,7 @@
        $hashedcourses = array();
        if (!empty($courses)) {
            foreach ($courses as $i => $course) {
+/*
                $courseidnumber = '';
                $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $course);
                if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
@@ -399,6 +400,8 @@
                $categories = block_course_fisher_get_fields_description(array_filter(explode("\n", $fieldlist)));
                $coursepath = implode(' / ', $categories);
                $coursehash = md5($coursepath.' / '.$coursecode);
+*/
+               $coursehash = md5(serialize($course));
                $hashedcourses[$coursehash] = $course;
            }
        }
@@ -417,8 +420,9 @@
        $firstcoursematch = null;
        $othercoursesmatch = null;
        if (isset($CFG->block_course_fisher_course_group) && !empty($CFG->block_course_fisher_course_group)) {
-           $firstcoursematch = substr($CFG->block_course_fisher_course_group, strpos($CFG->block_course_fisher_course_group,"=")+1);
-           $othercoursesmatch = substr($CFG->block_course_fisher_course_group, 0, strpos($CFG->block_course_fisher_course_group,"="));
+           $equalpos = strpos($CFG->block_course_fisher_course_group,"=");
+           $firstcoursematch = substr($CFG->block_course_fisher_course_group, $equalpos + 1);
+           $othercoursesmatch = substr($CFG->block_course_fisher_course_group, 0, $equalpos);
 
            /* Search for course group leader and members */
            $firstcourseid = block_course_fisher_format_fields($firstcoursematch, $selectedcourse);
