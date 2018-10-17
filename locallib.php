@@ -93,6 +93,7 @@
         $newcourse->visible            = $courseconfig->visible;
         $newcourse->visibleold         = $newcourse->visible;
         $newcourse->lang               = $courseconfig->lang;
+        $newcourse->numsections        = $courseconfig->numsections;
 
         $newcourse->startdate = time();
         if (isset($courseconfig->courseduration) && !empty($courseconfig->courseduration)) {
