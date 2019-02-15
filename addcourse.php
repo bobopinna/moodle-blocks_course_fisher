@@ -83,7 +83,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
         $teachercourses = block_course_fisher_get_coursehashes($backend->get_data(has_capability('block/course_fisher:addallcourses', $systemcontext)));
 
         if (!empty($teachercourses)) {
-            $categorieslist = core_course_category::make_categories_list();
+            $categorieslist = coursecat::make_categories_list();
             if (empty($courseid)) {
                 echo $OUTPUT->header();
                 echo html_writer::start_tag('div', array('class' => 'teachercourses'));
