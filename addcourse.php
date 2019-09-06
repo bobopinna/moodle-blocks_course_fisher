@@ -206,7 +206,13 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
 
                 }
                 if (empty($availablecourses) && empty($existentcourses)) {
-                    notice(get_string('nocourseavailable', 'block_course_fisher'), new moodle_url('/index.php'));
+                    $helplink = '';
+                    if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
+                        $icon = $OUTPUT->pix_icon('help', 'icon');
+                        $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
+                        $helplink = '<br />'.html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
+                    }
+                    notice(get_string('nocourseavailable', 'block_course_fisher').$helplink, new moodle_url('/index.php'));
                 }
               
                 echo html_writer::end_tag('div');
@@ -332,7 +338,13 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                 }
             }
         } else {
-             notice(get_string('nocourseavailable', 'block_course_fisher'), new moodle_url('/index.php'));
+            $helplink = '';
+            if (isset($CFG->block_course_fisher_course_helplink) && !empty($CFG->block_course_fisher_course_helplink)) {
+                $icon = $OUTPUT->pix_icon('help', 'icon');
+                $url = new moodle_url($CFG->block_course_fisher_course_helplink, array());
+                $helplink = '<br />'.html_writer::tag('a', $icon.get_string('help'), array('href' => $url));
+            }
+            notice(get_string('nocourseavailable', 'block_course_fisher').$helplink, new moodle_url('/index.php'));
         }
     }
 }
