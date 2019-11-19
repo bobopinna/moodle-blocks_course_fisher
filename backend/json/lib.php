@@ -51,23 +51,6 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
 
             if (!(false===($this->checkCFG("block_course_fisher_fieldlist",$Fld,$override)))) {
                
-              /*$D = array();
-                $j = file_get_contents($CFG->block_course_fisher_locator);
-                $d = json_decode($j,true);
-
-                // aumento tempo di timeout
-                $opts = array('http' =>
-  
-                    array(
-                        'method'  => 'GET',
-                        'header'=>"Content-Type: application/json; charset=utf-8",    
-                        'timeout' => 500
-                      )
-                );
-                       
-                $context  = stream_context_create($opts);
-*/
-
                 // carico il primo file utile alla lettura dell'offerta formativa
                 $D = array();
                 foreach (preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line) {
@@ -79,26 +62,16 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     }
                     $backend = str_replace('\'', '', $backend);
 
-                    $request = curl_init($backend);
+                    $json = download_file_content($backend, null, null, false, 500);
+                    $data = json_decode($json,true);
 
-                    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($request, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-                    curl_setopt($request, CURLOPT_TIMEOUT, 500);
-                    //    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
-
-                    $j = curl_exec($request);
-                    //$j = file_get_contents($backend, false, $context);
-                    $d = json_decode($j,true);
-                    if ($j && $d) {
+                    if ($json && $data) {
                         break;
                     }
-                    elseif(!$j){
-                        print_error(curl_error($request).' l\'URL '.$backend.' inserito non è corretto');
-                    }
-                    curl_close($request);
+
                 }
 
-                while (list($k,$v)=each($d)) {
+                while (list($k,$v)=each($data)) {
         
                     if ($alldata) { 
                         $D[] = (object)$v;
