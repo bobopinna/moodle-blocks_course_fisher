@@ -53,6 +53,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                
                 // carico il primo file utile alla lettura dell'offerta formativa
                 $D = array();
+                $jsondata = null;
                 foreach (preg_split("/((\r?\n)|(\r\n?))/", $CFG->block_course_fisher_locator) as $line) {
                     $backend = ''; 
                     if ($alldata) { 
@@ -62,16 +63,41 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     }
                     $backend = str_replace('\'', '', $backend);
 
-                    $json = download_file_content($backend, null, null, false, 500);
-                    $data = json_decode($json,true);
+                    $jsonstring = download_file_content($backend, null, null, false, 500);
+                    $jsondata = json_decode($jsonstring,true);
 
-                    if ($json && $data) {
+                    if ($jsonstring && $jsondata) {
                         break;
+                    } else if (empty($jsonstring)) {
+                        print_error(curl_error($request).' l\'URL '.$backend.' inserito non ? corretto');
+                    } else if (!is_array($jsondata)) { 
+                        switch (json_last_error()) {
+                            case JSON_ERROR_NONE: 
+                                print_error('No errors');
+                            break;
+                            case JSON_ERROR_DEPTH:
+                                print_error('Maximum stack depth exceeded');
+                            break;
+                            case JSON_ERROR_STATE_MISMATCH:
+                                print_error('Underflow or the modes mismatch');
+                            break;
+                            case JSON_ERROR_CTRL_CHAR:
+                                print_error('Unexpected control character found');
+                            break;
+                            case JSON_ERROR_SYNTAX:
+                                print_error('Syntax error, malformed JSON');
+                            break;
+                            case JSON_ERROR_UTF8:
+                                print_error('Malformed UTF-8 characters, possibly incorrectly encoded');
+                            break;
+                            default:
+                                print_error('Unknown error');
+                            break;
+                        }
                     }
-
                 }
 
-                while (list($k,$v)=each($data)) {
+                while (list($k,$v)=each($jsondata)) {
         
                     if ($alldata) { 
                         $D[] = (object)$v;
