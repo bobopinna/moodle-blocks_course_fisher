@@ -30,7 +30,6 @@
     define('COURSE_VIEW', '0');
 
     require_once($CFG->dirroot .'/course/lib.php');
-    require_once($CFG->libdir .'/coursecatlib.php');
 
     function block_course_fisher_create_categories($categories) {
         global $DB;
@@ -50,7 +49,7 @@
                 }
 
                 if (! $oldcategory = $DB->get_record('course_categories', $searchquery)) {
-                    $result = coursecat::create($newcategory);
+                    $result = core_course_category::create($newcategory);
                 } else {
                     $result = $oldcategory;
                 }
