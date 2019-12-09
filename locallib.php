@@ -49,7 +49,12 @@
                 }
 
                 if (! $oldcategory = $DB->get_record('course_categories', $searchquery)) {
-                    $result = core_course_category::create($newcategory);
+                    if (class_exists('core_course_category')) {
+                        $result = core_course_category::create($newcategory);
+                    } else {
+                        require_once($CFG->libdir. '/coursecatlib.php');
+                        $result = coursecat::create($newcategory);
+                    }
                 } else {
                     $result = $oldcategory;
                 }
