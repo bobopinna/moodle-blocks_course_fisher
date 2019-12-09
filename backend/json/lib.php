@@ -69,7 +69,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     if ($jsonstring && $jsondata) {
                         break;
                     } else if (empty($jsonstring)) {
-                        print_error(curl_error($request).' l\'URL '.$backend.' inserito non ? corretto');
+                        print_error(curl_error($request).' l\'URL '.$backend.' inserito non &egrave; corretto');
                     } else if (!is_array($jsondata)) { 
                         switch (json_last_error()) {
                             case JSON_ERROR_NONE: 
