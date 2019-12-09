@@ -30,9 +30,7 @@
     define('COURSE_VIEW', '0');
 
     require_once($CFG->dirroot .'/course/lib.php');
-    if ($CFG->branch < 36) {
-        require_once($CFG->libdir .'/coursecatlib.php');
-    }
+    require_once($CFG->libdir .'/coursecatlib.php');
 
     function block_course_fisher_create_categories($categories) {
         global $DB;
