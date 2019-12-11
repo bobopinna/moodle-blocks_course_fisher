@@ -87,17 +87,10 @@
         $courseconfig = get_config('moodlecourse');
 
         // Apply course default settings
-        $newcourse->format             = $courseconfig->format;
-        $newcourse->newsitems          = $courseconfig->newsitems;
-        $newcourse->showgrades         = $courseconfig->showgrades;
-        $newcourse->showreports        = $courseconfig->showreports;
-        $newcourse->maxbytes           = $courseconfig->maxbytes;
-        $newcourse->groupmode          = $courseconfig->groupmode;
-        $newcourse->groupmodeforce     = $courseconfig->groupmodeforce;
-        $newcourse->visible            = $courseconfig->visible;
-        $newcourse->visibleold         = $newcourse->visible;
-        $newcourse->lang               = $courseconfig->lang;
-        $newcourse->numsections        = $courseconfig->numsections;
+        foreach ($courseconfig as $configname => $configvalue) {
+            $newcourse->$configname = $configvalue;
+        }
+        $newcourse->visibleold = $newcourse->visible;
 
         $newcourse->startdate = time();
         if (isset($courseconfig->courseduration) && !empty($courseconfig->courseduration)) {
