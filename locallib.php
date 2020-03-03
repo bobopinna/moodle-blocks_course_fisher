@@ -32,7 +32,7 @@
     require_once($CFG->dirroot .'/course/lib.php');
 
     function block_course_fisher_create_categories($categories) {
-        global $DB;
+        global $DB, $CFG;
         $parentid = 0;
         $result = null;
 
