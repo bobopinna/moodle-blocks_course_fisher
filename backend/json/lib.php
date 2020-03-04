@@ -61,6 +61,10 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     } else {
                         $backend = $P->substituteObjects($line, true);
                     }
+                    if ((strpos($line, '[%') !== false) && ($backend == $line)) {
+                        // Era prevista una sostituzione dei dati ma non Ã stata fatta. Esco.  
+                        return(false);
+                    }
                     $backend = str_replace('\'', '', $backend);
 
                     $jsonstring = download_file_content($backend, null, null, false, 500);
