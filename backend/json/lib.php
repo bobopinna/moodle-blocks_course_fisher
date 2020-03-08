@@ -73,6 +73,8 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     if ($jsonstring && $jsondata) {
                         break;
                     } else if (empty($jsonstring)) {
+                        return(false);
+                        // Il backend inserito non ha restituito dati, non esiste. 
                         print_error(curl_error($request).' l\'URL '.$backend.' inserito non &egrave; corretto');
                     } else if (!is_array($jsondata)) { 
                         switch (json_last_error()) {
