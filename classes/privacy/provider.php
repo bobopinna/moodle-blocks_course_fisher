@@ -15,19 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Privacy Subsystem implementation for block_course_fisher.
  *
- * @package    block
- * @subpackage course_fisher
- * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo Calò
- * @copyright 2016 and above Francesco Carbone
+ * @package    block_course_fisher
+ * @copyright  2020 Roberto Pinna
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_course_fisher\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Privacy Subsystem for block_course_fisher implementing null_provider.
+ *
+ * @copyright  2020 Roberto Pinna
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
 
-$plugin->version   = 2020072300;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2010112400;        // Requires this Moodle version
-$plugin->component = 'block_course_fisher'; // Full name of the plugin (used for diagnostics)
-$plugin->cron = 3600;
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
