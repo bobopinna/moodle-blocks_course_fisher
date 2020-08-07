@@ -130,7 +130,7 @@
                 $notifyinfo = new stdClass();
                 $notifyinfo->coursefullname = $coursedata->fullname;
 
-                $notifyinfo->courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                $notifyinfo->courseurl = (string)new moodle_url('/course/view.php', array('id' => $course->id));
 
                 $notifysubject = get_string('coursenotifysubject', 'block_course_fisher');
                 $notifytext = get_string('coursenotifytext', 'block_course_fisher', $notifyinfo);
