@@ -222,6 +222,8 @@
                     }
                 }
             }
+            $category = core_course_category::get($newcourse->category);
+            \core_course\management\helper::action_category_resort_courses($category, 'fullname');
         } else {
             $course = $oldcourse;
         }
