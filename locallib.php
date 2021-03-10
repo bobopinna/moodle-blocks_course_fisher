@@ -222,8 +222,6 @@
                     }
                 }
             }
-            $category = core_course_category::get($newcourse->category);
-            \core_course\management\helper::action_category_resort_courses($category, 'fullname');
         } else {
             $course = $oldcourse;
         }
@@ -374,7 +372,9 @@
                $context = context_course::instance($course->id, MUST_EXIST);
                if (has_capability('enrol/meta:config', $context)) {
                    foreach ($metacourseids as $metacourseid) {
-                       $eid = $enrol->add_instance($course, array('customint1'=>$metacourseid));
+                       if ($metacourseid != $course->id) {
+                           $eid = $enrol->add_instance($course, array('customint1'=>$metacourseid));
+                       }
                    }
                }
            }
