@@ -291,7 +291,9 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                 if ($firstcourse === null) {
                                     $firstcourse = clone($newcourse);
                                 } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
-                                    $metacourseids[] = $newcourse->id;
+                                    if (($newcourse->id != $firstcourse->id) && !in_array($newcourse->id, $metacourseids)) {
+                                        $metacourseids[] = $newcourse->id;
+                                    }
                                 }
                             } else {
                                 notice(get_string('coursecreationerror', 'block_course_fisher'), new moodle_url('/index.php'));
@@ -302,7 +304,9 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                     if ($firstcourse !== null) {
                                         block_course_fisher_add_linkedcourse_url($oldcourse, $firstcourse);
                                         if (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {
-                                            $metacourseids[] = $oldcourse->id;
+                                            if (($oldcourse->id != $firstcourse->id) && !in_array($oldcourse->id, $metacourseids)) {
+                                                $metacourseids[] = $oldcourse->id;
+                                            }
                                         }
                                     } else {
                                         $firstcourse = clone($oldcourse);
