@@ -238,7 +238,7 @@
                 $manual = enrol_get_plugin('manual');
                 if ($instances = enrol_get_instances($course->id, false)) {
                     foreach ($instances as $instance) {
-                        if ($instance->enrol === 'manual') {
+                        if ($instance->enrol === 'manual' && $instance->status != ENROL_INSTANCE_DISABLED) {
                             $manual->enrol_user($instance, $teacheruser->id, $editingteacherroleid, time(), 0);
                             $enrolled = true;
                             break;
