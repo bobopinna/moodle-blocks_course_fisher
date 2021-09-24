@@ -48,7 +48,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
    $FLD=array_flip($P->getFields());
    $t=preg_split("/".$CFG->block_course_fisher_separator."/",$CSVstring);
 
-   while(list($tk,$tv)=each($t))
+   foreach($t as $tk => $tv)
    {
      if(isset($FLD[$tk]))
      {
@@ -110,8 +110,9 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
     if(false===($fullrecords=@file($CFG->dataroot.'/temp/block_course_fisher_cache2.tmp')))
     { return(false); }
 
-    $found=0;
-    while( (list($Xk,$Xv)=each($strecords)) && $found==0)
+    //$found=0;
+    //while( (list($Xk,$Xv)=each($strecords)) && $found==0)
+    foreach ($strecords as $Xk => $Xv) {
     {
       if(eval($P->substituteObjects($Xv,$override)))
       {

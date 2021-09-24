@@ -103,7 +103,7 @@ class block_course_fisher_backend_json extends block_course_fisher_backend {
                     }
                 }
 
-                while (list($k,$v)=each($jsondata)) {
+                foreach ($jsondata as $k => $v) {
         
                     if ($alldata) { 
                         $D[] = (object)$v;

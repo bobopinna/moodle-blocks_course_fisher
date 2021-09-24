@@ -168,7 +168,7 @@ class block_course_fisher_parser {
     if(isset($M[1]) && isset($M[2]))
     {
       $Muniq=array();
-      while(list($Mk,$Mv)=each($M[1]))
+      foreach ($M[1] as $Mk => $Mv)
       {
         $Muniq[$Mv]=$M[2][$Mk];
       }
@@ -194,7 +194,7 @@ class block_course_fisher_parser {
      $Muniq=array();
      $F=@array_flip($M[1]);
 
-     while(list($Mk,$Mv)=each($F))
+     foreach ($F as $Mk => $Mv)
      {
       if(strlen($Mk))
       {
@@ -240,7 +240,7 @@ class block_course_fisher_parser {
 
     if( is_array($Muniq) )
     {
-      while(list($Mk,$Mv)=each($Muniq))
+      foreach ($Muniq as $Mk => $Mv)
       {
         if(!($Mv===false))
         {
@@ -273,7 +273,7 @@ class block_course_fisher_parser {
 
     if(is_array($Record))
     {
-      while(list($Fk,$Fv)=each($Record))
+      foreach ($Record as $Fk => $Fv)
       {
         if (!is_array($Fv) && !is_object($Fv))
         {
