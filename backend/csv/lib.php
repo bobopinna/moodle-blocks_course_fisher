@@ -112,7 +112,7 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
 
     //$found=0;
     //while( (list($Xk,$Xv)=each($strecords)) && $found==0)
-    foreach ($strecords as $Xk => $Xv) {
+    foreach ($strecords as $Xk => $Xv)
     {
       if(eval($P->substituteObjects($Xv,$override)))
       {
