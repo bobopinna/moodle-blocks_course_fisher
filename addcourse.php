@@ -287,7 +287,7 @@ if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_cours
                                 $oldcourse = $DB->get_record('course', array('shortname' => $coursedata->shortname));
                             }
 
-                            if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse, $existent)) {
+                            if ($newcourse = block_course_fisher_create_course($coursedata, $userid, block_course_fisher_get_fields_items($categories), $firstcourse)) {
                                 if ($firstcourse === null) {
                                     $firstcourse = clone($newcourse);
                                 } elseif (!isset($CFG->block_course_fisher_linktype) || ($CFG->block_course_fisher_linktype == 'meta')) {

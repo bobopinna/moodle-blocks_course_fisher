@@ -68,15 +68,15 @@
    /**
     * Create a course, if not exits, and assign an editing teacher
     *
-    * @param string course_fullname  The course fullname
-    * @param string course_shortname The course shortname
+    * @param object coursedata       The course object
     * @param string teacher_id       The teacher id code
     * @param array  categories       The categories from top category for this course
+    * @param object linkedcourse     Optional linked course
     *
     * @return object or null
     *
     **/
-    function block_course_fisher_create_course($coursedata, $teacher_id = 0, $categories = array(), $linkedcourse = null, $existent) {
+    function block_course_fisher_create_course($coursedata, $teacher_id = 0, $categories = array(), $linkedcourse = null) {
         global $DB, $CFG;
 
 
