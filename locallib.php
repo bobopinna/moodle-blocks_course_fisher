@@ -505,3 +505,55 @@
        }
        return $groupcourses;
    }
+
+   function block_course_fisher_cron() {
+        global $CFG, $DB;
+
+        if (file_exists($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php')) {
+            require_once($CFG->dirroot.'/blocks/course_fisher/backend/'.$CFG->block_course_fisher_backend.'/lib.php');
+            $backendclassname = 'block_course_fisher_backend_'.$CFG->block_course_fisher_backend;
+            if (class_exists($backendclassname)) {
+                $backend = new $backendclassname();
+	        if (method_exists($backend,'cron')) {
+                    mtrace('Processing backend '.$CFG->block_course_fisher_backend.' cron...');
+	            $backend->cron();
+                    mtrace('done.');
+                }
+
+                if (isset($CFG->block_course_fisher_autocreation) && !empty($CFG->block_course_fisher_autocreation)) {
+                    mtrace('Processing course autocreation...');
+                    $teachercourses = block_course_fisher_get_coursehashes($backend->get_data(true));
+
+                    if (!empty($teachercourses)) {
+                        foreach($teachercourses as $coursehash => $teachercourse) {
+                            $course = null;
+                            $coursecode = '';
+                            $courseshortname = '';
+                            if (isset($CFG->block_course_fisher_course_code) && !empty($CFG->block_course_fisher_course_code)) {
+                                $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                                $course = $DB->get_record('course', array('idnumber' => $coursecode));
+                            } else {
+                                $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                                $course = $DB->get_record('course', array('shortname' => $courseshortname));
+                            }
+                            if (! $course) {
+                                $courseshortname = block_course_fisher_format_fields($CFG->block_course_fisher_course_shortname, $teachercourse);
+                                $categories = array_filter(explode("\n", block_course_fisher_format_fields($CFG->block_course_fisher_fieldlevel, $teachercourse)));
+                                $categoriesdescriptions = block_course_fisher_get_fields_description($categories);
+                                $coursepath = implode(' / ', $categoriesdescriptions);
+                                $coursefullname = block_course_fisher_format_fields($CFG->block_course_fisher_course_fullname, $teachercourse);
+
+                                $coursecode = block_course_fisher_format_fields($CFG->block_course_fisher_course_code, $teachercourse);
+                                if (! $newcourse = block_course_fisher_create_course($coursefullname, $courseshortname, $coursecode, 0, block_course_fisher_get_fields_items($categories))) {
+                                     notice(get_string('coursecreationerror', 'block_course_fisher'));
+                                } else {
+                                     mtrace('... added course'.$coursefullname.' - '.$courseshortname.' - '.$coursecode);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+

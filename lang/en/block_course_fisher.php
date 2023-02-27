@@ -117,6 +117,7 @@ $string['existentcourse'] = 'This course was already created';
 $string['notifycoursecreation'] = 'Email course creation based on rule to';
 $string['confignotifycoursecreation'] = 'Send course creation notification messages to these selected users. Notification will be sent upon the previous rule verification.';
 $string['privacy:metadata'] = 'The Course Fisher block get data from backend, create courses and assign teachers role. It does not store any data itself.';
+$string['crontask'] = 'Course Fisher cron task';
 
 // Append backends string as backend_<backend name>:string so you must call get_string('backend_db:pluginname', 'block_course_fisher') for example
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

@@ -115,6 +115,7 @@ $string['existentcourse'] = 'Questo corso è già stato creato';
 $string['notifycoursecreation'] = 'Invia la mail di avviso creazione corso a';
 $string['confignotifycoursecreation'] = 'Invia la notifica di creazione corso agli utenti selezionati. La notifica verrà inviata solo agli utenti che hanno il ruolo selezionato.';
 $string['privacy:metadata'] = 'Il blocco Course Fisher recupera i dati dal backend, crea i corsi e assegna il ruolo docente. Non salva alcun dato.';
+$string['crontask'] = 'Esecuzione operazioni pianificate Course Fisher';
 
 // Appende le traduzioni dei backend come backend_<nome backend>:stringa in questo modo bisogna utilizzare per esempio get_string('backend_db:pluginname', 'block_course_fisher')
 require_once($CFG->dirroot.'/blocks/course_fisher/langlib.php');

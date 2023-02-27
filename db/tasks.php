@@ -15,19 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
- *
- * @package    block
- * @subpackage course_fisher
- * @copyright 2014 and above Roberto Pinna, Diego Fantoma, Angelo Calò
- * @copyright 2016 and above Francesco Carbone
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Task definition for block_course_fisher
+ * @package   block_course_fisher
+ * @copyright 2023 Roberto Pinna
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+$tasks = array(
+    array(
+        'classname' => '\block_course_fisher\task\cron_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => 'R',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+        'disabled' => 0
+    )
+);
 
-$plugin->version   = 2023022705;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2010112400;        // Requires this Moodle version
-$plugin->component = 'block_course_fisher'; // Full name of the plugin (used for diagnostics)
-$plugin->cron = 0;
