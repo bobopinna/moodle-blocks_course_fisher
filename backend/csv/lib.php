@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once($CFG->dirroot . '/blocks/course_fisher/backendlib.php');
+
 /**
  * Course fisher
  *
@@ -68,16 +70,17 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
     $context = stream_context_create(array('http'=>array('timeout'=>1)));
 
 //Opens cache files for writing
-    if(!($fp1 = @fopen($CFG->dataroot.'/temp/block_course_fisher_cache1.tmp', 'w')))
+    if(!($fp1 = @fopen($CFG->tempdir.'/block_course_fisher_cache1.tmp', 'w')))
     { return(false); }
-    if(!($fp2 = @fopen($CFG->dataroot.'/temp/block_course_fisher_cache2.tmp', 'w')))
+    if(!($fp2 = @fopen($CFG->tempdir.'/block_course_fisher_cache2.tmp', 'w')))
     { return(false); }
 
-    if($fd = @fopen ($CFG->block_course_fisher_locator, "r", false, $context))
+    $data = download_file_content($CFG->block_course_fisher_locator, null, null, false, 500);
+    if(!empty($data))
     {
-      while (!feof ($fd) && $c<5000000) 
+      $lines = explode(PHP_EOL, $data);
+      foreach($lines as $buffer)
       { 
-        $buffer = fgets($fd, 4096); 
         if(!($CFG->block_course_fisher_firstrow && $c==0))
         {
           $ray=$this->getRecord(rtrim($buffer));
@@ -89,7 +92,6 @@ class block_course_fisher_backend_csv extends block_course_fisher_backend
         }
         $c++;
       } 
-      fclose ($fd);
       fclose ($fp1);
       fclose ($fp2);
       return($c);
